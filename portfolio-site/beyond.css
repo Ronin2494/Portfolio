@@ -219,3 +219,62 @@ body.beyond-popout-open{overflow:hidden}
   }
   .beyond-close:active{transform:none}
 }
+
+
+/* 2026 Bento refinement: varied spans replace the uniform four-card strip.
+   Keep buttons in the normal flow so origin-aware bubble popouts still work. */
+.beyond .hobby-grid{
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  grid-auto-flow:row dense;
+  gap:clamp(13px,1.7vw,22px);
+  align-items:stretch;
+}
+.beyond .hobby-card{
+  grid-column:span 5;
+  min-height:clamp(365px,32vw,450px);
+  border-radius:28px;
+  box-shadow:0 14px 32px rgba(32,29,54,.075),inset 0 1px rgba(255,255,255,.35);
+  isolation:isolate;
+}
+.beyond .hobby-card:nth-child(4n + 1),
+.beyond .hobby-card:nth-child(4n + 4){grid-column:span 7}
+.beyond .hobby-card::after{
+  content:"";position:absolute;inset:11px;z-index:1;pointer-events:none;
+  border:1px solid rgba(255,255,255,.42);border-radius:20px;
+  opacity:.65;transition:inset .35s ease,opacity .35s ease,border-color .35s ease;
+}
+.beyond .hobby-card:is(:hover,:focus-visible)::after{
+  inset:8px;opacity:1;border-color:rgba(255,255,255,.85);
+}
+.beyond .hobby-card .hobby-graphic{transform-origin:50% 50%}
+.beyond .hobby-card .hobby-number{position:relative;z-index:2}
+.beyond .hobby-card .hobby-copy{max-width:35ch}
+.beyond .hobby-card:nth-child(4n + 1) .hobby-heading,
+.beyond .hobby-card:nth-child(4n + 4) .hobby-heading{font-size:clamp(28px,3vw,43px)}
+@media(max-width:900px) and (min-width:701px){
+  .beyond .hobby-card,
+  .beyond .hobby-card:nth-child(4n + 1),
+  .beyond .hobby-card:nth-child(4n + 4){grid-column:span 6}
+}
+@media(max-width:700px) and (min-width:521px){
+  .beyond .hobby-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .beyond .hobby-card{grid-column:span 1}
+  .beyond .hobby-card:nth-child(4n + 1),
+  .beyond .hobby-card:nth-child(4n + 4){grid-column:span 2}
+  .beyond .hobby-card{min-height:315px}
+  .beyond .hobby-card:nth-child(4n + 1),
+  .beyond .hobby-card:nth-child(4n + 4){min-height:340px}
+}
+@media(max-width:520px){
+  .beyond .hobby-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+  .beyond .hobby-card,
+  .beyond .hobby-card:nth-child(4n + 1),
+  .beyond .hobby-card:nth-child(4n + 4){grid-column:1;min-height:300px}
+  .beyond .hobby-card .hobby-heading,
+  .beyond .hobby-card:nth-child(4n + 1) .hobby-heading,
+  .beyond .hobby-card:nth-child(4n + 4) .hobby-heading{font-size:clamp(27px,8vw,38px)}
+  .beyond .hobby-card .hobby-graphic{height:118px}
+}
+@media(prefers-reduced-motion:reduce){
+  .beyond .hobby-card::after{transition:none!important}
+}
