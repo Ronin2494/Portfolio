@@ -90,3 +90,120 @@
   .bento > .tile{transform:none!important}
   .bento > .tile::after,.work-filter{transition:none!important}
 }
+
+
+/* Layered dynamic card treatment, adapted for the approved asymmetrical Bento system.
+   Keeps card links, project filters and constellation mode independent. */
+.bento{
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  grid-auto-flow:row dense;
+  gap:clamp(14px,1.8vw,24px);
+  padding:14px 9px 22px;
+}
+.bento > .tile{
+  --layer-shift:9px;
+  --layer-tilt:-1.15deg;
+  grid-column:span 5;
+  min-width:0;
+  min-height:clamp(425px,39vw,550px);
+  overflow:visible;
+  isolation:isolate;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:29px;
+  box-shadow:0 15px 34px rgba(15,18,42,.13);
+  transition:transform .55s cubic-bezier(.2,.85,.2,1),box-shadow .55s cubic-bezier(.2,.85,.2,1),filter .3s;
+}
+.bento > .tile:nth-child(4n + 1),
+.bento > .tile:nth-child(4n + 4){grid-column:span 7}
+.bento > .tile.tile-wide{grid-column:span 7}
+.bento > .tile::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  border-radius:inherit;
+  border:1px solid rgba(221,213,255,.22);
+  background:linear-gradient(145deg,rgba(127,105,190,.35),rgba(24,30,49,.86));
+  transform:translate(var(--layer-shift),var(--layer-shift)) rotate(var(--layer-tilt));
+  box-shadow:0 14px 26px rgba(21,20,43,.12);
+  transition:transform .6s cubic-bezier(.2,.85,.2,1),box-shadow .6s;
+  pointer-events:none;
+}
+.bento > .tile:nth-child(even){--layer-tilt:1.15deg;--layer-shift:-8px}
+.bento > .tile .tile-art{border-radius:inherit}
+.bento > .tile:is(:hover,:focus-within){z-index:3;box-shadow:0 28px 60px rgba(17,17,40,.25)}
+.bento > .tile:is(:hover,:focus-within)::before{
+  transform:translate(calc(var(--layer-shift) * 1.8),calc(var(--layer-shift) * 1.6)) rotate(calc(var(--layer-tilt) * 2.2));
+  box-shadow:0 21px 42px rgba(22,17,49,.22);
+}
+.bento > .tile .tile-content,.bento > .tile .tile-top{z-index:3}
+.bento > .tile .round-link{position:relative;z-index:4}
+@media(min-width:701px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .bento > .tile:hover{transform:perspective(1400px) rotateX(var(--pitch)) rotateY(var(--yaw)) translateY(-9px) scale(1.012)}
+}
+@media(min-width:701px) and (max-width:1000px){
+  .bento > .tile,.bento > .tile.tile-wide,
+  .bento > .tile:nth-child(4n + 1),.bento > .tile:nth-child(4n + 4){grid-column:span 6}
+}
+@media(max-width:700px){
+  .bento{grid-template-columns:minmax(0,1fr);padding:8px 9px 18px;gap:23px}
+  .bento > .tile,.bento > .tile.tile-wide,
+  .bento > .tile:nth-child(4n + 1),.bento > .tile:nth-child(4n + 4){grid-column:1;min-height:410px}
+  .bento > .tile{--layer-shift:5px;--layer-tilt:-.5deg}
+  .bento > .tile:nth-child(even){--layer-shift:-5px;--layer-tilt:.5deg}
+  .bento > .tile:is(:hover,:focus-within)::before{transform:translate(var(--layer-shift),var(--layer-shift)) rotate(var(--layer-tilt))}
+}
+@media(prefers-reduced-motion:reduce){
+  .bento > .tile,.bento > .tile::before{transition:none!important}
+  .bento > .tile:is(:hover,:focus-within)::before{transform:translate(var(--layer-shift),var(--layer-shift)) rotate(var(--layer-tilt))}
+}
+
+
+/* Optional swiper deck inspired by stacked-card discovery UIs. */
+.deck-controls[hidden],.deck-navigation[hidden]{display:none!important}
+.deck-controls{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 10px 20px}
+.deck-view-switch,.deck-nav{
+  border:1px solid #27263f;background:#191b30;color:#f7f5ff;
+  cursor:pointer;border-radius:99px;padding:13px 18px;
+  font:700 10px 'Space Grotesk',sans-serif;letter-spacing:.1em;
+}
+.deck-view-switch[aria-pressed="true"]{background:#e2f88f;color:#182031}
+.deck-navigation{display:flex;align-items:center;gap:15px;color:#35324e;font:700 12px 'Space Grotesk',sans-serif}
+.deck-nav{font-size:18px;letter-spacing:0;padding:9px 16px}
+.deck-nav:disabled{opacity:.4;cursor:default}
+.deck-controls button:focus-visible,.bento.is-layered-deck:focus-visible{outline:3px solid #8c71d7;outline-offset:4px}
+.bento.is-layered-deck{
+  display:block;position:relative;isolation:isolate;
+  min-height:640px;height:clamp(540px,55vw,680px);
+  padding:15px 0 32px;overflow:visible;outline-offset:8px;
+  touch-action:pan-y;
+}
+.bento.is-layered-deck > .tile{
+  position:absolute;top:10px;left:50%;width:min(76%,690px);
+  height:calc(100% - 85px);min-height:0;
+  transition:transform .65s cubic-bezier(.2,.85,.2,1),opacity .4s,filter .4s;
+  transform:translateX(-50%) translateY(var(--deck-lift,0px))
+     scale(var(--deck-scale,1)) rotate(var(--deck-angle));
+  filter:brightness(var(--deck-brightness,1));
+  z-index:calc(10 - var(--deck-depth));
+}
+.bento.is-layered-deck > .tile[data-deck-depth="0"]{
+  --deck-angle:0deg!important;pointer-events:auto;filter:none;
+  z-index:10;
+}
+.bento.is-layered-deck > .tile[data-deck-depth="1"],
+.bento.is-layered-deck > .tile[data-deck-depth="2"]{pointer-events:none}
+.bento.is-layered-deck > .tile[data-deck-depth="hidden"]{
+  visibility:hidden;opacity:0;pointer-events:none
+}
+.bento.is-layered-deck > .tile:is(:hover,:focus-within){transform:translateX(-50%) translateY(var(--deck-lift,0px)) scale(var(--deck-scale,1)) rotate(var(--deck-angle))}
+@media(max-width:700px){
+ .deck-controls{margin:0 0 16px;gap:11px}
+ .deck-view-switch{font-size:9px;padding:12px 14px}
+ .bento.is-layered-deck{height:550px;min-height:0;padding-top:8px}
+ .bento.is-layered-deck > .tile{width:calc(100% - 28px);height:470px;top:5px}
+ .bento.is-layered-deck > .tile .tile-text h3{font-size:clamp(27px,8vw,42px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .bento.is-layered-deck > .tile{transition:none!important}
+}

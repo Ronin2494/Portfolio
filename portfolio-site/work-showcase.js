@@ -60,4 +60,82 @@
     tile.addEventListener('pointerleave',reset,{passive:true});
     tile.addEventListener('focusin',reset);
   });
+
+  // The original Bento remains the default. Visitors can opt into the layered swiper.
+  const deckControls=document.getElementById('deck-controls');
+  const switcher=document.getElementById('deck-view-switch');
+  const navigation=document.getElementById('deck-navigation');
+  const previous=document.getElementById('deck-prev');
+  const next=document.getElementById('deck-next');
+  const position=document.getElementById('deck-position');
+  if(deckControls&&switcher&&navigation&&previous&&next&&position){
+    let deckMode=false;
+    let activeIndex=0;
+    const visibleCards=()=>tiles.filter(tile=>!tile.hidden);
+    const updateDeck=()=>{
+      const available=visibleCards();
+      if(activeIndex>=available.length)activeIndex=0;
+      available.forEach((tile,index)=>{
+        const distance=(index-activeIndex+available.length)%available.length;
+        const onTop=distance===0;
+        tile.dataset.deckDepth=distance<3?String(distance):'hidden';
+        tile.style.setProperty('--deck-depth',String(Math.min(distance,3)));
+        tile.style.setProperty('--deck-lift',(Math.min(distance,3)*21)+'px');
+        tile.style.setProperty('--deck-scale',String(1-Math.min(distance,3)*.055));
+        tile.style.setProperty('--deck-brightness',String(1-Math.min(distance,3)*.085));
+        tile.style.setProperty('--deck-angle',distance%2?'2deg':'-2deg');
+        tile.querySelectorAll('a,button').forEach(control=>{
+          if(deckMode&&!onTop)control.setAttribute('tabindex','-1');
+          else control.removeAttribute('tabindex');
+        });
+        tile.setAttribute('aria-hidden',String(deckMode&&!onTop));
+      });
+      position.textContent=String(activeIndex+1).padStart(2,'0')+' / '+String(available.length).padStart(2,'0');
+      previous.disabled=available.length<2;
+      next.disabled=available.length<2;
+    };
+    const navigate=delta=>{
+      const count=visibleCards().length;
+      if(!count)return;
+      activeIndex=(activeIndex+delta+count)%count;
+      updateDeck();
+    };
+    const toggleDeck=()=>{
+      deckMode=!deckMode;
+      grid.classList.toggle('is-layered-deck',deckMode);
+      switcher.setAttribute('aria-pressed',String(deckMode));
+      switcher.textContent=deckMode?'RETURN TO BENTO GRID':'VIEW AS A CARD DECK';
+      navigation.hidden=!deckMode;
+      if(deckMode)grid.setAttribute('tabindex','0');
+      else grid.removeAttribute('tabindex');
+      updateDeck();
+    };
+    switcher.addEventListener('click',toggleDeck);
+    previous.addEventListener('click',()=>navigate(-1));
+    next.addEventListener('click',()=>navigate(1));
+    grid.addEventListener('keydown',event=>{
+      if(!deckMode||!['ArrowLeft','ArrowRight'].includes(event.key))return;
+      if(event.target!==grid)return;
+      event.preventDefault();
+      navigate(event.key==='ArrowRight'?1:-1);
+    });
+    let swipeStart=null;
+    grid.addEventListener('pointerdown',event=>{
+      if(!deckMode||event.target.closest('a,button'))return;
+      swipeStart={x:event.clientX,y:event.clientY};
+    });
+    grid.addEventListener('pointerup',event=>{
+      if(!deckMode||!swipeStart)return;
+      const dx=event.clientX-swipeStart.x,dy=event.clientY-swipeStart.y;
+      swipeStart=null;
+      if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.3)navigate(dx<0?1:-1);
+    });
+    grid.addEventListener('pointercancel',()=>{swipeStart=null;});
+    const observer=new MutationObserver(mutations=>{
+      if(mutations.some(m=>m.attributeName==='hidden'))updateDeck();
+    });
+    tiles.forEach(tile=>observer.observe(tile,{attributes:true,attributeFilter:['hidden']}));
+    deckControls.hidden=false;
+    updateDeck();
+  }
 })();

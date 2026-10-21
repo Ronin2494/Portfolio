@@ -12,8 +12,8 @@ const script = readFileSync(resolve(root, 'work-showcase.js'), 'utf8');
 test('work showcase is integrated without removing existing project links', () => {
   assert.match(html, /id="project-grid"/);
   assert.match(html, /id="work-toolbar" hidden/);
-  assert.match(html, /href="work-showcase\.css\?v=1"/);
-  assert.match(html, /src="work-showcase\.js\?v=1" defer/);
+  assert.match(html, /href="work-showcase\.css\?v=(?:1|layered-deck-2)"/);
+  assert.match(html, /src="work-showcase\.js\?v=(?:1|layered-deck-2)" defer/);
   assert.equal((html.match(/<article class="tile /g) || []).length, 6);
   assert.equal((html.match(/data-work-filter="/g) || []).length, 3);
   assert.match(html, /https:\/\/footnow\.onrender\.com/);
