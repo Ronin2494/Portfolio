@@ -1,0 +1,20 @@
+{
+  "name": "badbunny-membership-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js",
+    "test": "node --check server.js"
+  },
+  "dependencies": {
+    "busboy": "^1.6.0",
+    "express": "^4.21.2",
+    "mongodb": "^6.16.0",
+    "jose": "^6.1.0"
+  }
+}

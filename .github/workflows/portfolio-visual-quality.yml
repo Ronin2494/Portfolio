@@ -1,0 +1,32 @@
+name: Portfolio visual quality
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'portfolio-site/**'
+      - 'portfolio-membership-api/**'
+      - '.github/workflows/portfolio-visual-quality.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'portfolio-site/**'
+      - 'portfolio-membership-api/**'
+      - '.github/workflows/portfolio-visual-quality.yml'
+jobs:
+  showcase:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: JavaScript syntax
+        run: |
+          node --check portfolio-site/work-showcase.js
+          node --check portfolio-site/beyond.js
+          node --check portfolio-site/portfolio-experience.js
+          node --check portfolio-site/creative-editor.js
+          node --check portfolio-membership-api/server.js
+      - name: Showcase interaction, links and accessibility tests
+        run: node --test portfolio-site/tests/*.test.mjs
