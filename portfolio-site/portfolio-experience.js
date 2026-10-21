@@ -74,16 +74,88 @@
     }
     select(0);
     const switches=[...viewToggle.querySelectorAll('[data-project-view]')];
-    const setView=kind=>{
+    const hint=$('experience-view-hint');
+    const setView=(kind,automatic=false)=>{
       const isMap=kind==='constellation';
       constellation.hidden=!isMap;
       grid.hidden=isMap;
       toolbar.hidden=isMap; // The project status filter remains available in grid view.
       switches.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.projectView===kind)));
+      if(automatic){
+        const arriving=isMap?constellation:grid;
+        arriving.classList?.add('project-view-arriving');
+        // The class is only needed while the enter animation plays.
+        arriving.addEventListener?.('animationend',()=>arriving.classList?.remove('project-view-arriving'),{once:true});
+        if(hint)hint.textContent='BENTO CARDS ARE HERE · SWITCH VIEWS ANYTIME';
+      }
     };
-    for(const button of switches)button.addEventListener('click',()=>setView(button.dataset.projectView));
+
+    // Discoverability demo: reveal the alternative layout once after visitors
+    // have had time to explore the constellation. Manual intent always wins.
+    // Nothing changes while the section or browser tab is not visible.
+    let previewTimer=null,previewDone=false,previewDisabled=false;
+    let viewObserver=null;
+    const stopPreview=()=>{
+      previewDisabled=true;
+      if(previewTimer!==null){
+        window.clearTimeout(previewTimer);
+        previewTimer=null;
+      }
+      viewObserver?.disconnect();
+      viewToggle.classList?.remove('view-demo-countdown');
+      if(hint)hint.textContent='TWO WAYS TO EXPLORE · SWITCH VIEWS ANYTIME';
+    };
+    const pausePreview=()=>{
+      if(previewTimer!==null){
+        window.clearTimeout(previewTimer);
+        previewTimer=null;
+      }
+      viewToggle.classList?.remove('view-demo-countdown');
+    };
+    const previewIsSafe=()=>!previewDone&&!previewDisabled&&!motion.matches&&!document.hidden&&
+      !(projects.contains?.(document.activeElement));
+    const startPreview=()=>{
+      if(!previewIsSafe()||previewTimer!==null)return;
+      viewToggle.classList?.add('view-demo-countdown');
+      previewTimer=window.setTimeout(()=>{
+        previewTimer=null;
+        if(!previewIsSafe())return;
+        previewDone=true;
+        viewObserver?.disconnect();
+        viewToggle.classList?.remove('view-demo-countdown');
+        setView('grid',true);
+      },6000);
+    };
+    for(const button of switches){
+      button.addEventListener('click',()=>{
+        stopPreview();
+        setView(button.dataset.projectView);
+      });
+    }
+    // Clicking a project star, filter or link is an explicit preference to
+    // explore the current layout; do not auto-switch during that interaction.
+    projects.addEventListener?.('pointerdown',stopPreview);
+    projects.addEventListener?.('focusin',stopPreview);
+    document.addEventListener?.('visibilitychange',()=>{
+      if(document.hidden)pausePreview();
+      else if(viewObserver?.takeRecords&&projects.getBoundingClientRect){
+        const bounds=projects.getBoundingClientRect();
+        if(bounds.bottom>0&&bounds.top<window.innerHeight)startPreview();
+      }
+    });
     viewToggle.hidden=false;
+    if(hint)hint.hidden=false;
     setView('constellation');
+    if(!motion.matches&&typeof window.IntersectionObserver==='function'&&
+       typeof window.setTimeout==='function'){
+      viewObserver=new window.IntersectionObserver(entries=>{
+        const entry=entries.find(item=>item.target===projects);
+        if(!entry)return;
+        if(entry.isIntersecting&&entry.intersectionRatio>=.15)startPreview();
+        else pausePreview();
+      },{threshold:[0,.15]});
+      viewObserver.observe(projects);
+    }
   }
 
   // Film theater. Only mount an additional YouTube player when the user opens it.
