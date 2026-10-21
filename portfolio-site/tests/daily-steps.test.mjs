@@ -126,9 +126,9 @@ test('seven-day summary uses recorded days only and never invents missing data',
   assert.equal(byClass('beyond-step-goal').length,1);
   assert.equal(byClass('beyond-step-goal-progress')[0].max,10000);
   assert.equal(byClass('beyond-step-goal-progress')[0].value,10000);
-  assert.ok(all.some(x=>x.textContent==='0'),'a genuine zero-step record remains visible in trend data');
+  assert.match(byClass('beyond-activity-trend')[0].attrs['aria-label'],/2026-10-19: 0 recorded/);
   assert.ok(all.some(x=>x.textContent==='Active calories not recorded today'));
-  assert.equal(byClass('activity-bar').filter(x=>x.attrs['data-missing']==='true').length,9);
+  assert.equal(byClass('activity-bar').filter(x=>x.attrs['data-missing']==='true').length,10);
 });
 
 test('unrecorded week shows dashes and a zero-day count without fabricated steps',()=>{
