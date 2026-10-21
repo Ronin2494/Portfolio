@@ -107,11 +107,13 @@
     const byDate=new Map(activity.map(x=>[x.date,x]));
     const entry=byDate.get(today);
     const origin=new Date(today+'T12:00:00Z');
+    const previousDay=key=>new Date(new Date(key+'T12:00:00Z').getTime()-86400000).toISOString().slice(0,10);
     const recent=Array.from({length:7},(_,i)=>{
       const day=new Date(origin.getTime()-(6-i)*86400000).toISOString().slice(0,10);
       return {date:day,record:byDate.get(day)||null};
     });
-    const recorded=recent.filter(x=>x.record).length;
+    const recorded=recent.filter(x=>Number.isSafeInteger(x.record?.steps)).length;
+    const number=value=>new Intl.NumberFormat('en-CA').format(value);
     const grid=make('div','beyond-activity-grid');
     const data=[
       ['01 / DAILY STEPS','steps','STEPS · WALKING & MOVEMENT'],
@@ -119,10 +121,11 @@
     ];
     data.forEach(([label,field,unit])=>{
       const card=make('div','beyond-activity-card');
-      const observed=recent.map(x=>x.record?.[field]).filter(Number.isFinite);
+      const observed=recent.map(x=>x.record?.[field]).filter(Number.isSafeInteger);
       const maximum=Math.max(0,...observed);
-      const comparison=recorded>1&&entry&&maximum>0;
-      const value=entry?new Intl.NumberFormat('en-CA').format(entry[field]):'—';
+      const hasToday=Number.isSafeInteger(entry?.[field]);
+      const comparison=recorded>1&&entry&&maximum>0&&hasToday;
+      const value=hasToday?number(entry[field]):'—';
       const display=make('div','beyond-activity-display');
       display.append(make('strong','beyond-activity-value',value));
       const dial=make('div','beyond-activity-dial');
@@ -133,24 +136,60 @@
       display.append(dial);
       const trend=make('div','beyond-activity-trend');
       trend.setAttribute('role','img');
-      trend.setAttribute('aria-label','Past seven days: '+recent.map(x=>x.date+': '+(x.record?x.record[field]+' recorded':'no recorded value')).join('; '));
+      trend.setAttribute('aria-label','Past seven days: '+recent.map(x=>x.date+': '+(Number.isSafeInteger(x.record?.[field])?x.record[field]+' recorded':'no recorded value')).join('; '));
       recent.forEach((x,i)=>{
         const bar=make('span','activity-bar');
         const numeric=x.record?.[field];
-        bar.setAttribute('style','--bar-height:'+(Number.isFinite(numeric)&&maximum>0?Math.max(5,Math.round(numeric/maximum*100)):5)+'%');
+        bar.setAttribute('style','--bar-height:'+(Number.isSafeInteger(numeric)&&maximum>0?Math.max(5,Math.round(numeric/maximum*100)):5)+'%');
         bar.setAttribute('data-today',String(i===6));
-        if(!x.record)bar.setAttribute('data-missing','true');
+        if(!Number.isSafeInteger(numeric))bar.setAttribute('data-missing','true');
         trend.append(bar);
       });
       append(card,make('span','beyond-activity-caption',label),
-        display,make('span','beyond-activity-foot',entry?unit:'No '+(field==='steps'?'steps':'active calories')+' recorded today'),
+        display,make('span','beyond-activity-foot',hasToday?unit:
+          (field==='steps'?'No steps recorded today':'Active calories not recorded today')),
         make('span','beyond-activity-caption-secondary',comparison?
           'TODAY VS HIGHEST RECORDED DAY · LAST 7 DAYS':
-          'LAST 7 DAYS · '+recorded+' RECORDED '+(recorded===1?'DAY':'DAYS')),
+          'LAST 7 DAYS · '+observed.length+' RECORDED '+(observed.length===1?'DAY':'DAYS')),
         trend);
+      if(field==='steps'&&hasToday&&Number.isSafeInteger(entry.goalSteps)&&entry.goalSteps>0){
+        const goal=entry.goalSteps;
+        const pct=Math.round(entry.steps/goal*100);
+        const goalPanel=make('div','beyond-step-goal');
+        append(goalPanel,make('span','',number(entry.steps)+' / '+number(goal)+' steps toward daily goal'),
+          make('strong','',pct+'%'));
+        const progress=make('progress','beyond-step-goal-progress');
+        progress.max=goal;progress.value=Math.min(entry.steps,goal);
+        progress.setAttribute('aria-label','Today’s progress toward the recorded step goal');
+        goalPanel.append(progress);
+        card.append(goalPanel);
+      }
       grid.append(card);
     });
-    wrap.append(grid,make('p','beyond-activity-date',
+
+    const week=recent.filter(x=>Number.isSafeInteger(x.record?.steps));
+    const total=week.reduce((sum,x)=>sum+x.record.steps,0);
+    const average=recorded?Math.round(total/recorded):null;
+    let cursor=Number.isSafeInteger(entry?.steps)?today:previousDay(today);
+    let streak=0;
+    while(Number.isSafeInteger(byDate.get(cursor)?.steps)&&streak<180){
+      streak++;
+      cursor=previousDay(cursor);
+    }
+    const summary=make('section','beyond-step-summary');
+    summary.setAttribute('aria-label','Step tracking summary for the last seven calendar days');
+    [
+      ['WEEKLY TOTAL',recorded?number(total):'—','Steps over recorded days'],
+      ['RECORDED-DAY AVERAGE',average===null?'—':number(average),'Missing days excluded'],
+      ['DAYS LOGGED',recorded+' / 7','Consecutive-day log: '+streak]
+    ].forEach(([label,value,description])=>{
+      const metric=make('div','beyond-step-metric');
+      append(metric,make('span','beyond-step-metric-label',label),
+        make('strong','beyond-step-metric-value',value),
+        make('span','beyond-step-metric-description',description));
+      summary.append(metric);
+    });
+    wrap.append(grid,summary,make('p','beyond-activity-date',
       'TODAY · '+today+' · TORONTO TIME · '+(entry?'RECORDED ACTIVITY':'AWAITING AN ENTRY')));
     wrap.append(editor());
     return wrap;

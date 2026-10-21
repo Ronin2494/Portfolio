@@ -162,6 +162,14 @@ const creativeDate = raw => {
     Number.isFinite(Date.parse(value+'T12:00:00Z')) &&
     new Date(value+'T12:00:00Z').toISOString().slice(0,10)===value?value:null;
 };
+// Only a calendar day in Toronto may be recorded; date-only keys avoid UTC rollover.
+const torontoToday = () => {
+  const parts = new Intl.DateTimeFormat('en-CA',{
+    timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'
+  }).formatToParts(new Date());
+  const p=Object.fromEntries(parts.map(x=>[x.type,x.value]));
+  return [p.year,p.month,p.day].join('-');
+};
 function creativeVideoURL(raw){
   try{
     const u=new URL(String(raw));
@@ -184,12 +192,21 @@ function creativeDocument(input){
   if(!creativeKinds.has(kind))return {error:'Choose a valid creative category.'};
   if(kind==='activity'){
     const date=creativeDate(input?.date);
-    const steps=input?.steps,activeCalories=input?.activeCalories;
-    if(!date||!Number.isSafeInteger(steps)||steps<0||steps>200000||
-       !Number.isSafeInteger(activeCalories)||activeCalories<0||activeCalories>15000){
-      return {error:'Enter an ISO date, steps (0–200000) and active calories (0–15000).'};
-    }
-    return {record:{kind,date,steps,activeCalories}};
+    const steps=input?.steps;
+    const calories=input?.activeCalories;
+    const goal=input?.goalSteps;
+    if(!date)return {error:'Choose a valid calendar date (YYYY-MM-DD).'};
+    if(date>torontoToday())return {error:'You cannot record a future day. Choose today or an earlier date in Toronto time.'};
+    if(!Number.isSafeInteger(steps)||steps<0||steps>200000)
+      return {error:'Steps must be a whole number between 0 and 200,000.'};
+    if(calories!==undefined&&calories!==null&&
+       (!Number.isSafeInteger(calories)||calories<0||calories>15000))
+      return {error:'Active calories must be a whole number between 0 and 15,000, or left blank.'};
+    if(goal!==undefined&&goal!==null&&
+       (!Number.isSafeInteger(goal)||goal<1||goal>200000))
+      return {error:'Step goal must be a whole number between 1 and 200,000, or left blank.'};
+    return {record:{kind,date,steps,
+      activeCalories:calories??null,goalSteps:goal??null}};
   }
   const title=creativeText(input?.title,150);
   if(!title)return {error:'Enter a title.'};
@@ -206,7 +223,8 @@ const publicCreativeRecord = doc => ({
   id:doc._id.toHexString(),kind:doc.kind,title:doc.title||'',
   body:doc.body||'',url:doc.url||'',date:doc.date||'',
   steps:doc.kind==='activity'?doc.steps:undefined,
-  activeCalories:doc.kind==='activity'?doc.activeCalories:undefined
+  activeCalories:doc.kind==='activity'?(doc.activeCalories??null):undefined,
+  goalSteps:doc.kind==='activity'?(doc.goalSteps??null):undefined
 });
 app.get('/api/creative',asyncRoute(async(_req,res)=>{
   if(dbStatus!=='connected')return res.json({items:[],pending:true});

@@ -14,7 +14,8 @@ const ui={
   email:get('editor-email'),send:get('editor-send'),workspace:get('editor-workspace'),
   user:get('editor-user'),form:get('creative-form'),kind:get('entry-kind'),
   title:get('entry-title'),body:get('entry-body'),url:get('entry-url'),
-  date:get('entry-date'),steps:get('entry-steps'),calories:get('entry-calories'),
+  date:get('entry-date'),steps:get('entry-steps'),calories:get('entry-calories'),goal:get('entry-goal'),
+  dayStatus:get('activity-day-status'),todayBtn:get('activity-today'),yesterdayBtn:get('activity-yesterday'),
   textFields:get('editor-text-fields'),bodyFields:get('editor-body-fields'),
   urlFields:get('editor-url-fields'),activityFields:get('editor-activity-fields'),
   submit:get('editor-submit'),cancel:get('editor-cancel'),
@@ -30,6 +31,35 @@ const today=()=>{
   return [p.year,p.month,p.day].join('-');
 };
 ui.date.value=today();
+ui.date.max=today();
+const previousDay=key=>new Date(new Date(key+'T12:00:00Z').getTime()-86400000).toISOString().slice(0,10);
+const numeric=(raw,min,max,field,optional=false)=>{
+  if(optional&&raw==='')return null;
+  if(!/^[0-9]+$/.test(raw))throw Error(field+' must be a whole number.');
+  const value=Number(raw);
+  if(!Number.isSafeInteger(value)||value<min||value>max)
+    throw Error(field+' must be between '+min.toLocaleString('en-CA')+' and '+max.toLocaleString('en-CA')+'.');
+  return value;
+};
+const recentGoal=()=>entries.filter(x=>x.kind==='activity'&&Number.isSafeInteger(x.goalSteps))
+  .sort((a,b)=>b.date.localeCompare(a.date))[0]?.goalSteps??'';
+function hydrateDay(){
+  if(ui.kind.value!=='activity'||editing?.kind==='activity')return;
+  const date=ui.date.value,record=entries.find(x=>x.kind==='activity'&&x.date===date);
+  if(date>today()){
+    ui.dayStatus.textContent='Future dates are not available.';
+    ui.steps.value='';ui.calories.value='';ui.goal.value='';return;
+  }
+  ui.steps.value=record?.steps??'';
+  ui.calories.value=record?.activeCalories??'';
+  ui.goal.value=record?.goalSteps??recentGoal();
+  ui.dayStatus.textContent=record
+    ?'Recorded day found. Saving replaces the figures for this date.'
+    :'Not yet recorded. Enter the actual step total and save this day.';
+}
+ui.todayBtn.addEventListener('click',()=>{if(ui.date.readOnly)return;ui.date.value=today();hydrateDay();});
+ui.yesterdayBtn.addEventListener('click',()=>{if(ui.date.readOnly)return;ui.date.value=previousDay(today());hydrateDay();});
+ui.date.addEventListener('change',hydrateDay);
 function changeKind(){
   const k=ui.kind.value,isActivity=k==='activity',isMedia=['music','meditation'].includes(k);
   ui.textFields.hidden=isActivity;
@@ -40,7 +70,11 @@ function changeKind(){
   ui.body.required=k==='composition';
   ui.url.required=isMedia;
   ui.date.required=isActivity;
-  ui.steps.required=isActivity;ui.calories.required=isActivity;
+  ui.steps.required=isActivity;
+  if(!editing)ui.submit.textContent=isActivity?'SAVE DAILY STEPS ↗':'PUBLISH ENTRY ↗';
+  ui.calories.required=false;
+  ui.goal.required=false;
+  if(isActivity&&!editing)hydrateDay();
 }
 ui.kind.addEventListener('change',changeKind);changeKind();
 const authHeader=async()=>{
@@ -77,7 +111,7 @@ function renderLibrary(){
     const type=make('span','item-kind',item.kind==='activity'?'DAILY MOVEMENT':item.kind.toUpperCase());
     const title=make('h3','',item.kind==='activity'?item.date:item.title);
     const detail=make('p','',item.kind==='activity'
-      ?String(item.steps)+' steps · '+String(item.activeCalories)+' active kcal'
+      ?String(item.steps)+' steps'+(item.activeCalories==null?'':' · '+String(item.activeCalories)+' active kcal')+(item.goalSteps==null?'':' · Goal '+String(item.goalSteps))
       :item.url||item.body||'No additional description');
     const buttons=make('div','item-actions');
     const edit=make('button','','EDIT');edit.type='button';
@@ -93,6 +127,7 @@ async function reload(){
     const data=await request('/api/admin/creative');
     entries=Array.isArray(data.items)?data.items:[];
     renderLibrary();
+    hydrateDay();
   }catch(error){status(error.message,true);}
 }
 async function removeItem(item,button){
@@ -111,19 +146,24 @@ function startEdit(item){
   ui.kind.value=item.kind;ui.kind.disabled=true;changeKind();
   ui.title.value=item.title||'';ui.body.value=item.body||'';ui.url.value=item.url||'';
   ui.date.value=item.date||today();ui.date.readOnly=item.kind==='activity';
-  ui.steps.value=item.steps??'';ui.calories.value=item.activeCalories??'';
+  ui.date.disabled=item.kind==='activity';
+  ui.steps.value=item.steps??'';ui.calories.value=item.activeCalories??'';ui.goal.value=item.goalSteps??'';
+  ui.todayBtn.disabled=item.kind==='activity';ui.yesterdayBtn.disabled=item.kind==='activity';
+  if(item.kind==='activity')ui.dayStatus.textContent='Editing saved activity for '+item.date+'.';
   ui.submit.textContent='SAVE CHANGES ↗';ui.cancel.hidden=false;
   ui.form.scrollIntoView({behavior:'auto',block:'start'});
   const focus=item.kind==='activity'?ui.steps:['music','meditation'].includes(item.kind)?ui.url:ui.title;
   focus.focus({preventScroll:true});
   status('Editing '+(item.title||item.date)+'. Save changes to update the public page.');
 }
-function resetForm(){
-  editing=null;ui.form.reset();ui.kind.disabled=false;ui.kind.value='composition';
-  ui.date.readOnly=false;ui.date.value=today();
-  ui.submit.textContent='PUBLISH ENTRY ↗';ui.cancel.hidden=true;changeKind();
+function resetForm(kind='composition'){
+  editing=null;ui.form.reset();ui.kind.disabled=false;ui.kind.value=kind;
+  ui.date.readOnly=false;ui.date.disabled=false;ui.date.value=today();ui.date.max=today();
+  ui.todayBtn.disabled=false;ui.yesterdayBtn.disabled=false;
+  ui.submit.textContent=kind==='activity'?'SAVE DAILY STEPS ↗':'PUBLISH ENTRY ↗';
+  ui.cancel.hidden=true;changeKind();
 }
-ui.cancel.addEventListener('click',resetForm);
+ui.cancel.addEventListener('click',()=>resetForm());
 ui.refresh.addEventListener('click',reload);
 ui.form.addEventListener('submit',async event=>{
   event.preventDefault();
@@ -131,10 +171,14 @@ ui.form.addEventListener('submit',async event=>{
   const kind=editing?.kind||ui.kind.value;
   let payload;
   if(kind==='activity'){
-    if(ui.steps.value===''||ui.calories.value===''){
-      status('Enter both actual steps and active calories.',true);return;
-    }
-    payload={kind,date:ui.date.value,steps:Number(ui.steps.value),activeCalories:Number(ui.calories.value)};
+    try{
+      const date=ui.date.value;
+      if(!date||date>today())throw Error('Choose today or an earlier Toronto calendar day.');
+      payload={kind,date,
+        steps:numeric(ui.steps.value,0,200000,'Steps'),
+        activeCalories:numeric(ui.calories.value,0,15000,'Active calories',true),
+        goalSteps:numeric(ui.goal.value,1,200000,'Daily step goal',true)};
+    }catch(error){status(error.message,true);return;}
   }else if(['music','meditation'].includes(kind)){
     payload={kind,title:ui.title.value.trim(),url:ui.url.value.trim()};
   }else payload={kind,title:ui.title.value.trim(),body:ui.body.value.trim()};
@@ -142,8 +186,8 @@ ui.form.addEventListener('submit',async event=>{
   try{
     await request(editing?'/api/admin/creative/'+encodeURIComponent(editing.id):'/api/admin/creative',
       editing?'PATCH':'POST',payload);
-    status('Published. Your Portfolio collection has been updated.');
-    resetForm();await reload();
+    resetForm(kind==='activity'?'activity':'composition');await reload();
+    status(kind==='activity'?'Daily steps saved. You can edit this date again any time.':'Published. Your Portfolio collection has been updated.');
   }catch(error){status(error.message,true);}
   finally{ui.submit.disabled=false;}
 });
