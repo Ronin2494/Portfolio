@@ -71,6 +71,7 @@ function changeKind(){
   ui.url.required=isMedia;
   ui.date.required=isActivity;
   ui.steps.required=isActivity;
+  if(!editing)ui.submit.textContent=isActivity?'SAVE DAILY STEPS ↗':'PUBLISH ENTRY ↗';
   ui.calories.required=false;
   ui.goal.required=false;
   if(isActivity&&!editing)hydrateDay();
@@ -145,6 +146,7 @@ function startEdit(item){
   ui.kind.value=item.kind;ui.kind.disabled=true;changeKind();
   ui.title.value=item.title||'';ui.body.value=item.body||'';ui.url.value=item.url||'';
   ui.date.value=item.date||today();ui.date.readOnly=item.kind==='activity';
+  ui.date.disabled=item.kind==='activity';
   ui.steps.value=item.steps??'';ui.calories.value=item.activeCalories??'';ui.goal.value=item.goalSteps??'';
   ui.todayBtn.disabled=item.kind==='activity';ui.yesterdayBtn.disabled=item.kind==='activity';
   if(item.kind==='activity')ui.dayStatus.textContent='Editing saved activity for '+item.date+'.';
@@ -156,7 +158,7 @@ function startEdit(item){
 }
 function resetForm(kind='composition'){
   editing=null;ui.form.reset();ui.kind.disabled=false;ui.kind.value=kind;
-  ui.date.readOnly=false;ui.date.value=today();ui.date.max=today();
+  ui.date.readOnly=false;ui.date.disabled=false;ui.date.value=today();ui.date.max=today();
   ui.todayBtn.disabled=false;ui.yesterdayBtn.disabled=false;
   ui.submit.textContent=kind==='activity'?'SAVE DAILY STEPS ↗':'PUBLISH ENTRY ↗';
   ui.cancel.hidden=true;changeKind();
