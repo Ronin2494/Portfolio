@@ -21,7 +21,7 @@ test('all four interest cards are keyboard-operable buttons connected to one reg
   }
   assert.match(html,/id="beyond-detail"[^>]*hidden tabindex="-1"/);
   assert.match(html,/id="beyond-close"/);
-  assert.match(html,/href="beyond\.css\?v=1"/);
+  assert.match(html,/href="beyond\.css\?v=[A-Za-z0-9-]+"/);
   assert.match(html,/src="beyond\.js\?v=1" defer/);
 });
 test('four visual cards retain their approved colors and graphics and open accessible details',()=>{

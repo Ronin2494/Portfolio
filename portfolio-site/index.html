@@ -23,9 +23,9 @@
 <link rel="stylesheet" href="creative-inline.css" />
 
 <link rel="stylesheet" href="membership.css?v=gallery-refinement-20261020" />
-<link rel="stylesheet" href="work-showcase.css?v=layered-deck-2" />
+<link rel="stylesheet" href="work-showcase.css?v=layered-deck-3" />
 <link rel="stylesheet" href="intro-orbit.css?v=1" />
-<link rel="stylesheet" href="beyond.css?v=1" />
+<link rel="stylesheet" href="beyond.css?v=asymmetric-bento-3" />
 <link rel="stylesheet" href="portfolio-experience.css?v=1" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4702288635921911" crossorigin="anonymous"></script>
 </head>
@@ -125,7 +125,10 @@
         <button type="button" class="deck-view-switch" id="deck-view-switch" aria-pressed="false" aria-controls="project-grid">VIEW AS A CARD DECK</button>
         <div class="deck-navigation" id="deck-navigation" hidden>
           <button type="button" class="deck-nav" id="deck-prev" aria-label="Previous project">←</button>
-          <span id="deck-position" aria-live="polite">01 / 06</span>
+          <div class="deck-status">
+            <span id="deck-position" aria-live="polite">01 / 06</span>
+            <progress class="deck-progress" id="deck-progress" value="1" max="6" aria-label="Project deck progress"></progress>
+          </div>
           <button type="button" class="deck-nav" id="deck-next" aria-label="Next project">→</button>
         </div>
       </div>
@@ -247,10 +250,10 @@
 
 <script src="membership.js?v=payments-gated-2" defer></script>
 
-<script src="work-showcase.js?v=layered-deck-2" defer></script>
+<script src="work-showcase.js?v=layered-deck-3" defer></script>
 <script src="intro-orbit.js?v=1" defer></script>
 <script src="beyond.js?v=1" defer></script>
-<script src="portfolio-experience.js?v=1" defer></script>
+<script src="portfolio-experience.js?v=deck-visibility-2" defer></script>
 <script type="module" src="main.js?v=portal-handoff-fast-2"></script>
 </body>
 </html>
