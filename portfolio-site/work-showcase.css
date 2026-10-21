@@ -157,3 +157,53 @@
   .bento > .tile,.bento > .tile::before{transition:none!important}
   .bento > .tile:is(:hover,:focus-within)::before{transform:translate(var(--layer-shift),var(--layer-shift)) rotate(var(--layer-tilt))}
 }
+
+
+/* Optional swiper deck inspired by stacked-card discovery UIs. */
+.deck-controls[hidden],.deck-navigation[hidden]{display:none!important}
+.deck-controls{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 10px 20px}
+.deck-view-switch,.deck-nav{
+  border:1px solid #27263f;background:#191b30;color:#f7f5ff;
+  cursor:pointer;border-radius:99px;padding:13px 18px;
+  font:700 10px 'Space Grotesk',sans-serif;letter-spacing:.1em;
+}
+.deck-view-switch[aria-pressed="true"]{background:#e2f88f;color:#182031}
+.deck-navigation{display:flex;align-items:center;gap:15px;color:#35324e;font:700 12px 'Space Grotesk',sans-serif}
+.deck-nav{font-size:18px;letter-spacing:0;padding:9px 16px}
+.deck-nav:disabled{opacity:.4;cursor:default}
+.deck-controls button:focus-visible,.bento.is-layered-deck:focus-visible{outline:3px solid #8c71d7;outline-offset:4px}
+.bento.is-layered-deck{
+  display:block;position:relative;isolation:isolate;
+  min-height:640px;height:clamp(540px,55vw,680px);
+  padding:15px 0 32px;overflow:visible;outline-offset:8px;
+  touch-action:pan-y;
+}
+.bento.is-layered-deck > .tile{
+  position:absolute;top:10px;left:50%;width:min(76%,690px);
+  height:calc(100% - 85px);min-height:0;
+  transition:transform .65s cubic-bezier(.2,.85,.2,1),opacity .4s,filter .4s;
+  transform:translateX(-50%) translateY(calc(var(--deck-depth) * 21px))
+     scale(calc(1 - var(--deck-depth) * .055)) rotate(var(--deck-angle));
+  filter:brightness(calc(1 - var(--deck-depth) * .085));
+  z-index:calc(10 - var(--deck-depth));
+}
+.bento.is-layered-deck > .tile[data-deck-depth="0"]{
+  --deck-angle:0deg!important;pointer-events:auto;filter:none;
+  z-index:10;
+}
+.bento.is-layered-deck > .tile[data-deck-depth="1"],
+.bento.is-layered-deck > .tile[data-deck-depth="2"]{pointer-events:none}
+.bento.is-layered-deck > .tile[data-deck-depth="hidden"]{
+  visibility:hidden;opacity:0;pointer-events:none
+}
+.bento.is-layered-deck > .tile:is(:hover,:focus-within){transform:translateX(-50%) translateY(calc(var(--deck-depth) * 21px)) scale(calc(1 - var(--deck-depth) * .055)) rotate(var(--deck-angle))}
+@media(max-width:700px){
+ .deck-controls{margin:0 0 16px;gap:11px}
+ .deck-view-switch{font-size:9px;padding:12px 14px}
+ .bento.is-layered-deck{height:550px;min-height:0;padding-top:8px}
+ .bento.is-layered-deck > .tile{width:calc(100% - 28px);height:470px;top:5px}
+ .bento.is-layered-deck > .tile .tile-text h3{font-size:clamp(27px,8vw,42px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .bento.is-layered-deck > .tile{transition:none!important}
+}
