@@ -29,7 +29,7 @@ function mount({reducedMotion=false,intersectionObserver=true}={}){
   }
   const elements={};
   for(const id of ['projects','project-grid','work-toolbar','project-constellation',
-    'constellation-map','constellation-nodes','experience-view-toggle','experience-view-hint',
+    'constellation-map','constellation-nodes','experience-view-toggle','experience-view-hint','deck-controls',
     'constellation-preview-title','constellation-preview-description','constellation-preview-index',
     'constellation-preview-tags','constellation-preview-link','constellation-preview-initials']){
     elements[id]=new Element();
@@ -108,6 +108,7 @@ test('after the section enters view, one six-second preview reveals bento and ma
   const ui=mount();
   assert.equal(ui.elements['project-constellation'].hidden,false);
   assert.equal(ui.elements['project-grid'].hidden,true);
+  assert.equal(ui.elements['deck-controls'].hidden,true);
   assert.equal(ui.elements['experience-view-hint'].hidden,false);
   assert.equal(ui.timers.size,0,'do not start countdown above the fold');
   assert.equal(ui.observer.observed,ui.elements.projects);
@@ -119,6 +120,7 @@ test('after the section enters view, one six-second preview reveals bento and ma
   assert.equal(ui.elements['project-constellation'].hidden,true);
   assert.equal(ui.elements['project-grid'].hidden,false);
   assert.equal(ui.elements['work-toolbar'].hidden,false);
+  assert.equal(ui.elements['deck-controls'].hidden,false);
   assert.equal(ui.tabs[1].attrs['aria-pressed'],'true');
   assert.equal(ui.tabs[0].attrs['aria-pressed'],'false');
   assert.equal(ui.elements['project-grid'].classList.contains('project-view-arriving'),true);
@@ -142,6 +144,7 @@ test('manual tab selection cancels the demo and leaves either view under user co
   ui.tabs[0].fire('click');
   assert.equal(ui.elements['project-constellation'].hidden,false);
   assert.equal(ui.elements['project-grid'].hidden,true);
+  assert.equal(ui.elements['deck-controls'].hidden,true);
 });
 
 test('keyboard focus or interacting with a project stops the timer, but touch-scrolling does not',()=>{
