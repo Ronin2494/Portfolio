@@ -134,7 +134,9 @@
     }
     // Clicking a project star, filter or link is an explicit preference to
     // explore the current layout; do not auto-switch during that interaction.
-    projects.addEventListener?.('pointerdown',stopPreview);
+    projects.addEventListener?.('click',event=>{
+      if(event.target?.closest?.('button,a'))stopPreview();
+    });
     projects.addEventListener?.('focusin',stopPreview);
     document.addEventListener?.('visibilitychange',()=>{
       if(document.hidden)pausePreview();
