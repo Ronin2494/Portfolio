@@ -80,6 +80,9 @@
         const onTop=distance===0;
         tile.dataset.deckDepth=distance<3?String(distance):'hidden';
         tile.style.setProperty('--deck-depth',String(Math.min(distance,3)));
+        tile.style.setProperty('--deck-lift',(Math.min(distance,3)*21)+'px');
+        tile.style.setProperty('--deck-scale',String(1-Math.min(distance,3)*.055));
+        tile.style.setProperty('--deck-brightness',String(1-Math.min(distance,3)*.085));
         tile.style.setProperty('--deck-angle',distance%2?'2deg':'-2deg');
         tile.querySelectorAll('a,button').forEach(control=>{
           if(deckMode&&!onTop)control.setAttribute('tabindex','-1');
