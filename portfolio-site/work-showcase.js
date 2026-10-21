@@ -68,6 +68,7 @@
   const previous=document.getElementById('deck-prev');
   const next=document.getElementById('deck-next');
   const position=document.getElementById('deck-position');
+  const progress=document.getElementById('deck-progress');
   if(deckControls&&switcher&&navigation&&previous&&next&&position){
     let deckMode=false;
     let activeIndex=0;
@@ -90,7 +91,11 @@
         });
         tile.setAttribute('aria-hidden',String(deckMode&&!onTop));
       });
-      position.textContent=String(activeIndex+1).padStart(2,'0')+' / '+String(available.length).padStart(2,'0');
+      position.textContent=String(available.length?activeIndex+1:0).padStart(2,'0')+' / '+String(available.length).padStart(2,'0');
+      if(progress){
+        progress.max=Math.max(1,available.length);
+        progress.value=available.length?activeIndex+1:0;
+      }
       previous.disabled=available.length<2;
       next.disabled=available.length<2;
     };
@@ -106,8 +111,15 @@
       switcher.setAttribute('aria-pressed',String(deckMode));
       switcher.textContent=deckMode?'RETURN TO BENTO GRID':'VIEW AS A CARD DECK';
       navigation.hidden=!deckMode;
-      if(deckMode)grid.setAttribute('tabindex','0');
-      else grid.removeAttribute('tabindex');
+      if(deckMode){
+        grid.setAttribute('tabindex','0');
+        grid.setAttribute('role','group');
+        grid.setAttribute('aria-label','Project card deck. Use arrow keys or swipe to browse.');
+      }else{
+        grid.removeAttribute('tabindex');
+        grid.removeAttribute('role');
+        grid.removeAttribute('aria-label');
+      }
       updateDeck();
     };
     switcher.addEventListener('click',toggleDeck);
