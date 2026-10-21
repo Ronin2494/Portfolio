@@ -1,0 +1,45 @@
+
+/* Creative Library v2 — video-first editorial cinematography */
+.creative-opening{position:relative;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:0;min-height:385px;overflow:hidden;border-radius:26px;background:linear-gradient(135deg,#18193c,#0e162e 72%);border:1px solid #c7beff45;box-shadow:0 26px 80px #0305135d;margin:4px 0 35px}
+.creative-opening:before{content:"";position:absolute;pointer-events:none;z-index:0;inset:-100px;background:radial-gradient(circle at 80% 35%,#d18aff36,transparent 45%),radial-gradient(circle at 2% 85%,#8eacff39,transparent 40%);animation:creative-opening-glow 8s ease-in-out infinite alternate}
+.creative-opening-media{position:relative;min-height:375px;overflow:hidden;background:radial-gradient(circle at 53% 48%,#57659a,#18172d 65%,#080d1e 100%);isolation:isolate}
+.creative-intro-poster{position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,#0b0e2b55,transparent),url("https://i.ytimg.com/vi/VAUABrdYU6U/hqdefault.jpg") center / cover;filter:saturate(.9);transform:scale(1.04)}
+.creative-opening-media iframe{position:absolute;z-index:2;inset:0;width:100%;height:100%;border:0;background:transparent}
+.creative-opening-stamp{position:absolute;top:18px;left:18px;z-index:3;border-radius:100px;padding:9px 13px;background:#080c26dd;backdrop-filter:blur(12px);color:#e5dfff;font:700 9px/1.3 'Space Grotesk',sans-serif;letter-spacing:.13em;pointer-events:none}
+.opening-live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#dfccff;margin-left:7px;box-shadow:0 0 10px #c2aaff}
+.creative-opening-copy{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(26px,4vw,58px);background:linear-gradient(140deg,#16142b9c,#100f25b0)}
+.creative-opening-kicker{font:700 10px 'Space Grotesk',sans-serif;letter-spacing:.18em;color:#c7b9ff}
+.creative-opening-copy h3{font:600 clamp(2.3rem,4.1vw,4.9rem)/1.02 'Space Grotesk',sans-serif;letter-spacing:-.07em;margin:24px 0 18px;color:#fff}
+.creative-opening-copy h3 em{font-style:normal;background:linear-gradient(100deg,#e2d9ff,#d792ce);background-clip:text;-webkit-background-clip:text;color:transparent}
+.creative-opening-copy>p{font:400 14px/1.8 'DM Sans',sans-serif;color:#c8c4d7;max-width:365px;margin:0}
+.creative-opening-actions{margin-top:28px;display:flex;align-items:center;gap:17px;flex-wrap:wrap}
+.creative-opening-actions a{font:700 10px 'Space Grotesk',sans-serif;letter-spacing:.1em;color:#191329;background:#e7deff;border-radius:30px;padding:12px 16px}
+.creative-opening-actions a:hover{background:white}
+.creative-opening-actions>span{font:600 9px 'Space Grotesk',sans-serif;letter-spacing:.08em;color:#8f91b0}
+.creative-reel-heading{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px;color:#c8c3e1;font:700 10px 'Space Grotesk',sans-serif;letter-spacing:.16em}
+.creative-reel-heading span:last-child{font-weight:500;color:#858ba6}
+.creative-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:stretch}
+.creative-card.feature{grid-column:span 2}
+.creative-inline-video{min-height:0!important;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(135deg,#141833,#11162b);border:1px solid #ffffff29;border-radius:24px}
+.creative-inline-stage{position:relative;overflow:hidden;isolation:isolate;aspect-ratio:16/9;background:linear-gradient(140deg,#202846,#0c1023);flex:none}
+.creative-inline-backdrop{position:absolute;inset:0;z-index:-1;background-position:center;background-size:cover;filter:blur(19px) saturate(1.15);transform:scale(1.15);opacity:.72}
+.creative-inline-frame{position:absolute;inset:0;z-index:2;overflow:hidden;background:#101326}
+.creative-inline-frame iframe{width:100%;height:100%;border:0;display:block;background:#101326}
+.creative-inline-info{position:relative;display:flex;flex:1;flex-direction:column;gap:12px;padding:24px;z-index:3}
+.creative-inline-top{display:flex;justify-content:space-between;gap:12px;align-items:center;color:#c4c0e4;font:700 9px 'Space Grotesk',sans-serif;letter-spacing:.14em}
+.creative-inline-type{padding:7px 10px;border:1px solid #b5a7e76d;border-radius:90px;color:#ddd0ff}
+.creative-inline-info h3{font:600 clamp(1.5rem,2.3vw,2.4rem)/1.1 'Space Grotesk',sans-serif;letter-spacing:-.045em;margin:0;color:#fff}
+.creative-inline-info>p{font-size:12px;line-height:1.7;color:#aeb2c8;margin:0}
+.creative-inline-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:auto;padding-top:20px}
+.creative-inline-foot small{color:#9899bb;font:500 11px 'DM Sans',sans-serif}
+.creative-inline-original{flex:none;color:#f3ebff;border-bottom:1px solid #aba4e875;padding-bottom:5px;font:700 9px 'Space Grotesk',sans-serif;letter-spacing:.09em}
+.creative-inline-original:hover{color:#c9b9ff}
+.video-instagram .creative-inline-stage{aspect-ratio:auto;height:490px;background:radial-gradient(circle at 48% 20%,#a88bd73d,transparent 48%),#0a0c18}
+.video-instagram .creative-inline-frame{width:min(100%,355px);max-width:100%;left:50%;right:auto;transform:translateX(-50%);box-shadow:0 0 60px #0008}
+.video-instagram .creative-inline-info{background:linear-gradient(150deg,#19172e,#0d1021)}
+.creative-inline-video:hover .creative-inline-backdrop{filter:blur(12px) saturate(1.25);transition:filter .4s}
+.creative-card.creative-essay{min-height:300px}
+@keyframes creative-opening-glow{to{transform:translate(30px,-20px);filter:hue-rotate(12deg)}}
+@media(max-width:1000px){.creative-opening{grid-template-columns:1fr 1fr}.creative-opening-copy{padding:26px}.creative-reel-heading span:last-child{display:none}}
+@media(max-width:700px){.creative-opening{display:flex;flex-direction:column;border-radius:19px}.creative-opening-media{min-height:0;aspect-ratio:16/9}.creative-opening-copy{padding:26px 22px 30px}.creative-opening-copy h3{font-size:clamp(2.3rem,10vw,3.9rem);margin:16px 0}.creative-opening-stamp{top:10px;left:10px;font-size:8px}.creative-grid{grid-template-columns:minmax(0,1fr);gap:16px}.creative-card.feature{grid-column:span 1}.creative-inline-info{padding:19px}.creative-inline-stage{aspect-ratio:16/9}.video-instagram .creative-inline-stage{height:455px}.video-instagram .creative-inline-frame{width:min(100%,335px)}.creative-inline-info h3{font-size:1.8rem}.creative-inline-foot{flex-wrap:wrap}.creative-reel-heading{margin-top:26px}}
+@media(prefers-reduced-motion:reduce){.creative-opening:before{animation:none}.creative-inline-video:hover{transform:none}.creative-inline-video:hover .creative-inline-backdrop{transition:none}}

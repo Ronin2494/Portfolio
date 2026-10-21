@@ -1,0 +1,124 @@
+{
+  "description": "Verified public individual Instagram and YouTube posts. First feature is the introductory video.",
+  "items": [
+    {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=VAUABrdYU6U",
+      "title": "It's Time You Started Creating a Video Resume — Again!",
+      "description": "An opening film from my channel on going beyond the traditional résumé and expressing your story.",
+      "category": "video",
+      "creator": "Deepak Sharma",
+      "feature": true
+    },
+    {
+      "provider": "instagram",
+      "url": "https://www.instagram.com/reel/Dd2VMqrtrG5/",
+      "title": "Freestyle Dance",
+      "description": "One of my favorite ways to express happiness: freestyle movement.",
+      "category": "dance",
+      "creator": "@puru.ushah",
+      "cover": "media/reels/Dd2VMqrtrG5.jpg"
+    },
+    {
+      "provider": "instagram",
+      "url": "https://www.instagram.com/reel/DeW2g_8sPnv/",
+      "title": "Shiv Stuti — Singing",
+      "description": "A short vocal performance of Shiv Stuti.",
+      "category": "music",
+      "creator": "@puru.ushah",
+      "cover": "media/reels/DeW2g_8sPnv.jpg"
+    },
+    {
+      "provider": "instagram",
+      "url": "https://www.instagram.com/reel/DeVGL5PshF3/",
+      "title": "Karpurgauram — Singing",
+      "description": "An expressive devotional singing performance.",
+      "category": "music",
+      "creator": "@puru.ushah",
+      "cover": "media/reels/DeVGL5PshF3.jpg"
+    },
+    {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=tN-WwB7owxA",
+      "title": "Kubernetes in Under 8 Minutes",
+      "description": "Microservices, containers and orchestration explained simply.",
+      "category": "video",
+      "creator": "Ronin Simplify Talks"
+    },
+    {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=u70pLWvkn8g",
+      "title": "Aadat — Unplugged Cover",
+      "description": "Acoustic singing from my YouTube archive.",
+      "category": "music",
+      "creator": "Deepak Sharma"
+    },
+    {
+      "provider": "instagram",
+      "url": "https://www.instagram.com/reel/DeGJZXMMruR/",
+      "title": "Singing Time",
+      "description": "Music, joy, and living in the present moment.",
+      "category": "music",
+      "creator": "@puru.ushah",
+      "cover": "media/reels/DeGJZXMMruR.jpg"
+    },
+    {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=sdZTq_ab-rM",
+      "title": "Finland’s Permanent Nuclear Tomb",
+      "description": "A short documentary-style explainer on the Onkalo repository.",
+      "category": "video",
+      "creator": "Ronin Simplify Talks"
+    },
+    {
+      "provider": "instagram",
+      "url": "https://www.instagram.com/reel/Ddwn6HPsTa6/",
+      "title": "30-Minute Surya Namaskar Flow",
+      "description": "A glimpse of my yoga practice and self-designed flow.",
+      "category": "video",
+      "creator": "@puru.ushah",
+      "cover": "media/reels/Ddwn6HPsTa6.jpg"
+    },
+    {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=uCM1pc-44SE",
+      "title": "To the Women of This Generation",
+      "description": "A singing Short from my YouTube channel.",
+      "category": "music",
+      "creator": "Deepak Sharma"
+    },
+    {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=w-16B1lQ37s",
+      "title": "How Do Emotions Control Us?",
+      "description": "Reflections on anger and The Courage to Be Disliked.",
+      "category": "video",
+      "creator": "Ronin Simplify Talks"
+    },
+    {
+      "provider": "instagram",
+      "url": "https://www.instagram.com/reel/DdreXf2sq9i/",
+      "title": "Surya Namaskar — One Minute",
+      "description": "Sixty seconds of mindful movement and breath.",
+      "category": "video",
+      "creator": "@puru.ushah",
+      "cover": "media/reels/DdreXf2sq9i.jpg"
+    },
+    {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=VGmby8vOJLw",
+      "title": "Phoolon Ka Taaron Ka — Cover",
+      "description": "A singing performance from the archive.",
+      "category": "music",
+      "creator": "Deepak Sharma"
+    },
+    {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=8Ln2Fb3z3fU",
+      "title": "Microsoft Fabric — Data Warehouse",
+      "description": "A hands-on tutorial on building a Microsoft Fabric data warehouse.",
+      "category": "video",
+      "creator": "Ronin Simplify Talks"
+    }
+  ]
+}

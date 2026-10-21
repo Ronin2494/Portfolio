@@ -1,0 +1,92 @@
+/* Portfolio project showcase: subtle optical depth, functional filters, responsive navigation. */
+.work-toolbar[hidden],.bento > .tile[hidden]{display:none!important}
+.work-toolbar{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px;
+  padding:15px 18px;margin:-8px 0 24px;border:1px solid rgba(24,29,42,.12);
+  border-radius:22px;background:linear-gradient(120deg,rgba(255,255,255,.9),rgba(242,240,250,.74));
+  box-shadow:0 15px 36px rgba(26,24,47,.05);backdrop-filter:blur(16px)
+}
+.work-toolbar-info{display:flex;align-items:center;gap:15px;flex-wrap:wrap}
+.work-toolbar-title{
+  display:inline-flex;align-items:center;gap:11px;color:#474653;
+  font:700 10px/1.35 'Space Grotesk',sans-serif;letter-spacing:.15em;white-space:nowrap
+}
+.work-toolbar-title::before{
+  content:"";width:8px;height:8px;border-radius:50%;background:#7665c4;
+  box-shadow:0 0 0 5px rgba(118,101,196,.12)
+}
+.work-toolbar-count{
+  color:#6e687b;font:600 10px/1.4 'Space Grotesk',sans-serif;
+  font-variant-numeric:tabular-nums;letter-spacing:.08em
+}
+.work-filters{
+  display:flex;align-items:center;gap:5px;padding:5px;border-radius:999px;
+  background:rgba(14,17,30,.055);border:1px solid rgba(14,17,30,.07)
+}
+.work-filter{
+  appearance:none;border:0;background:transparent;color:#53515f;
+  padding:11px 16px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;
+  gap:9px;justify-content:center;font:700 10px/1.2 'Space Grotesk',sans-serif;
+  letter-spacing:.07em;white-space:nowrap;
+  transition:background .25s,color .25s,box-shadow .25s
+}
+.work-filter .filter-number{opacity:.7;font-size:10px;letter-spacing:0;font-variant-numeric:tabular-nums}
+.work-filter:hover{color:#30265d;background:rgba(139,115,208,.14)}
+.work-filter[aria-pressed="true"]{
+  color:#f4f3ff;background:#191b30;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 4px 10px rgba(14,17,30,.16)
+}
+.work-filter[aria-pressed="true"] .filter-number{color:#e2f88f;opacity:1}
+/* CSS-only fallback retains the existing project cards and their native links. */
+.bento > .tile{
+  --glow-x:50%;--glow-y:30%;--pitch:0deg;--yaw:0deg;
+  transform-style:preserve-3d
+}
+.bento > .tile::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  opacity:0;background:radial-gradient(
+    ellipse 55% 60% at var(--glow-x) var(--glow-y),
+    rgba(224,225,255,.2),rgba(216,204,255,.065) 34%,transparent 78%
+  );transition:opacity .35s
+}
+.bento > .tile:is(:hover,:focus-within)::after{opacity:1}
+.bento > .tile:focus-within{
+  box-shadow:0 26px 60px rgba(18,17,46,.2),inset 0 0 0 1px rgba(222,212,255,.4)
+}
+.bento > .tile .round-link:focus-visible{outline:3px solid #e2f88f;outline-offset:5px}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .bento > .tile:hover{
+    transform:perspective(1400px) rotateX(var(--pitch)) rotateY(var(--yaw)) translateY(-5px);
+    box-shadow:0 30px 60px rgba(22,19,46,.22)
+  }
+}
+@media(max-width:850px){
+  .work-toolbar{align-items:stretch}
+  .work-filters{width:100%;overflow-x:auto;scrollbar-width:none;justify-content:space-between}
+  .work-filters::-webkit-scrollbar{display:none}
+  .work-filter{flex:1;min-width:max-content}
+}
+@media(max-width:700px){
+  /* Preserve all primary routes; narrow screens scroll navigation horizontally. */
+  .site-nav{
+    height:auto;min-height:85px;flex-wrap:wrap;align-content:center;
+    gap:15px;padding:17px 0
+  }
+  .site-nav nav{
+    width:100%;max-width:100%;justify-content:space-between;gap:10px;
+    overflow-x:auto;scrollbar-width:none;white-space:nowrap;padding:2px 0 5px
+  }
+  .site-nav nav::-webkit-scrollbar{display:none}
+  .site-nav nav a:first-child,.site-nav nav a:nth-child(2),.site-nav nav .nav-creative{
+    display:inline-flex
+  }
+  .site-nav nav .nav-contact{padding:11px 13px}
+  .work-toolbar{padding:15px 12px;border-radius:19px;margin:0 0 18px}
+  .work-toolbar-count{font-size:9px}
+  .work-filter{padding:12px 11px;letter-spacing:.035em;font-size:9px;gap:6px}
+  .bento > .tile::after{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .bento > .tile{transform:none!important}
+  .bento > .tile::after,.work-filter{transition:none!important}
+}

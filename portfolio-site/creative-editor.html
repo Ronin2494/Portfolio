@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#121522">
+<meta name="robots" content="noindex,nofollow">
+<title>Creative Library · Portfolio</title>
+<meta name="description" content="Private creator editor for compositions, videos, daily movement, and questions.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="creative-editor.css?v=1">
+<script src="creative-editor.js?v=1" type="module"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to editor</a>
+<header class="topbar"><a class="brand" href="/#beyond"><span class="brandmark">DS<span>·</span></span><span>PORTFOLIO <small>PRIVATE CREATOR DESK</small></span></a><a class="back" href="/#beyond">BACK TO THE FOUR CARDS ↗</a></header>
+<main class="shell" id="main">
+  <p class="eyebrow">CREATOR DESK / CURATE WHAT THE WORLD SEES</p>
+  <h1>Make room for<br><em>what matters.</em></h1>
+  <p class="lede">Publish original writing, link your own Instagram or YouTube videos, record today's steps and active calories, and select questions from your notes. All changes appear under your four Portfolio cards.</p>
+  <p id="editor-status" class="message" role="status" aria-live="polite">Checking creator access…</p>
+  <section class="panel" id="editor-login" aria-labelledby="login-title">
+    <p class="eyebrow">01 / PRIVATE ACCESS</p><h2 id="login-title">Verify your creator email</h2>
+    <p>Only the verified Portfolio creator can make changes. Sign in using the secure email link.</p>
+    <form id="editor-login-form" class="form">
+      <label for="editor-email">Creator email</label><input id="editor-email" type="email" autocomplete="email" maxlength="250" placeholder="you@example.com" required>
+      <button class="action" id="editor-send" type="submit">SEND SIGN-IN LINK ↗</button>
+    </form>
+  </section>
+  <div id="editor-workspace" hidden>
+    <div class="workspace-top"><span id="editor-user" class="pill"></span><button type="button" id="editor-logout" class="quiet">SIGN OUT ↗</button></div>
+    <section class="panel" aria-labelledby="publish-title">
+      <p class="eyebrow">02 / PUBLISH TO THE FOUR CARDS</p><h2 id="publish-title">Add to your collection</h2>
+      <form id="creative-form" class="form">
+        <label for="entry-kind">Choose a section</label>
+        <select id="entry-kind" required>
+          <option value="composition">01 — Original composition</option>
+          <option value="music">01 — Singing video</option>
+          <option value="activity">02 — Daily movement</option>
+          <option value="meditation">03 — Meditation video</option>
+          <option value="question">04 — Question from my notes</option>
+        </select>
+        <div id="editor-text-fields">
+          <label for="entry-title">Title / question</label>
+          <input id="entry-title" maxlength="150" placeholder="Give this entry a title">
+        </div>
+        <div id="editor-body-fields">
+          <label for="entry-body">Composition or question detail</label>
+          <textarea id="entry-body" maxlength="6000" rows="7" placeholder="Write your original composition, or expand on a question..."></textarea>
+        </div>
+        <div id="editor-url-fields" hidden>
+          <label for="entry-url">Public Instagram Reel / YouTube video link</label>
+          <input id="entry-url" type="url" maxlength="2000" placeholder="https://www.youtube.com/watch?v=...">
+        </div>
+        <div id="editor-activity-fields" hidden>
+          <label for="entry-date">Local day (Toronto)</label>
+          <input type="date" id="entry-date">
+          <div class="two-col"><div><label for="entry-steps">Daily steps</label><input type="number" id="entry-steps" min="0" max="200000" step="1" placeholder="0"></div>
+          <div><label for="entry-calories">Active calories · kcal</label><input type="number" id="entry-calories" min="0" max="15000" step="1" placeholder="0"></div></div>
+          <p class="fineprint">Enter actual activity values from your device. No fabricated counts or automatic phone access.</p>
+        </div>
+        <div class="actions"><button class="action" id="editor-submit" type="submit">PUBLISH ENTRY ↗</button><button class="quiet" id="editor-cancel" type="button" hidden>CANCEL EDIT</button></div>
+      </form>
+    </section>
+    <section class="panel" aria-labelledby="library-title">
+      <div class="rowhead"><div><p class="eyebrow">03 / YOUR PUBLISHED ENTRIES</p><h2 id="library-title">Curated archive</h2></div><button class="quiet" type="button" id="editor-refresh">REFRESH ↻</button></div>
+      <p id="editor-empty" class="fineprint">Loading…</p>
+      <div id="editor-items" class="items"></div>
+    </section>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#090c18">
+<title>PayPal Checkout · BadBunny</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100svh;background:radial-gradient(ellipse at 75% 20%,#61448b32,transparent 50%),radial-gradient(ellipse at 12% 95%,#35456e3d,transparent 45%),#090c18;color:#f7f3ff;font:15px/1.65 'DM Sans',sans-serif;display:flex;flex-direction:column}header{padding:25px clamp(20px,5vw,70px);display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid #b2a3df25}header a{color:#dfd6ff;text-decoration:none;font:700 11px 'Space Grotesk',sans-serif;letter-spacing:.08em}.brand{font:700 17px 'Space Grotesk',sans-serif;letter-spacing:-.045em}main{flex:1;display:grid;place-items:center;padding:36px 20px}.card{border:1px solid #b8a7e75c;border-radius:22px;background:linear-gradient(130deg,#191a32,#0d1325);padding:clamp(24px,5vw,50px);width:min(570px,100%);box-shadow:0 24px 85px #03041570}.eyebrow{font:700 11px 'Space Grotesk',sans-serif;letter-spacing:.17em;color:#c8b8ff}.icon{height:65px;width:65px;display:grid;place-items:center;background:#c6b2ff23;border:1px solid #d7c5ff6b;border-radius:20px;font-size:32px;margin:16px 0}h1{font:600 clamp(30px,5vw,48px)/1.15 'Space Grotesk',sans-serif;letter-spacing:-.07em;margin:20px 0 12px}p{color:#b9b4d1}a.primary{display:inline-flex;margin-top:18px;padding:13px 22px;border-radius:100px;text-decoration:none;background:#c7b8ff;color:#171125;font:700 12px 'Space Grotesk',sans-serif}.status{padding:13px 16px;border:1px solid #b6a6ff4c;background:#22223d;border-radius:11px}.status[data-kind=error]{border-color:#ff9f9f8a;color:#ffd2cb}.status[data-kind=success]{border-color:#a5efc380;color:#c5f9d8}.small{font-size:12px;color:#aaa4c8;margin-top:18px}footer{text-align:center;padding:20px;color:#88819e;font-size:11px}
+</style></head>
+<body><header><a href="/" class="brand">BADBUNNY / PRIVATE GALLERY</a><a href="/#membership">BACK TO GALLERY ↗</a></header>
+<main><section class="card" aria-labelledby="title"><div class="eyebrow">SECURE PAYPAL CHECKOUT</div><div class="icon" id="symbol">✦</div>
+<h1 id="title">Checking your payment</h1><p id="message">Verifying the order directly with PayPal. This can take a moment.</p>
+<p class="status" id="status" role="status" aria-live="polite">Connecting to payment service…</p>
+<a class="primary" href="/#membership">RETURN TO GALLERY ↗</a><p class="small" id="disclaimer">Your access is only granted after PayPal confirms a completed payment. A PayPal redirect by itself is not a receipt.</p></section></main>
+<footer>BADBUNNY · SECURE PAYMENTS · PRIVATE ORIGINAL MEDIA</footer>
+<script src="checkout.js?v=1" defer></script>
+</body></html>

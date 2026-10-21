@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#090c18">
+<meta name="description" content="Private BadBunny creator workspace for publishing locked photos and videos.">
+<title>Creator Studio · BadBunny</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="studio.css?v=studio-refinement-20261020">
+<script src="studio.js?v=paypal-automatic-1" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to studio</a>
+<div class="studio-orbit" aria-hidden="true"></div>
+<header class="topbar">
+  <a href="/" class="brand"><span class="brand-logo">B.</span><span>BADBUNNY <small>CREATOR STUDIO</small></span></a>
+  <a class="backlink" href="/#membership">VIEW PUBLIC GALLERY <span aria-hidden="true">↗</span></a>
+</header>
+<main id="main" class="shell">
+  <div class="eyebrow"><span class="dot"></span> PRIVATE WORKSPACE <span class="dash"></span> PHOTOS & VIDEOS</div>
+  <h1>Make something<br><em>worth unlocking.</em></h1>
+  <p class="lede">Your separate publishing workspace. Set your price, upload an original photo or video, and it will appear as a locked card in the public gallery.</p>
+  <div id="status-banner" class="notice" role="status" aria-live="polite">Connecting to your creator service…</div>
+  <section class="panel auth-panel" id="auth-panel" aria-labelledby="auth-title">
+    <div class="panel-heading"><div><span class="section-index">01 / ACCESS</span><h2 id="auth-title">Sign in as the creator</h2></div><span class="ornament" aria-hidden="true">✳</span></div>
+    <p class="muted">Only your verified creator email can publish. We'll email you a secure, one-time sign-in link through Firebase Authentication. No password or six-digit code required.</p>
+    <form id="email-form" class="form-fields">
+      <label for="email">Creator email</label>
+      <input id="email" type="email" autocomplete="email" placeholder="you@domain.com" maxlength="250" required>
+      <button id="request-code" class="button primary" type="submit">SEND VERIFICATION LINK <span aria-hidden="true">→</span></button>
+    </form>
+    <p id="auth-notice" class="feedback" role="status" aria-live="polite"></p>
+  </section>
+  <div id="workspace" hidden>
+    <div class="workspace-top">
+      <span id="creator-email" class="signed-in">✦ VERIFIED CREATOR</span>
+      <button id="sign-out" class="button quiet" type="button">SIGN OUT ↗</button>
+    </div>
+    <section class="panel publish-panel" aria-labelledby="publish-title">
+      <div class="panel-heading"><div><span class="section-index">01 / NEW DROP</span><h2 id="publish-title">Publish media</h2></div><span class="ornament" aria-hidden="true">↗</span></div>
+      <form id="upload-form" class="upload-layout">
+        <div>
+          <label class="file-zone" for="media-file" id="file-zone">
+            <input type="file" id="media-file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime" required>
+            <span class="upload-icon" aria-hidden="true">↑</span>
+            <strong>Choose a photo or video</strong>
+            <span>JPEG, PNG, WebP, GIF, MP4, WebM or MOV</span>
+            <span>Up to 100 MB each</span>
+          </label>
+          <div id="preview" class="preview" hidden></div>
+          <p id="file-summary" class="small-muted">Select your media to preview it here before publishing.</p>
+        </div>
+        <div class="form-fields">
+          <label for="media-title">Title <span class="req">*</span></label>
+          <input type="text" id="media-title" maxlength="100" placeholder="A moment behind the scenes" required>
+          <label for="media-description">Description</label>
+          <textarea id="media-description" rows="3" maxlength="500" placeholder="Write a short caption for the locked card…"></textarea>
+          <div class="two-inputs">
+            <div><label for="media-price">Price (CAD) <span class="req">*</span></label>
+              <div class="money-field"><span>CA$</span><input type="number" id="media-price" min="1" max="1000" step="0.01" value="10.00" required></div>
+            </div>
+            <div><label for="media-type">File type</label><div class="read-only" id="media-type">SELECT MEDIA</div></div>
+          </div>
+          <p class="small-muted">The PayPal checkout amount is automatically calculated from the price above. No manual PayPal buttons or links are needed.</p>
+          <div id="progress-wrap" class="progress-wrap" hidden><label for="upload-progress">Uploading your media…</label><progress id="upload-progress" value="0" max="100"></progress></div>
+          <button id="publish-button" type="submit" class="button primary wide">PUBLISH TO GALLERY <span aria-hidden="true">↗</span></button>
+          <p id="upload-notice" class="feedback" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+    <section class="panel published-panel" aria-labelledby="published-title">
+      <div class="panel-heading"><div><span class="section-index">02 / PUBLISHED</span><h2 id="published-title">Your gallery drops <span class="count" id="media-count">0</span></h2></div><button id="reload-media" class="button quiet" type="button">REFRESH ↻</button></div>
+      <p class="muted">Each published item appears on your public site with a locked preview, the price you set, and an automatically priced PayPal checkout button. Changes here update the listing.</p>
+      <p id="library-notice" class="small-muted" role="status" aria-live="polite">Loading uploads…</p>
+      <div id="media-list" class="media-list"></div>
+    </section>
+    <section class="panel edit-panel" id="edit-panel" hidden aria-labelledby="edit-title">
+      <div class="panel-heading"><div><span class="section-index">03 / EDIT</span><h2 id="edit-title">Edit gallery item</h2></div><button id="close-edit" class="button quiet" type="button">CLOSE ×</button></div>
+      <form id="edit-form" class="form-fields">
+        <input id="edit-id" type="hidden">
+        <label for="edit-title-input">Title</label><input id="edit-title-input" maxlength="100" required>
+        <label for="edit-description">Description</label><textarea id="edit-description" rows="3" maxlength="500"></textarea>
+        <label for="edit-price">Price (CAD)</label><div class="money-field"><span>CA$</span><input id="edit-price" type="number" min="1" max="1000" step="0.01" required></div>
+        <button class="button primary" id="save-edit" type="submit">SAVE LISTING ↗</button>
+        <p id="edit-notice" class="feedback" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </div>
+  <footer>BADBUNNY / CREATOR WORKSPACE <span>Private files stay server-protected. <a href="/#membership">Back to gallery ↗</a></span></footer>
+</main>
+</body>
+</html>
