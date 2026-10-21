@@ -53,11 +53,11 @@ function mount(){
     document,window:{confirm:()=>true,location:{origin:'https://badbunny.work'}},
     fetch,Intl,Date,Object,Number,Error,Promise,AbortSignal
   };
-  const controller=vm.runInNewContext(source+\`\n({
+  const controller=vm.runInNewContext(source+`\n({
     activate(){verified=true;auth={currentUser:{getIdToken:async()=>'test-token'}};},
     setEntries(items){entries=items;hydrateDay();renderLibrary();},
     startEdit,resetForm,hydrateDay
-  })\`,sandbox);
+  })`,sandbox);
   const ui=id=>elements.get(id);
   return {ui,calls,controller};
 }
