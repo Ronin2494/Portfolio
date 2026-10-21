@@ -278,3 +278,47 @@ body.beyond-popout-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){
   .beyond .hobby-card::after{transition:none!important}
 }
+
+
+/* Activity tracking: goal progress and an intentionally asymmetric seven-day summary. */
+.beyond-step-goal{
+  margin-top:2px;display:grid;grid-template-columns:1fr auto;gap:9px 12px;
+  align-items:center;padding:14px 0 2px;border-top:1px solid currentColor;
+  font:600 11px/1.4 'Space Grotesk',sans-serif;
+}
+.beyond-step-goal strong{font-size:17px;letter-spacing:-.03em}
+.beyond-step-goal-progress{
+  grid-column:1/-1;display:block;width:100%;height:8px;
+  appearance:none;-webkit-appearance:none;border:0;border-radius:100px;
+  background:#5b8c7650;overflow:hidden;accent-color:#326e56;
+}
+.beyond-step-goal-progress::-webkit-progress-bar{background:#5b8c7650;border-radius:100px}
+.beyond-step-goal-progress::-webkit-progress-value{background:#326e56;border-radius:100px}
+.beyond-step-goal-progress::-moz-progress-bar{background:#326e56;border-radius:100px}
+.beyond-step-summary{
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px;margin-top:15px;
+}
+.beyond-step-metric{
+  grid-column:span 3;display:flex;flex-direction:column;justify-content:space-between;
+  min-height:116px;padding:19px;border:1px solid #ffffff2b;
+  border-radius:20px;background:linear-gradient(140deg,#282c43,#1e2535);
+}
+.beyond-step-metric:first-child{
+  grid-column:span 6;
+  background:radial-gradient(ellipse at 90% 10%,#7662b66a,transparent 60%),#29243c;
+}
+.beyond-step-metric-label{
+  font:700 9px/1.4 'Space Grotesk',sans-serif;letter-spacing:.13em;color:#c9c6df;
+}
+.beyond-step-metric-value{font:600 clamp(23px,3.2vw,40px)/1 'Space Grotesk',sans-serif;color:#fff;letter-spacing:-.04em}
+.beyond-step-metric-description{font:400 11px/1.45 'DM Sans',sans-serif;color:#c4c6d5}
+@media(max-width:700px){
+  .beyond-step-summary{gap:9px}
+  .beyond-step-metric{grid-column:span 6;padding:15px;min-height:110px}
+  .beyond-step-metric:first-child{grid-column:span 12}
+}
+@media(max-width:400px){
+  .beyond-activity-grid{grid-template-columns:minmax(0,1fr)}
+  .beyond-activity-card{min-height:210px}
+  .beyond-step-metric-label{font-size:8px}
+}
