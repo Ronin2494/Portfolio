@@ -182,9 +182,9 @@
   position:absolute;top:10px;left:50%;width:min(76%,690px);
   height:calc(100% - 85px);min-height:0;
   transition:transform .65s cubic-bezier(.2,.85,.2,1),opacity .4s,filter .4s;
-  transform:translateX(-50%) translateY(calc(var(--deck-depth) * 21px))
-     scale(calc(1 - var(--deck-depth) * .055)) rotate(var(--deck-angle));
-  filter:brightness(calc(1 - var(--deck-depth) * .085));
+  transform:translateX(-50%) translateY(var(--deck-lift,0px))
+     scale(var(--deck-scale,1)) rotate(var(--deck-angle));
+  filter:brightness(var(--deck-brightness,1));
   z-index:calc(10 - var(--deck-depth));
 }
 .bento.is-layered-deck > .tile[data-deck-depth="0"]{
@@ -196,7 +196,7 @@
 .bento.is-layered-deck > .tile[data-deck-depth="hidden"]{
   visibility:hidden;opacity:0;pointer-events:none
 }
-.bento.is-layered-deck > .tile:is(:hover,:focus-within){transform:translateX(-50%) translateY(calc(var(--deck-depth) * 21px)) scale(calc(1 - var(--deck-depth) * .055)) rotate(var(--deck-angle))}
+.bento.is-layered-deck > .tile:is(:hover,:focus-within){transform:translateX(-50%) translateY(var(--deck-lift,0px)) scale(var(--deck-scale,1)) rotate(var(--deck-angle))}
 @media(max-width:700px){
  .deck-controls{margin:0 0 16px;gap:11px}
  .deck-view-switch{font-size:9px;padding:12px 14px}
