@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="creative-inline.css" />
 
 <link rel="stylesheet" href="membership.css?v=gallery-refinement-20261020" />
-<link rel="stylesheet" href="work-showcase.css?v=1" />
+<link rel="stylesheet" href="work-showcase.css?v=layered-deck-2" />
 <link rel="stylesheet" href="intro-orbit.css?v=1" />
 <link rel="stylesheet" href="beyond.css?v=1" />
 <link rel="stylesheet" href="portfolio-experience.css?v=1" />
@@ -119,6 +119,14 @@
           <button class="work-filter" type="button" data-work-filter="all" aria-pressed="true" aria-controls="project-grid">All work <span class="filter-number" aria-hidden="true">06</span></button>
           <button class="work-filter" type="button" data-work-filter="live" aria-pressed="false" aria-controls="project-grid">Live <span class="filter-number" aria-hidden="true">03</span></button>
           <button class="work-filter" type="button" data-work-filter="building" aria-pressed="false" aria-controls="project-grid">In progress <span class="filter-number" aria-hidden="true">03</span></button>
+        </div>
+      </div>
+      <div class="deck-controls" id="deck-controls" hidden>
+        <button type="button" class="deck-view-switch" id="deck-view-switch" aria-pressed="false" aria-controls="project-grid">VIEW AS A CARD DECK</button>
+        <div class="deck-navigation" id="deck-navigation" hidden>
+          <button type="button" class="deck-nav" id="deck-prev" aria-label="Previous project">←</button>
+          <span id="deck-position" aria-live="polite">01 / 06</span>
+          <button type="button" class="deck-nav" id="deck-next" aria-label="Next project">→</button>
         </div>
       </div>
       <div class="bento" id="project-grid">
@@ -239,7 +247,7 @@
 
 <script src="membership.js?v=payments-gated-2" defer></script>
 
-<script src="work-showcase.js?v=1" defer></script>
+<script src="work-showcase.js?v=layered-deck-2" defer></script>
 <script src="intro-orbit.js?v=1" defer></script>
 <script src="beyond.js?v=1" defer></script>
 <script src="portfolio-experience.js?v=1" defer></script>
