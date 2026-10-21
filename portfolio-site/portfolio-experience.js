@@ -75,11 +75,13 @@
     select(0);
     const switches=[...viewToggle.querySelectorAll('[data-project-view]')];
     const hint=$('experience-view-hint');
+    const deckControls=$('deck-controls');
     const setView=(kind,automatic=false)=>{
       const isMap=kind==='constellation';
       constellation.hidden=!isMap;
       grid.hidden=isMap;
       toolbar.hidden=isMap; // The project status filter remains available in grid view.
+      if(deckControls)deckControls.hidden=isMap; // Never show Deck controls in constellation mode.
       switches.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.projectView===kind)));
       if(automatic){
         const arriving=isMap?constellation:grid;
