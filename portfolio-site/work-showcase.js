@@ -2,6 +2,7 @@
 (()=>{
   const section=document.getElementById('projects');
   const toolbar=document.getElementById('work-toolbar');
+  const grid=document.getElementById('project-grid');
   if(!section||!toolbar)return;
   const tiles=[...section.querySelectorAll('.bento > .tile')];
   const filters=[...toolbar.querySelectorAll('[data-work-filter]')];
@@ -69,7 +70,7 @@
   const next=document.getElementById('deck-next');
   const position=document.getElementById('deck-position');
   const progress=document.getElementById('deck-progress');
-  if(deckControls&&switcher&&navigation&&previous&&next&&position){
+  if(grid&&deckControls&&switcher&&navigation&&previous&&next&&position){
     let deckMode=false;
     let activeIndex=0;
     const visibleCards=()=>tiles.filter(tile=>!tile.hidden);
