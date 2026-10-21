@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="creative-editor.css?v=1">
-<script src="creative-editor.js?v=1" type="module"></script>
+<link rel="stylesheet" href="creative-editor.css?v=activity-log-2">
+<script src="creative-editor.js?v=activity-log-2" type="module"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to editor</a>
@@ -20,7 +20,7 @@
 <main class="shell" id="main">
   <p class="eyebrow">CREATOR DESK / CURATE WHAT THE WORLD SEES</p>
   <h1>Make room for<br><em>what matters.</em></h1>
-  <p class="lede">Publish original writing, link your own Instagram or YouTube videos, record today's steps and active calories, and select questions from your notes. All changes appear under your four Portfolio cards.</p>
+  <p class="lede">Publish original writing, link your own Instagram or YouTube videos, record daily steps and optional active calories, and select questions from your notes. All changes appear under your four Portfolio cards.</p>
   <p id="editor-status" class="message" role="status" aria-live="polite">Checking creator access…</p>
   <section class="panel" id="editor-login" aria-labelledby="login-title">
     <p class="eyebrow">01 / PRIVATE ACCESS</p><h2 id="login-title">Verify your creator email</h2>
@@ -56,11 +56,23 @@
           <input id="entry-url" type="url" maxlength="2000" placeholder="https://www.youtube.com/watch?v=...">
         </div>
         <div id="editor-activity-fields" hidden>
-          <label for="entry-date">Local day (Toronto)</label>
-          <input type="date" id="entry-date">
-          <div class="two-col"><div><label for="entry-steps">Daily steps</label><input type="number" id="entry-steps" min="0" max="200000" step="1" placeholder="0"></div>
-          <div><label for="entry-calories">Active calories · kcal</label><input type="number" id="entry-calories" min="0" max="15000" step="1" placeholder="0"></div></div>
-          <p class="fineprint">Enter actual activity values from your device. No fabricated counts or automatic phone access.</p>
+          <div class="activity-entry-heading">
+            <div><p class="eyebrow">ACTIVITY LOG</p><h3>Record your steps.</h3></div>
+            <div class="activity-day-actions" role="group" aria-label="Choose entry day">
+              <button class="quiet" type="button" id="activity-today">TODAY</button>
+              <button class="quiet" type="button" id="activity-yesterday">YESTERDAY</button>
+            </div>
+          </div>
+          <label for="entry-date">Day in Toronto time</label>
+          <input type="date" id="entry-date" aria-describedby="activity-day-status">
+          <p class="activity-day-status" id="activity-day-status" role="status" aria-live="polite">Choose a day to record your steps.</p>
+          <div class="two-col">
+            <div><label for="entry-steps">Steps recorded</label><input type="number" id="entry-steps" min="0" max="200000" step="1" inputmode="numeric" placeholder="e.g. 8500"></div>
+            <div><label for="entry-calories">Active calories (optional) · kcal</label><input type="number" id="entry-calories" min="0" max="15000" step="1" inputmode="numeric" placeholder="Optional"></div>
+          </div>
+          <label for="entry-goal">Daily step goal (optional)</label>
+          <input type="number" id="entry-goal" min="1" max="200000" step="1" inputmode="numeric" placeholder="e.g. 10000">
+          <p class="fineprint">Enter your actual device totals. Saving an existing date updates that day instead of creating a duplicate. Unrecorded days remain blank; zero steps must be entered explicitly.</p>
         </div>
         <div class="actions"><button class="action" id="editor-submit" type="submit">PUBLISH ENTRY ↗</button><button class="quiet" id="editor-cancel" type="button" hidden>CANCEL EDIT</button></div>
       </form>
