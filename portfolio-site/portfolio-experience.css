@@ -141,3 +141,33 @@
   .creative-opening:before{animation:none!important}
   .film-theater::backdrop{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 }
+
+
+/* The constellation introduces the second, equally complete project view once. */
+.experience-view-hint{
+  display:block;margin:-13px 0 23px 4px;
+  color:#6c6383;font:700 10px/1.55 'Space Grotesk',sans-serif;
+  letter-spacing:.11em;max-width:95%;
+}
+.experience-view-hint[hidden]{display:none!important}
+.experience-view-toggle button[data-project-view="grid"]{position:relative;isolation:isolate}
+.experience-view-toggle.view-demo-countdown button[data-project-view="grid"]:not([aria-pressed="true"])::after{
+  content:"";display:block;position:absolute;left:16px;right:16px;bottom:7px;height:2px;
+  border-radius:3px;background:#d4baff;transform:scaleX(0);
+  transform-origin:left center;animation:experience-view-countdown 6s linear forwards;
+  pointer-events:none;
+}
+@keyframes experience-view-countdown{to{transform:scaleX(1)}}
+.project-constellation.project-view-arriving,
+#project-grid.project-view-arriving{
+  animation:experience-view-reveal .5s cubic-bezier(.19,1,.22,1) both;
+}
+@keyframes experience-view-reveal{
+  from{opacity:.38;transform:translateY(13px) scale(.992)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@media(prefers-reduced-motion:reduce){
+  .experience-view-toggle.view-demo-countdown button::after,
+  .project-constellation.project-view-arriving,
+  #project-grid.project-view-arriving{animation:none!important}
+}
