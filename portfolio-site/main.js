@@ -150,6 +150,11 @@ function animateUI(timestamp){
   // Start the branded handoff only when it actually enters the viewport.
   // The SVG motion is lightweight, accessible, and stays sharp on retina displays.
   handoff.classList.toggle('handoff-active',t>.76);
+  // Neural preview reads the same scrubbed camera progress; do not change navigation timing.
+  if(document.documentElement.classList.contains('neural-preview')){
+    stage.dataset.neuralProgress=String(t);
+    stage.dataset.neuralPaused=String(paused);
+  }
   if(scene)scene.render(t,paused);
   // The logo reveal plays while the portal finishes. A brief 300ms
   // settle is enough for visual continuity—do not strand visitors on a
@@ -168,7 +173,13 @@ const count=coarse?7000:15000;const pos=new Float32Array(count*3),col=new Float3
 let core=new THREE.Mesh(new THREE.SphereGeometry(2.4,24,24),new THREE.MeshBasicMaterial({color:0xc7bcff,transparent:true,opacity:.24,blending:THREE.AdditiveBlending}));universe.add(core);const ringGeo=new THREE.TorusGeometry(9,.045,5,170);const ringMat=new THREE.MeshBasicMaterial({color:0xaca1e5,transparent:true,opacity:.31});for(let j=0;j<3;j++){const ring=new THREE.Mesh(ringGeo,ringMat);ring.rotation.x=Math.PI/2+j*.22;ring.rotation.y=j*.5;ring.scale.setScalar(1+j*.7);universe.add(ring)}
 let dustCount=coarse?800:1300,dustPos=new Float32Array(dustCount*3);for(let i=0;i<dustCount;i++){dustPos[i*3]=(Math.random()-.5)*160;dustPos[i*3+1]=(Math.random()-.5)*100;dustPos[i*3+2]=(Math.random()-.5)*140}const dg=new THREE.BufferGeometry();dg.setAttribute('position',new THREE.BufferAttribute(dustPos,3));const dust=new THREE.Points(dg,new THREE.PointsMaterial({color:0xc7d8ff,size:.11,transparent:true,opacity:.45}));universe.add(dust);
 function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;cam.aspect=w/h;cam.updateProjectionMatrix();renderer.setSize(w,h,false)}window.addEventListener('resize',resize);resize();let phase=0;return{render(p,halt){if(!halt&&!reduceMotion.matches)phase+=.0017;const spiral=p*p*(3-2*p);gal.rotation.y=phase*.58+spiral*6.5;gal.rotation.z=Math.sin(phase*.6)*.07+p*.5;gal.rotation.x=-.32+spiral*.43;cam.position.set(Math.sin(spiral*4.2)*13,7-spiral*6,62-spiral*59);cam.lookAt(0,0,0);gal.scale.setScalar(1+spiral*.42);mat.opacity=.89-clamp((p-.67)*2,0,.75);core.scale.setScalar(1+spiral*3);renderer.render(universe,cam)}}}catch(e){console.info('Using compatible canvas portal fallback',e);return null}}
-setupWebGL().then(result=>{if(result){scene=result}else{scene=canvasFallback()} });
+if(document.documentElement.classList.contains('neural-preview')){
+  // Keep the entire existing scroll controller, handoff, reverse-scroll and pause logic.
+  // Skip loading an invisible Three.js galaxy underneath the neural canvas.
+  scene={render:()=>{}};
+}else{
+  setupWebGL().then(result=>{if(result){scene=result}else{scene=canvasFallback()} });
+}
 requestAnimationFrame(animateUI);
 // Small straw-hat adventurer orbiting the Rudransh6619 wordmark.
 const brandStage=document.querySelector('.brand-showcase');
