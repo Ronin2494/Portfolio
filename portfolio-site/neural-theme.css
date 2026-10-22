@@ -206,3 +206,33 @@ html.neural-preview :is(a,button):focus-visible{outline:3px solid #b9efe0;outlin
  html.neural-preview .bento>.tile,
  html.neural-preview .beyond .hobby-card{scroll-behavior:auto}
 }
+
+/* Premium dark neural materials across all four creative interest cards. */
+html.neural-preview .beyond .hobby-card{
+ background-color:#142238;
+ background-image:radial-gradient(circle at 85% 12%,rgba(183,240,228,.12),transparent 42%),
+   radial-gradient(circle at 18% 74%,rgba(180,164,246,.15),transparent 55%),
+   repeating-linear-gradient(137deg,transparent 0 96px,rgba(171,222,225,.045) 97px,transparent 98px);
+ color:#f0f6ff;
+}
+html.neural-preview .beyond .hobby-card .hobby-heading,
+html.neural-preview .beyond .hobby-card .hobby-number,
+html.neural-preview .beyond .hobby-card .hobby-open{color:#f0f6ff}
+html.neural-preview .beyond .hobby-card .hobby-description{color:#c5d6e3}
+html.neural-preview .beyond .hobby-card .hobby-open{border-top-color:rgba(170,223,223,.27)}
+html.neural-preview .beyond .hobby-card .hobby-graphic{opacity:.82;filter:saturate(.78) contrast(1.1)}
+html.neural-preview .portal-handoff{z-index:8}
+html.neural-preview .portal-header,html.neural-preview .portal-footer{z-index:7}
+html.neural-preview .site-shell{position:relative}
+html.neural-preview .projects .constellation-preview{border-color:rgba(155,209,221,.37)}
+html.neural-preview .projects .constellation-map{filter:saturate(.82)}
+html.neural-preview .beyond-detail::backdrop{background:rgba(2,6,17,.78);backdrop-filter:blur(14px)}
+html.neural-preview .beyond-detail .beyond-close{border-color:rgba(161,218,215,.56)}
+html.neural-preview .personal-dock .dock-panel a{color:#d7e9ef}
+html.neural-preview .membership-section .member-price,
+html.neural-preview .membership-section .membership-gallery{border-color:rgba(151,216,218,.3)}
+html.neural-preview .movement-tracker .movement-metric:not(.movement-steps-card,.movement-calories-card){background:#1b2b42;border-color:rgba(166,225,219,.28)}
+html.neural-preview .neural-preview-tag{white-space:nowrap}
+@media(max-width:600px){
+ html.neural-preview .neural-preview-tag{max-width:150px;white-space:normal;line-height:1.2}
+}
