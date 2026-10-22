@@ -52,9 +52,8 @@
     const a=make('a','beyond-media-link');
     a.href=url;a.target='_blank';a.rel='noopener noreferrer';
     const service=new URL(url).hostname.includes('instagram')?'INSTAGRAM':'YOUTUBE';
-    const visual=make('div','beyond-media-thumb');
-    visual.setAttribute('aria-hidden','true');
-    visual.textContent=service;
+    const visual=window.PortfolioMedia?.thumbnail(item,{className:'beyond-media-thumb'});
+    if(!visual)return null;
     append(a,visual,make('span','beyond-media-meta',service+' · WATCH VIDEO ↗'),
       make('strong','',item.title||'Untitled performance'));
     return a;
