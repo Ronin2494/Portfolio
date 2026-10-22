@@ -181,7 +181,7 @@ if(document.documentElement.classList.contains('neural-preview')){
   setupWebGL().then(result=>{if(result){scene=result}else{scene=canvasFallback()} });
 }
 requestAnimationFrame(animateUI);
-// Small straw-hat adventurer orbiting the Rudransh6619 wordmark.
+// Small straw-hat adventurer orbiting the cinematic creative-identity scene.
 const brandStage=document.querySelector('.brand-showcase');
 const brandRunner=document.querySelector('.brand-runner');
 let brandAngle=-Math.PI/2, brandLastFrame=0, brandWidth=0, brandHeight=0;
