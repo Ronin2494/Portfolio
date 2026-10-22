@@ -61,7 +61,9 @@
       kind='tiktok';id=found[1];embed='https://www.tiktok.com/embed/v2/'+id;
     }else return null;
     const cat=typeof raw.category==='string'&&validCategories.has(raw.category)?raw.category:'video';
+    const standardized=window.PortfolioMedia?.describe(raw);
     return {kind,id,embed,cat,url:url.href,title:raw.title.trim().slice(0,110),
+      cover:standardized?.cover||null,
       description:typeof raw.description==='string'?raw.description.slice(0,250):'',
       creator:typeof raw.creator==='string'?raw.creator.slice(0,55):''};
   }
@@ -105,9 +107,9 @@
     card.dataset.category='video '+item.cat;
     const stage=element('div','creative-inline-stage');
     const backdrop=element('div','creative-inline-backdrop');
-    backdrop.style.backgroundImage=item.kind==='youtube'?
-      'url("https://i.ytimg.com/vi/'+item.id+'/hqdefault.jpg")':
-      'url("media/reels/'+item.id+'.jpg")';
+    // Resolve every public video cover through the same validated media contract.
+    // Platforms without an available cover retain the designed gradient fallback.
+    if(item.cover)backdrop.style.backgroundImage='url("'+item.cover+'")';
     const frame=element('div','creative-inline-frame');
     const iframe=document.createElement('iframe');
     iframe.src=item.embed;
