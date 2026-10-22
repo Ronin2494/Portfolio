@@ -52,7 +52,11 @@
     const a=make('a','beyond-media-link');
     a.href=url;a.target='_blank';a.rel='noopener noreferrer';
     const service=new URL(url).hostname.includes('instagram')?'INSTAGRAM':'YOUTUBE';
-    const visual=window.PortfolioMedia?.thumbnail(item,{className:'beyond-media-thumb'});
+    // Creator entries may point to the same video as a published catalog entry.
+    // Reuse its approved cover rather than replacing a verified image with a label.
+    const approved=catalog.find(x=>validMediaURL(x.url)===url&&typeof x.cover==='string');
+    const resolved=item.cover?item:{...item,cover:approved?.cover};
+    const visual=window.PortfolioMedia?.thumbnail(resolved,{className:'beyond-media-thumb'});
     if(!visual)return null;
     append(a,visual,make('span','beyond-media-meta',service+' · WATCH VIDEO ↗'),
       make('strong','',item.title||'Untitled performance'));
