@@ -22,7 +22,6 @@
 .member-media-card,.movement-metric,.creative-inline-video{
   position:relative;
 }
-.bento:not(.is-layered-deck)>.tile::after,
 .beyond .hobby-card::after,
 .member-media-card::after,
 .movement-metric::after{
@@ -31,9 +30,6 @@
   border-radius:clamp(12px,1.9vw,20px);
   pointer-events:none;z-index:2;
   opacity:.58;transition:inset .35s var(--portfolio-card-ease),opacity .35s ease;
-}
-.bento:not(.is-layered-deck)>.tile::after{
-  inset:12px;border-color:rgba(255,255,255,.22);
 }
 .beyond .hobby-card::after{
   inset:11px;border-color:rgba(255,255,255,.55);
@@ -123,18 +119,15 @@
   .creative-inline-video:hover{border-color:rgba(208,184,255,.55)}
 }
 @media(max-width:700px){
-  .bento:not(.is-layered-deck)>.tile::after{inset:8px}
   .beyond .hobby-card::after{inset:9px}
   .member-media-card::after,.movement-metric::after{inset:6px}
   .beyond-media-link .media-thumbnail{aspect-ratio:16/10}
 }
 @media(hover:none){
-  .bento:not(.is-layered-deck)>.tile::after,
   .beyond .hobby-card::after,.member-media-card::after,
   .movement-metric::after{opacity:.7}
 }
 @media(prefers-reduced-motion:reduce){
-  .bento:not(.is-layered-deck)>.tile::after,
   .beyond .hobby-card::after,.member-media-card::after,
   .movement-metric::after,
   .beyond-media-link,.creative-inline-video,
