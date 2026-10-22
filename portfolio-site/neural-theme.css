@@ -1,0 +1,238 @@
+/* NEURAL CORTEX / isolated preview theme.
+   Production CSS and scroll behavior remain untouched on master. */
+html.neural-preview{
+ --neuron-ink:#e8eef9;--neuron-muted:#aabbd1;--neuron-line:rgba(126,166,207,.26);
+ --neuron-mint:#b1eddb;--neuron-violet:#c6b6ff;
+ --neuron-surface:#0b1222;--neuron-ground:#060b17;
+ color-scheme:dark;
+}
+html.neural-preview body{background:#030711}
+html.neural-preview .portal-journey{background:#02050d}
+html.neural-preview .portal-stage{
+ background:radial-gradient(circle at 51% 46%,#172245,#070d22 56%,#01040c 100%);
+}
+html.neural-preview #universe{opacity:0;pointer-events:none}
+html.neural-preview #neural-field{
+ position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%;
+ background:#030711;pointer-events:none;
+}
+html.neural-preview .universe-vignette{z-index:2;opacity:.65}
+html.neural-preview .portal-center{z-index:4}
+html.neural-preview .portal-eyebrow{color:#b4eadb}
+html.neural-preview .portal-center h1 em{
+ -webkit-text-stroke:1px rgba(183,223,244,.92);
+ text-shadow:0 0 45px rgba(140,157,244,.18)
+}
+html.neural-preview .portal-frame .corner{border-color:rgba(150,203,224,.65)}
+html.neural-preview .coordinates,
+html.neural-preview .portal-index{color:#a0c2dc}
+html.neural-preview .scroll-line{background:linear-gradient(transparent,#b3e4dc)}
+html.neural-preview .neural-preview-tag{
+ display:inline-flex;align-items:center;gap:8px;
+ border:1px solid rgba(171,225,219,.42);color:#ccefe4;
+ border-radius:99px;padding:9px 13px;background:rgba(5,17,29,.74);
+ font:700 9px/1.4 'Space Grotesk',sans-serif;letter-spacing:.13em;
+}
+html.neural-preview .neural-preview-tag::before{
+ content:"";width:6px;height:6px;border-radius:50%;
+ background:#afe9d5;box-shadow:0 0 12px #b8f9ed;
+}
+/* Surface composition: fine dendrites, cellular nodes, glass. */
+html.neural-preview main#work{
+ background:radial-gradient(ellipse 70% 12% at 65% 1%,rgba(38,66,96,.24),transparent 95%),
+ linear-gradient(180deg,#08101e 0%,#050a16 43%,#080d1b 100%);
+ color:var(--neuron-ink);isolation:isolate;
+}
+html.neural-preview main#work::before{
+ content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.47;
+ background-image:
+  radial-gradient(circle,rgba(167,231,224,.46) 1px,transparent 1.7px),
+  radial-gradient(circle,rgba(174,177,245,.3) .9px,transparent 1.6px),
+  linear-gradient(31deg,transparent 49.83%,rgba(134,167,204,.075) 50%,transparent 50.17%),
+  linear-gradient(149deg,transparent 49.85%,rgba(134,167,204,.07) 50%,transparent 50.15%);
+ background-size:94px 116px,143px 127px,250px 215px,250px 215px;
+ background-position:0 0,32px 41px,12px 20px,12px 20px;
+ mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.75) 50%,#000);
+}
+html.neural-preview .site-nav{
+ background:linear-gradient(180deg,rgba(8,18,33,.92),rgba(8,18,33,.63));
+ border-bottom:1px solid var(--neuron-line);
+ backdrop-filter:blur(16px);
+}
+html.neural-preview .site-nav .nav-mark,
+html.neural-preview .site-nav nav{color:#eff4ff}
+html.neural-preview .nav-mark small{color:#a4bfd4}
+html.neural-preview .mark-box,
+html.neural-preview .dock-trigger{background:#121d30;border:1px solid rgba(178,219,230,.38)}
+html.neural-preview .site-nav nav a:not(.nav-contact):hover{color:#b4f0df}
+html.neural-preview .nav-contact{background:#d2eae4;color:#102033}
+html.neural-preview .cinematic-scene{
+ border:1px solid rgba(147,185,227,.3);
+ box-shadow:0 26px 110px rgba(0,0,0,.5),0 0 72px rgba(91,151,174,.1);
+}
+html.neural-preview .cinematic-scene::before{border:1px solid rgba(162,209,235,.19);box-shadow:inset 0 0 80px rgba(34,85,122,.15)}
+html.neural-preview .scene-copy h2 em{background:linear-gradient(105deg,#a8eadd,#b9bcff,#f3d0ed);background-clip:text;-webkit-background-clip:text}
+html.neural-preview .scene-cta{background:#d9eee8}
+html.neural-preview .intro h2,
+html.neural-preview .section-heading h2,
+html.neural-preview .manifesto h2{color:#edf1ff}
+html.neural-preview :is(.intro-sub,.section-heading>p,.manifesto-inner>p){
+ color:var(--neuron-muted);
+}
+html.neural-preview .intro .eyebrow{color:#b5dacd}
+html.neural-preview .intro .word-gradient{
+ background:linear-gradient(105deg,#b4efe4,#c5b4ff);background-clip:text;-webkit-background-clip:text;color:transparent;
+}
+html.neural-preview .intro .primary-button{background:#d2ede5;color:#122031}
+html.neural-preview .intro .text-button{color:#d2e3ef}
+html.neural-preview .orbit-sun{background:#13233a;color:#e1f9f0;border-color:#91b7d0}
+html.neural-preview .orbit,
+html.neural-preview .orbit-label{border-color:rgba(134,190,206,.35);color:#bad9e0}
+html.neural-preview :is(.projects,.manifesto,.beyond,.creative-gallery,.membership-section,.end-section){
+ position:relative;isolation:isolate;
+}
+html.neural-preview :is(.projects,.manifesto,.beyond)::before{
+ content:"";pointer-events:none;position:absolute;
+ left:0;right:0;top:0;height:1px;
+ background:linear-gradient(90deg,transparent,#b8e8de 17%,#a6a9e7 53%,transparent);
+ opacity:.52;
+}
+html.neural-preview :is(.projects,.manifesto,.beyond)::after{
+ content:"";pointer-events:none;position:absolute;
+ top:-3px;left:17%;width:7px;height:7px;
+ border-radius:50%;background:#b4eddc;
+ box-shadow:0 0 18px #a8e8d4,42vw 0 0 -1px rgba(174,181,246,.9),42vw 0 12px rgba(177,178,250,.4);
+}
+html.neural-preview .section-heading .kicker,
+html.neural-preview .manifesto .kicker{color:#a9d8d3}
+html.neural-preview .section-heading h2 span,
+html.neural-preview .manifesto h2 em{color:#b7e7dd}
+html.neural-preview .work-toolbar{
+ background:linear-gradient(125deg,rgba(21,34,53,.95),rgba(13,24,42,.92));
+ border:1px solid var(--neuron-line);color:#dce8f2;
+}
+html.neural-preview .work-toolbar-title,
+html.neural-preview .work-toolbar-count{color:#c4d9e9}
+html.neural-preview .work-filters{background:rgba(1,7,19,.55);border-color:rgba(134,189,204,.2)}
+html.neural-preview .work-filter{color:#c4d6e4}
+html.neural-preview .work-filter[aria-pressed=true]{background:#263a51;color:#ebf9f6}
+html.neural-preview .work-filter[aria-pressed=true] .filter-number{color:#b5efdf}
+html.neural-preview .bento>.tile{
+ border:1px solid rgba(142,189,218,.29);
+ box-shadow:0 22px 58px rgba(0,0,0,.32),inset 0 1px rgba(189,225,236,.12);
+}
+html.neural-preview .bento>.tile::before{
+ border-color:rgba(164,217,234,.19);
+}
+html.neural-preview .bento>.tile .tile-top{color:#d8e9f5}
+html.neural-preview .bento>.tile .tile-art{border:1px solid rgba(154,210,232,.13)}
+html.neural-preview .bento>.tile .tile-art::after{
+ background:
+  radial-gradient(circle at 12% 18%,rgba(167,232,221,.24) 1px,transparent 2px),
+  radial-gradient(circle at 83% 74%,rgba(190,193,244,.23) 1px,transparent 2px),
+  linear-gradient(145deg,rgba(190,235,228,.12),transparent 49%,rgba(160,161,238,.12));
+ background-size:84px 91px,127px 115px,100% 100%;
+}
+html.neural-preview .bento>.tile .tile-text p{color:#bac9dc}
+html.neural-preview .bento>.tile .tile-text h3{color:#f0f6ff}
+html.neural-preview .bento>.tile .tags span{border-color:rgba(150,204,227,.36);color:#c8dce8}
+html.neural-preview .bento.is-layered-deck{background:radial-gradient(circle at 50% 50%,rgba(72,100,150,.14),transparent 68%)}
+html.neural-preview .deck-controls,.neural-preview .deck-navigation{color:#deedf5}
+html.neural-preview .more-work{border-color:var(--neuron-line)}
+html.neural-preview .more-work span{color:#aec8da}
+html.neural-preview .more-work a{color:#b2eddc}
+html.neural-preview .manifesto{background:radial-gradient(ellipse at 80% 30%,rgba(45,68,108,.17),transparent 60%)}
+html.neural-preview .manifesto-quote{color:#83bebd}
+html.neural-preview .manifesto-pills span{
+ background:rgba(30,47,68,.69);border:1px solid rgba(164,207,224,.24);color:#d1e5ed;
+}
+html.neural-preview .beyond .hobby-card{
+ border:1px solid rgba(147,194,226,.43);
+ box-shadow:0 18px 45px rgba(0,0,0,.29);
+ background-image:
+  radial-gradient(circle at 84% 16%,rgba(213,255,246,.43) 1.1px,transparent 2px),
+  radial-gradient(circle at 14% 71%,rgba(194,185,248,.32) 1.1px,transparent 2px),
+  linear-gradient(38deg,transparent 49.8%,rgba(61,112,150,.13) 50%,transparent 50.2%);
+ background-size:79px 73px,112px 98px,100% 100%;
+}
+html.neural-preview .beyond .hobby-card::after{border-color:rgba(98,146,172,.39)}
+html.neural-preview .beyond .hobby-card:hover{border-color:rgba(109,180,190,.78)}
+html.neural-preview .beyond-detail{
+ background:linear-gradient(135deg,#0a1527,#111327 75%);border-color:rgba(155,208,226,.38);
+}
+html.neural-preview .beyond-media-link,.neural-preview .beyond-composition{
+ background:rgba(25,38,62,.79);border-color:rgba(132,195,210,.27);
+}
+html.neural-preview .beyond-media-link:hover{border-color:rgba(187,227,224,.65)}
+html.neural-preview .creative-gallery,
+html.neural-preview .membership-section{
+ border:1px solid rgba(139,196,227,.3);
+ background:linear-gradient(135deg,#0c1a2d,#090d20 74%);
+ box-shadow:0 24px 75px rgba(0,0,0,.35);
+}
+html.neural-preview .creative-gallery::before,
+html.neural-preview .membership-section::before{
+ background-image:
+  radial-gradient(circle at 10% 17%,rgba(176,235,221,.2) 1px,transparent 2px),
+  radial-gradient(circle at 73% 61%,rgba(181,184,250,.17) 1px,transparent 2px),
+  linear-gradient(145deg,rgba(18,43,62,.9),rgba(9,15,32,.9));
+ background-size:93px 103px,151px 143px,100% 100%;
+}
+html.neural-preview .creative-opening{border-color:rgba(154,218,219,.34)}
+html.neural-preview .creative-heading h2 em{color:#b5e8e0}
+html.neural-preview .member-media-card{border-color:rgba(132,194,208,.38)}
+html.neural-preview .member-media-stage{background:radial-gradient(circle at center,#20324f,#070e20)}
+html.neural-preview .end-section{
+ background:linear-gradient(140deg,#081526,#11152b 70%);border:1px solid rgba(137,205,220,.23);
+}
+html.neural-preview .end-section h2{color:#f2f7ff}
+html.neural-preview .end-section h2 em{color:#bbe8db}
+html.neural-preview .end-section p{color:#b8d1dc}
+html.neural-preview .end-cta{background:#c7e9de;color:#112538}
+html.neural-preview .footer{border-top:1px solid rgba(143,209,220,.28);color:#b7cddc}
+html.neural-preview .footer a{color:#cff4e7}
+html.neural-preview .dock-panel{background:#0c1728;border:1px solid rgba(163,213,224,.38)}
+/* A tight axon frame for panel cards — not thousands of DOM objects. */
+html.neural-preview :is(.work-toolbar,.creative-opening,.beyond-detail,.movement-metric,.member-media-card){
+ outline:1px solid rgba(185,239,225,.08);outline-offset:-7px;
+}
+html.neural-preview :is(a,button):focus-visible{outline:3px solid #b9efe0;outline-offset:3px}
+@media(max-width:700px){
+ html.neural-preview .site-nav{backdrop-filter:none}
+ html.neural-preview .neural-preview-tag{font-size:8px;padding:6px 9px}
+ html.neural-preview main#work::before{opacity:.25;background-size:80px 105px,110px 125px,190px 180px,190px 180px}
+}
+@media(prefers-reduced-motion:reduce){
+ html.neural-preview .bento>.tile,
+ html.neural-preview .beyond .hobby-card{scroll-behavior:auto}
+}
+
+/* Premium dark neural materials across all four creative interest cards. */
+html.neural-preview .beyond .hobby-card{
+ background-color:#142238;
+ background-image:radial-gradient(circle at 85% 12%,rgba(183,240,228,.12),transparent 42%),
+   radial-gradient(circle at 18% 74%,rgba(180,164,246,.15),transparent 55%),
+   repeating-linear-gradient(137deg,transparent 0 96px,rgba(171,222,225,.045) 97px,transparent 98px);
+ color:#f0f6ff;
+}
+html.neural-preview .beyond .hobby-card .hobby-heading,
+html.neural-preview .beyond .hobby-card .hobby-number,
+html.neural-preview .beyond .hobby-card .hobby-open{color:#f0f6ff}
+html.neural-preview .beyond .hobby-card .hobby-description{color:#c5d6e3}
+html.neural-preview .beyond .hobby-card .hobby-open{border-top-color:rgba(170,223,223,.27)}
+html.neural-preview .beyond .hobby-card .hobby-graphic{opacity:.82;filter:saturate(.78) contrast(1.1)}
+html.neural-preview .portal-handoff{z-index:8}
+html.neural-preview .portal-header,html.neural-preview .portal-footer{z-index:7}
+html.neural-preview .site-shell{position:relative}
+html.neural-preview .projects .constellation-preview{border-color:rgba(155,209,221,.37)}
+html.neural-preview .projects .constellation-map{filter:saturate(.82)}
+html.neural-preview .beyond-detail::backdrop{background:rgba(2,6,17,.78);backdrop-filter:blur(14px)}
+html.neural-preview .beyond-detail .beyond-close{border-color:rgba(161,218,215,.56)}
+html.neural-preview .personal-dock .dock-panel a{color:#d7e9ef}
+html.neural-preview .membership-section .member-price,
+html.neural-preview .membership-section .membership-gallery{border-color:rgba(151,216,218,.3)}
+html.neural-preview .movement-tracker .movement-metric:not(.movement-steps-card,.movement-calories-card){background:#1b2b42;border-color:rgba(166,225,219,.28)}
+html.neural-preview .neural-preview-tag{white-space:nowrap}
+@media(max-width:600px){
+ html.neural-preview .neural-preview-tag{max-width:150px;white-space:normal;line-height:1.2}
+}
