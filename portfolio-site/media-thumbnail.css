@@ -1,0 +1,43 @@
+/* Portfolio shared thumbnail component
+   Used by every public externally linked video gallery. */
+.media-thumbnail{
+  position:relative;isolation:isolate;display:block;overflow:hidden;
+  border-radius:13px;aspect-ratio:16/9;min-height:114px;
+  background:radial-gradient(circle at 70% 20%,#886fbf66,transparent 60%),
+    linear-gradient(130deg,#383e66,#1e243d);
+}
+.media-thumbnail-image{
+  position:absolute;inset:0;width:100%;height:100%;display:block;
+  object-fit:cover;object-position:center;
+  transition:transform .35s ease,filter .35s ease;
+}
+.media-thumbnail-overlay{
+  position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;
+  align-items:flex-end;justify-content:space-between;gap:8px;padding:11px;
+  background:linear-gradient(180deg,#080d24a6,transparent 46%,#080d24b0);
+}
+.media-thumbnail-provider{
+  display:inline-flex;align-items:center;align-self:flex-start;
+  padding:6px 9px;background:#14182abf;border:1px solid #ffffff40;
+  border-radius:99px;color:#fff;
+  font:700 9px/1.3 'Space Grotesk',sans-serif;letter-spacing:.12em;
+}
+.media-thumbnail-action{
+  display:grid;place-items:center;width:43px;height:43px;
+  color:#fff;font:500 23px/1 'Space Grotesk',sans-serif;
+  border:1px solid #ffffff90;border-radius:50%;
+  background:#12192a99;backdrop-filter:blur(8px);
+}
+.beyond-media-link:is(:hover,:focus-visible) .media-thumbnail-image{
+  transform:scale(1.055);filter:saturate(1.06);
+}
+.media-thumbnail[data-fallback="true"] .media-thumbnail-overlay{
+  justify-content:space-between;
+  background:radial-gradient(circle at 60% 22%,#8878ba80,transparent 70%);
+}
+.media-thumbnail[data-fallback="true"] .media-thumbnail-provider{font-size:12px}
+@media(max-width:700px){.media-thumbnail{min-height:88px}.media-thumbnail-overlay{padding:8px}.media-thumbnail-action{width:34px;height:34px;font-size:19px}}
+@media(prefers-reduced-motion:reduce){
+  .media-thumbnail-image{transition:none!important}
+  .beyond-media-link:is(:hover,:focus-visible) .media-thumbnail-image{transform:none}
+}
