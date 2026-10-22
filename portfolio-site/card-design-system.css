@@ -38,8 +38,7 @@
   inset:9px;border-color:rgba(228,213,255,.2);
 }
 .movement-metric::after{inset:8px;border-color:rgba(255,255,255,.2)}
-:is(.bento:not(.is-layered-deck)>.tile,.beyond .hobby-card,
-    .member-media-card):is(:hover,:focus-within)::after{
+:is(.beyond .hobby-card,.member-media-card):is(:hover,:focus-within)::after{
   inset:7px;opacity:1;
 }
 :is(.bento>.tile,.beyond .hobby-card,.beyond-media-link,.member-media-card,
