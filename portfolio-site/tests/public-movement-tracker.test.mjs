@@ -56,7 +56,10 @@ test('Movement card exposes tracker directly, in the existing animated bubble',(
   assert.match(html,/RECORD DAILY ACTIVITY/);
   assert.match(html,/movement-tracker\.css\?v=/);
   assert.match(html,/movement-tracker\.js\?v=[^"]+" defer/);
-  assert.ok(html.indexOf('movement-tracker.js')<html.indexOf('beyond.js?v=public-movement-1'),
+  const scripts=[...html.matchAll(/<script\s+src="([^"]+)"\s+defer><\/script>/g)]
+    .map(match=>match[1].split('?')[0]);
+  assert.ok(scripts.indexOf('movement-tracker.js')>=0&&
+    scripts.indexOf('movement-tracker.js')<scripts.indexOf('beyond.js'),
     'public recorder loads before bubble renderer');
   assert.match(main,/window\.PortfolioMovement\?\.render/);
   assert.match(main,/if\(active&&!\(active==='movement'/);
