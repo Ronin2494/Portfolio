@@ -107,6 +107,7 @@
     const todayButton=make('button','movement-shortcut','Today');
     const yesterdayButton=make('button','movement-shortcut','Yesterday');
     todayButton.type='button';yesterdayButton.type='button';
+    todayButton.id='movement-today';yesterdayButton.id='movement-yesterday';
     add(shortcuts,todayButton,yesterdayButton);
 
     const inputs=add(make('div','movement-log-fields'),steps.wrap,calories.wrap,goal.wrap);
@@ -114,7 +115,7 @@
     const save=make('button','movement-save','SAVE DAILY ACTIVITY');
     save.type='submit';
     const remove=make('button','movement-remove','DELETE THIS DAY');
-    remove.type='button';remove.hidden=true;
+    remove.type='button';remove.id='movement-remove';remove.hidden=true;
     add(actions,save,remove);
     add(form,formHeading,date.wrap,shortcuts,inputs,actions,status);
 
