@@ -101,6 +101,10 @@
     return [p.year,p.month,p.day].join('-');
   };
   function renderMovement(){
+    // Public, self-contained tracker lives in the existing Movement card bubble.
+    // Keep the published-activity view as a no-extra-script fallback.
+    if(typeof window!=='undefined'&&window.PortfolioMovement?.render)
+      return window.PortfolioMovement.render();
     const wrap=make('div','');
     const today=todayKey();
     const activity=records.filter(x=>x.kind==='activity'&&typeof x.date==='string');
@@ -360,7 +364,7 @@
     ]);
     records=saved.status==='fulfilled'&&Array.isArray(saved.value.items)?saved.value.items:[];
     catalog=posts.status==='fulfilled'&&Array.isArray(posts.value.items)?posts.value.items:[];
-    if(active)open(active,false);
+    if(active&&!(active==='movement'&&window.PortfolioMovement?.render))open(active,false);
   }
   void load();
 })();
