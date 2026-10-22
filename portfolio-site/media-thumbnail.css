@@ -41,3 +41,7 @@
   .media-thumbnail-image{transition:none!important}
   .beyond-media-link:is(:hover,:focus-visible) .media-thumbnail-image{transform:none}
 }
+
+/* Retire the old pseudo-element placeholder; the shared overlay owns the icon. */
+.beyond-media-thumb::after{content:none!important;display:none!important}
+.beyond-media-link .beyond-media-thumb{display:block;flex:0 0 auto}
