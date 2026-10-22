@@ -117,7 +117,7 @@ test('Rhythm popup uses real Instagram and YouTube covers from the shared catalo
   await tick();
   buttons[0].fire('click');
   const nodes=flatten(body);
-  const thumbs=nodes.filter(n=>n.className==='beyond-media-thumb');
+  const thumbs=nodes.filter(n=>n.className?.split(/\s+/).includes('beyond-media-thumb'));
   const images=nodes.filter(n=>n.tag==='img');
   assert.equal(thumbs.length,6);
   assert.equal(images.length,6);
