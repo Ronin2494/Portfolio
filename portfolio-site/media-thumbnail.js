@@ -33,7 +33,7 @@
     const media=describe(item);
     if(!media)return null;
     const stage=document.createElement('span');
-    stage.className=className;
+    stage.className='media-thumbnail '+className;
     stage.dataset.provider=media.provider;
     const caption=document.createElement('span');
     caption.className='media-thumbnail-provider';
