@@ -23,6 +23,14 @@ test('approved hero scroll, reverse handoff, pause and 300ms settle remain',()=>
  }
  assert.match(main,/if\(document\.documentElement\.classList\.contains\('neural-preview'\)\)/);
 });
+test('mobile neural performance defers first canvas draw without changing scroll mechanics',()=>{
+ assert.match(neural,/requestIdleCallback\(start,\{timeout:1100\}\)/);
+ assert.match(neural,/window\.addEventListener\('load'/);
+ assert.match(neural,/frameInterval\(\)/);
+ assert.match(html,/href="scene-image\.css" media="print" onload="this\.media='all'"/);
+ assert.match(html,/<noscript><link rel="stylesheet" href="scene-image\.css" \/><\/noscript>/);
+ assert.doesNotMatch(neural,/\ndraw\(0\);requestAnimationFrame\(frame\)/);
+});
 test('procedural network is bounded, zoom-driven and respects motion settings',()=>{
  for(const s of ["Math.imul","smooth(p)","const budget=window.innerWidth<700?1450:3100",
  "getContext('2d'","prefers-reduced-motion: reduce","stage.dataset.neuralProgress",
