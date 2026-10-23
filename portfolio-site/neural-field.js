@@ -15,6 +15,9 @@ const rand=(x,y,s=0)=>{
   return ((h^(h>>>16))>>>0)/4294967296;
 };
 let width=0,height=0,dpr=1,phase=0,last=0,lastDraw=0,lastProgress=-1;
+const compact=window.matchMedia('(max-width: 700px)');
+const frameInterval=()=>compact.matches?100:33; // mobile: 10fps instead of ~30fps
+let firstDrawComplete=false;
 function resize(){
   width=Math.max(1,canvas.clientWidth);height=Math.max(1,canvas.clientHeight);
   dpr=Math.min(window.devicePixelRatio||1,window.innerWidth<700?1.25:1.5);
@@ -83,10 +86,20 @@ function frame(time){
  if(!frozen)phase+=last?Math.min(40,time-last)/1000:0;
  last=time;
  if(frozen&&Math.abs(p-lastProgress)<.001)return;
- if(!frozen&&time-lastDraw<30)return;
- lastDraw=time;draw(p);lastProgress=p;
+ if(!frozen&&time-lastDraw<frameInterval())return;
+ lastDraw=time;draw(p);firstDrawComplete=true;lastProgress=p;
 }
 resize();window.addEventListener('resize',resize,{passive:true});
-draw(0);requestAnimationFrame(frame);
+// Avoid blocking the hero headline's first paint with a full canvas render.
+// Keep the original static dark canvas backing until the browser has painted text.
+const start=()=>{
+ if(!canvas.isConnected)return;
+ requestAnimationFrame(frame);
+};
+if('requestIdleCallback' in window){
+ window.requestIdleCallback(start,{timeout:1100});
+}else{
+ window.addEventListener('load',()=>requestAnimationFrame(start),{once:true});
+}
 window.PortfolioNeural={resize};
 })();
