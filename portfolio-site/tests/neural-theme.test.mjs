@@ -64,5 +64,5 @@ test('legacy Rudransh6619 is not visible in the preview heading or section label
  assert.doesNotMatch(html,/Rudransh6619/i);
  assert.match(html,/CREATIVE IDENTITY \/ THE NEURAL STUDIO/);
  assert.match(html,/NEURAL STUDIO \/\/ STORY IN MOTION/);
- assert.match(html,/NEURAL CORTEX \/ TEST EDITION/);
+ assert.doesNotMatch(html,/NEURAL CORTEX \/ TEST EDITION|neural-preview-tag/);
 });
