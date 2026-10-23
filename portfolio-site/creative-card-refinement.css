@@ -1,0 +1,98 @@
+/* Creative collection / neural editorial cards
+   Quiet materials, strongly composed artwork, no repeating textures.
+   Preserve approved 7/5 Bento spans, HTML, and origin-aware bubble interaction. */
+html.neural-preview .beyond .hobby-card{
+  --hobby-edge:rgba(173,194,236,.31);
+  --hobby-art:#bca2ed;
+  min-height:clamp(355px,31vw,435px);
+  padding:clamp(23px,3vw,37px);
+  isolation:isolate;
+  overflow:hidden;
+  color:#f5f5fa;
+  background-color:#101629;
+  background-image:
+    radial-gradient(ellipse 48% 52% at 73% 30%,rgba(112,99,173,.17),transparent 86%),
+    linear-gradient(152deg,#20223c 0%,#151a2e 48%,#101629 100%);
+  background-size:100% 100%;
+  border:1px solid var(--hobby-edge);
+  box-shadow:0 15px 40px rgba(1,4,14,.19),inset 0 1px rgba(255,255,255,.1);
+  transition:transform .34s cubic-bezier(.2,.75,.28,1),box-shadow .34s,border-color .3s;
+}
+html.neural-preview .beyond .hobby-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 58% 52% at 50% 39%,rgba(167,180,226,.065),transparent 83%);
+  opacity:1;
+}
+html.neural-preview .beyond .hobby-card::after{
+  inset:9px;opacity:.65;border-radius:20px;
+  border-color:rgba(199,215,244,.17);
+  box-shadow:none;
+}
+html.neural-preview .beyond .hobby-card:is(:hover,:focus-visible,[aria-expanded="true"]){
+  border-color:color-mix(in srgb,var(--hobby-art) 55%,transparent);
+  box-shadow:0 22px 55px rgba(1,4,14,.28),inset 0 1px rgba(255,255,255,.13);
+}
+html.neural-preview .beyond .hobby-card:is(:hover,:focus-visible)::after{
+  inset:8px;border-color:rgba(207,229,244,.31);
+}
+html.neural-preview .beyond .music-card{
+  --hobby-art:#b6a0f1;
+  background-image:radial-gradient(ellipse 42% 46% at 68% 29%,rgba(133,101,196,.20),transparent 90%),linear-gradient(155deg,#24203d,#17192f 56%,#101529);
+}
+html.neural-preview .beyond .dance-card{
+  --hobby-art:#91d6bb;
+  background-image:radial-gradient(ellipse 55% 53% at 58% 27%,rgba(66,151,125,.19),transparent 90%),linear-gradient(155deg,#162b30,#12252a 53%,#101d26);
+}
+html.neural-preview .beyond .mind-card{
+  --hobby-art:#dfbc91;
+  background-image:radial-gradient(ellipse 55% 53% at 53% 28%,rgba(174,128,94,.19),transparent 90%),linear-gradient(155deg,#302934,#231e2e 53%,#181b2a);
+}
+html.neural-preview .beyond .build-card{
+  --hobby-art:#a6c8f0;
+  background-image:radial-gradient(ellipse 50% 50% at 55% 25%,rgba(80,124,201,.19),transparent 90%),linear-gradient(155deg,#1b2941,#17233c 53%,#101b2c);
+}
+html.neural-preview .beyond .hobby-card .hobby-number{
+  color:#d6e1f0;letter-spacing:.18em;
+}
+html.neural-preview .beyond .hobby-card .hobby-graphic{
+  z-index:1;
+  left:13%;right:13%;top:13%;height:clamp(130px,15vw,190px);
+  opacity:1;
+  filter:drop-shadow(0 12px 25px rgba(0,0,0,.16));
+}
+html.neural-preview .beyond .hobby-card .music-bars span{
+  background:linear-gradient(180deg,#cab7ff,#8e7ac7);
+  box-shadow:0 0 14px rgba(162,132,224,.15);
+}
+html.neural-preview .beyond .hobby-card .dance-orbit,
+html.neural-preview .beyond .dance-orbit span{border-color:#8dcfb1}
+html.neural-preview .beyond .dance-orbit span:nth-child(3){background:#74b899}
+html.neural-preview .beyond .zen-graphic i{border-color:#c9a47d}
+html.neural-preview .beyond .zen-graphic i:nth-child(3){background:#bb9978}
+html.neural-preview .beyond .build-graphic{color:#b0c9f1;text-shadow:0 5px 20px rgba(95,138,205,.16)}
+html.neural-preview .beyond .hobby-card .hobby-copy{
+  z-index:2;max-width:38ch;
+  padding-top:16px;
+}
+html.neural-preview .beyond .hobby-card .hobby-heading{
+  color:#f6f7ff;
+  text-shadow:none;
+  letter-spacing:-.052em;
+}
+html.neural-preview .beyond .hobby-card .hobby-description{
+  color:#d0d8e6;max-width:34ch;
+}
+html.neural-preview .beyond .hobby-card .hobby-open{
+  color:#edf3fd;border-top-color:rgba(210,227,244,.23);
+}
+@media(max-width:700px){
+  html.neural-preview .beyond .hobby-card{min-height:340px;padding:22px}
+  html.neural-preview .beyond .hobby-card .hobby-graphic{height:120px;top:15%;left:15%;right:15%}
+}
+@media(max-width:520px){
+  html.neural-preview .beyond .hobby-card{min-height:320px}
+}
+@media(prefers-reduced-motion:reduce){
+  html.neural-preview .beyond .hobby-card,
+  html.neural-preview .beyond .hobby-card::after{transition:none}
+}
