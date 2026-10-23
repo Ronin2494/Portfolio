@@ -1,0 +1,42 @@
+name: Portfolio full website QA
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'portfolio-site/**'
+      - 'portfolio-membership-api/**'
+      - '.github/workflows/portfolio-full-qa.yml'
+  workflow_dispatch:
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: All frontend and backend JavaScript syntax
+        run: |
+          for file in portfolio-site/*.js portfolio-site/qa/*.mjs portfolio-membership-api/*.js; do
+            node --check "$file"
+          done
+      - name: Existing unit and integration suite
+        run: node --test portfolio-site/tests/*.test.mjs
+      - name: Install isolated Chromium test runner
+        run: |
+          npm install --no-save --no-package-lock --prefix portfolio-site/qa playwright@1.55.1
+          cd portfolio-site/qa
+          npx playwright install --with-deps chromium
+      - name: Run real browser interaction checks (offline API fixtures)
+        run: |
+          python3 -m http.server 4173 --directory portfolio-site > /tmp/portfolio-qa-server.log 2>&1 &
+          sleep 2
+          node portfolio-site/qa/browser-smoke.mjs
+      - name: Upload browser QA artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-browser-qa
+          path: portfolio-site/qa-results/
+          if-no-files-found: warn
