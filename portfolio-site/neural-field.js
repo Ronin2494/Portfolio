@@ -36,9 +36,13 @@ function layer(level,p,t){
  const top=Math.floor(-height/(space*2)-dy)-2,bottom=Math.ceil(height/(space*2)-dy)+2;
  const opacity=[.19,.32,.46][level]*(1-p*.16);
  const budget=window.innerWidth<700?1450:3100;
+ // Batch geometrically identical strokes and fills into a small number of
+ // draw calls per depth layer instead of one stroke+fill per neuron.
+ const axons=new Path2D(),mint=new Path2D(),violet=new Path2D();
+ const pulses=new Path2D(),rings=new Path2D();
  let count=0;
- for(let y=top;y<=bottom;y++)for(let x=left;x<=right;x++){
-   if(++count>budget)return;
+ neuronRows:for(let y=top;y<=bottom;y++)for(let x=left;x<=right;x++){
+   if(++count>budget)break neuronRows;
    if(level===0&&rand(x,y,19)<.26)continue;
    const a=cellNode(x,y,space,dx,dy,level*51+11);
    if(a.x< -space||a.x>width+space||a.y< -space||a.y>height+space)continue;
@@ -47,23 +51,36 @@ function layer(level,p,t){
      const b=cellNode(x+1,y+(c===1?1:n>.5?0:-1),space,dx,dy,level*51+11);
      const controlX=(a.x+b.x)*.5+(a.energy-.5)*space*.15;
      const controlY=(a.y+b.y)*.5+(a.tone-.5)*space*.15;
-     ctx.strokeStyle='rgba(151,181,224,'+(opacity*.56)+')';ctx.lineWidth=level===2?.9:.55;
-     ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.quadraticCurveTo(controlX,controlY,b.x,b.y);ctx.stroke();
+     axons.moveTo(a.x,a.y);
+     axons.quadraticCurveTo(controlX,controlY,b.x,b.y);
      if(level>0&&a.energy>.91&&!reduced.matches){
        const pos=(t*.082+rand(x,y,c+82))%1,inv=1-pos;
        const bx=inv*inv*a.x+2*inv*pos*controlX+pos*pos*b.x;
        const by=inv*inv*a.y+2*inv*pos*controlY+pos*pos*b.y;
-       ctx.beginPath();ctx.fillStyle='rgba(193,235,223,'+(.12+pos*.31)+')';
-       ctx.arc(bx,by,level===2?1.4:1,0,Math.PI*2);ctx.fill();
+       pulses.moveTo(bx+(level===2?1.4:1),by);
+       pulses.arc(bx,by,level===2?1.4:1,0,Math.PI*2);
      }
    }
-   ctx.beginPath();
-   ctx.fillStyle=a.tone>.84?'rgba(170,240,220,'+(opacity+.2)+')':'rgba(207,202,255,'+(opacity+.2)+')';
-   ctx.arc(a.x,a.y,(level===2?2:level===1?1.35:.7)*(1+p*.14),0,Math.PI*2);ctx.fill();
+   const radius=(level===2?2:level===1?1.35:.7)*(1+p*.14);
+   const group=a.tone>.84?mint:violet;
+   group.moveTo(a.x+radius,a.y);
+   group.arc(a.x,a.y,radius,0,Math.PI*2);
    if(level===2&&a.energy>.88){
-     ctx.beginPath();ctx.strokeStyle='rgba(175,216,245,'+(opacity*.36)+')';
-     ctx.lineWidth=.8;ctx.arc(a.x,a.y,6,0,Math.PI*2);ctx.stroke();
+     rings.moveTo(a.x+6,a.y);
+     rings.arc(a.x,a.y,6,0,Math.PI*2);
    }
+ }
+ ctx.strokeStyle='rgba(151,181,224,'+(opacity*.56)+')';
+ ctx.lineWidth=level===2?.9:.55;
+ ctx.stroke(axons);
+ ctx.fillStyle='rgba(170,240,220,'+(opacity+.2)+')';ctx.fill(mint);
+ ctx.fillStyle='rgba(207,202,255,'+(opacity+.2)+')';ctx.fill(violet);
+ if(level>0&&!reduced.matches){
+   ctx.fillStyle='rgba(193,235,223,.33)';ctx.fill(pulses);
+ }
+ if(level===2){
+   ctx.strokeStyle='rgba(175,216,245,'+(opacity*.36)+')';
+   ctx.lineWidth=.8;ctx.stroke(rings);
  }
 }
 function draw(p){
