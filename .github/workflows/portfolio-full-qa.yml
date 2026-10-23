@@ -25,7 +25,7 @@ jobs:
         run: node --test portfolio-site/tests/*.test.mjs
       - name: Install isolated Chromium test runner
         run: |
-          npm install --no-save --no-package-lock --prefix portfolio-site/qa playwright@1.55.1
+          npm install --no-save --no-package-lock --prefix portfolio-site/qa playwright@1.55.1 @axe-core/playwright@4.10.2
           cd portfolio-site/qa
           npx playwright install --with-deps chromium
       - name: Run real browser interaction checks (offline API fixtures)
@@ -33,6 +33,9 @@ jobs:
           python3 -m http.server 4173 --directory portfolio-site > /tmp/portfolio-qa-server.log 2>&1 &
           sleep 2
           node portfolio-site/qa/browser-smoke.mjs
+      - name: WCAG 2.1 AA audit on all public-facing pages
+        continue-on-error: true
+        run: node portfolio-site/qa/accessibility-audit.mjs
       - name: Read-only production UI smoke (external APIs safely mocked)
         id: production-smoke
         continue-on-error: true
