@@ -33,6 +33,16 @@ jobs:
           python3 -m http.server 4173 --directory portfolio-site > /tmp/portfolio-qa-server.log 2>&1 &
           sleep 2
           node portfolio-site/qa/browser-smoke.mjs
+      - name: Measure branch mobile Lighthouse before deployment
+        id: branch-performance
+        continue-on-error: true
+        run: |
+          mkdir -p portfolio-site/qa-results/lighthouse-branch
+          npx --yes lighthouse@12.8.2 http://127.0.0.1:4173/ \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+            --output=json --output-path=portfolio-site/qa-results/lighthouse-branch/mobile.json \
+            --quiet --max-wait-for-load=45000
+          node portfolio-site/qa/print-branch-lighthouse.mjs
       - name: WCAG 2.1 AA audit on all public-facing pages
         continue-on-error: true
         run: node portfolio-site/qa/accessibility-audit.mjs
