@@ -36,8 +36,9 @@ test('hero reverse scroll, controlled entrance and timed handoff remain unchange
 test('bounded network uses procedural cell hashing without unbounded particle storage',()=>{
  assert.match(neural,/const rand=/);
  assert.match(neural,/const budget=window\.innerWidth<700\?1450:3100/);
- assert.match(neural,/if\(\+\+count>budget\)return/);
- assert.match(neural,/ctx\.quadraticCurveTo/);
+ assert.match(neural,/if\(\+\+count>budget\)break neuronRows/);
+ assert.match(neural,/axons\.quadraticCurveTo/);
+ assert.match(neural,/ctx\.stroke\(axons\)/);
  assert.match(neural,/stage\.dataset\.neuralProgress/);
  assert.match(neural,/stage\.dataset\.neuralPaused/);
  assert.match(neural,/prefers-reduced-motion: reduce/);
