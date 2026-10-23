@@ -33,6 +33,22 @@ jobs:
           python3 -m http.server 4173 --directory portfolio-site > /tmp/portfolio-qa-server.log 2>&1 &
           sleep 2
           node portfolio-site/qa/browser-smoke.mjs
+      - name: Check out production baseline for same-run performance comparison
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          path: qa-baseline
+          persist-credentials: false
+      - name: Serve baseline and measure Lighthouse mobile
+        continue-on-error: true
+        run: |
+          python3 -m http.server 4174 --directory qa-baseline/portfolio-site >/tmp/portfolio-baseline-http.log 2>&1 &
+          sleep 2
+          mkdir -p portfolio-site/qa-results/lighthouse-branch
+          npx --yes lighthouse@12.8.2 http://127.0.0.1:4174/ \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+            --output=json --output-path=portfolio-site/qa-results/lighthouse-branch/baseline.json \
+            --quiet --max-wait-for-load=45000
       - name: Measure branch mobile Lighthouse before deployment
         id: branch-performance
         continue-on-error: true
