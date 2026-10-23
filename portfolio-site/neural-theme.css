@@ -27,16 +27,6 @@ html.neural-preview .portal-frame .corner{border-color:rgba(150,203,224,.65)}
 html.neural-preview .coordinates,
 html.neural-preview .portal-index{color:#a0c2dc}
 html.neural-preview .scroll-line{background:linear-gradient(transparent,#b3e4dc)}
-html.neural-preview .neural-preview-tag{
- display:inline-flex;align-items:center;gap:8px;
- border:1px solid rgba(171,225,219,.42);color:#ccefe4;
- border-radius:99px;padding:9px 13px;background:rgba(5,17,29,.74);
- font:700 9px/1.4 'Space Grotesk',sans-serif;letter-spacing:.13em;
-}
-html.neural-preview .neural-preview-tag::before{
- content:"";width:6px;height:6px;border-radius:50%;
- background:#afe9d5;box-shadow:0 0 12px #b8f9ed;
-}
 /* Surface composition: fine dendrites, cellular nodes, glass. */
 html.neural-preview main#work{
  background:radial-gradient(ellipse 70% 12% at 65% 1%,rgba(38,66,96,.24),transparent 95%),
