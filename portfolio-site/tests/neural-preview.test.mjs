@@ -43,6 +43,8 @@ test('neural visual grammar applies across navigation, sections, cards, modals a
 });
 test('old identity labels are removed from visible copy, and section controls survive',()=>{
  assert.doesNotMatch(html,/RUDRANSH6619|rudransh6619/i);
+ assert.doesNotMatch(html,/NEURAL CORTEX \/ TEST EDITION|neural-preview-tag/i);
+ assert.doesNotMatch(css,/neural-preview-tag/);
  assert.match(html,/CREATIVE IDENTITY \/ THE NEURAL STUDIO/);
  for(const id of ['project-grid','project-constellation','beyond-grid','beyond-detail','motion-toggle','portal-journey']){
  assert.ok(html.includes('id="'+id+'"'),id);
