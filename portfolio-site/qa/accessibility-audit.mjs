@@ -26,4 +26,4 @@ for(const [route,label] of [['/#projects','home'],['/checkout.html?cancel=1','ch
 await browser.close();
 await writeFile(output+'/accessibility-results.json',JSON.stringify({at:new Date().toISOString(),base,pages:passes,findings},null,2));
 console.log('WCAG accessibility audit results:',JSON.stringify(passes));
-console.log('Violations:',JSON.stringify(findings.map(f=>({page:f.page,id:f.id,impact:f.impact,nodes:f.nodes?.length||0}))));
+console.log('Violations:',JSON.stringify(findings));
