@@ -131,6 +131,24 @@ await run('All four Beyond cards open, label and close their dialogs',async()=>{
   await dismiss();
  }
 });
+await run('Creative cards have quiet, distinct artwork-first backgrounds',async()=>{
+ const cards=page.locator('#beyond-grid .hobby-card');
+ if(await cards.count()!==4)throw Error('Expected four creative cards');
+ const appearance=await cards.evaluateAll(nodes=>nodes.map(node=>{
+  const s=getComputedStyle(node),art=node.querySelector('.hobby-graphic');
+  return {background:s.backgroundImage,opacity:art?getComputedStyle(art).opacity:null,
+    imageSize:s.backgroundSize,foreground:s.color};
+ }));
+ if(appearance.some(x=>x.background.includes('repeating-linear-gradient')))
+  throw Error('An aggressive repeating texture still overlays the creative cards');
+ if(appearance.some(x=>x.opacity!=='1'))
+  throw Error('Card artwork is still faded');
+ if(new Set(appearance.map(x=>x.background)).size!==4)
+  throw Error('Card backgrounds are identical');
+ await page.locator('#beyond').scrollIntoViewIfNeeded();
+ await page.locator('#beyond-grid').screenshot({path:join(output,'creative-cards-desktop.png')});
+ return 'Artwork in focus; no repeating textures and four distinct finishes';
+});
 await run('Keyboard Escape closes the selected pop-out',async()=>{
  await pop('questions');
  await page.keyboard.press('Escape');
