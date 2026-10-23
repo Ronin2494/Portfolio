@@ -189,7 +189,6 @@ html.neural-preview :is(.work-toolbar,.creative-opening,.beyond-detail,.movement
 html.neural-preview :is(a,button):focus-visible{outline:3px solid #b9efe0;outline-offset:3px}
 @media(max-width:700px){
  html.neural-preview .site-nav{backdrop-filter:none}
- html.neural-preview .neural-preview-tag{font-size:8px;padding:6px 9px}
  html.neural-preview main#work::before{opacity:.25;background-size:80px 105px,110px 125px,190px 180px,190px 180px}
 }
 @media(prefers-reduced-motion:reduce){
@@ -222,7 +221,5 @@ html.neural-preview .personal-dock .dock-panel a{color:#d7e9ef}
 html.neural-preview .membership-section .member-price,
 html.neural-preview .membership-section .membership-gallery{border-color:rgba(151,216,218,.3)}
 html.neural-preview .movement-tracker .movement-metric:not(.movement-steps-card,.movement-calories-card){background:#1b2b42;border-color:rgba(166,225,219,.28)}
-html.neural-preview .neural-preview-tag{white-space:nowrap}
 @media(max-width:600px){
- html.neural-preview .neural-preview-tag{max-width:150px;white-space:normal;line-height:1.2}
 }
