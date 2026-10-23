@@ -16,8 +16,7 @@ const rand=(x,y,s=0)=>{
 };
 let width=0,height=0,dpr=1,phase=0,last=0,lastDraw=0,lastProgress=-1;
 const compact=window.matchMedia('(max-width: 700px)');
-const frameInterval=()=>compact.matches?100:33; // mobile: 10fps instead of ~30fps
-let firstDrawComplete=false;
+const frameInterval=()=>compact.matches?50:33; // mobile: 20fps, preserving smooth neural zoom
 function resize(){
   width=Math.max(1,canvas.clientWidth);height=Math.max(1,canvas.clientHeight);
   dpr=Math.min(window.devicePixelRatio||1,window.innerWidth<700?1.25:1.5);
@@ -87,7 +86,7 @@ function frame(time){
  last=time;
  if(frozen&&Math.abs(p-lastProgress)<.001)return;
  if(!frozen&&time-lastDraw<frameInterval())return;
- lastDraw=time;draw(p);firstDrawComplete=true;lastProgress=p;
+ lastDraw=time;draw(p);lastProgress=p;
 }
 resize();window.addEventListener('resize',resize,{passive:true});
 // Avoid blocking the hero headline's first paint with a full canvas render.
