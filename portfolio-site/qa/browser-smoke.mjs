@@ -159,6 +159,7 @@ await run('Daily movement create, edit, zero steps, persistence and delete',asyn
  if(await page.locator('.movement-summary-feature').innerText().then(x=>!x.includes('0')))throw Error('Zero-step day not retained');
  await dismiss();await pop('movement');
  if(await page.locator('#movement-steps').inputValue()!=='0')throw Error('Steps did not persist');
+ page.once('dialog',dialog=>dialog.accept());
  await page.locator('#movement-remove').click();
  if(await page.locator('#movement-steps').inputValue()!=='')throw Error('Deleted day remains');
  await dismiss();
