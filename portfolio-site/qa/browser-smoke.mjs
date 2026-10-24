@@ -98,6 +98,20 @@ await run('Neural Index links, layout, accessibility and responsive cards',async
  await cards.nth(1).click();
  if(await cards.nth(1).getAttribute('aria-current')!=='location')throw Error('Active route missing');
 });
+await run('Neural reactive cards respond to pointer and keyboard without blocking clicks',async()=>{
+ const card=page.locator('.signal-path').first();
+ await card.scrollIntoViewIfNeeded();
+ await card.hover();
+ if(await card.locator('.neural-reactive-glow').count()!==1)
+  throw Error('Shared synapse glow is missing');
+ const computed=await card.locator('.neural-reactive-glow').evaluate(el=>getComputedStyle(el).pointerEvents);
+ if(computed!=='none')throw Error('Glow intercepts pointer interactions');
+ await card.focus();
+ if(await card.getAttribute('href')!=='#projects')throw Error('Card route changed');
+ const beyond=page.locator('#beyond-grid .hobby-card');
+ if(await beyond.count()!==4)throw Error('Creative card count changed');
+ if(await beyond.locator('.neural-reactive-glow').count()!==4)throw Error('Shared effects missing on creative cards');
+});
 await run('Project view toggle, constellation and asymmetric Bento',async()=>{
  const grid=page.locator('#project-grid'),map=page.locator('#project-constellation');
  await page.locator('[data-project-view="grid"]').click();
