@@ -84,6 +84,20 @@ await run('Header, main anchors, footer and quick navigation',async()=>{
  await page.locator('#dock-trigger').click();
  if(await page.locator('#dock-trigger').getAttribute('aria-expanded')!=='false')throw Error('Dock did not close');
 });
+await run('Neural Index links, layout, accessibility and responsive cards',async()=>{
+ const region=page.locator('.signal-index');
+ if(!await region.isVisible())throw Error('Neural Index is not visible');
+ const cards=region.locator('a.signal-path');
+ if(await cards.count()!==3)throw Error('Expected 3 discovery cards');
+ const targets=await cards.evaluateAll(els=>els.map(e=>e.getAttribute('href')));
+ if(JSON.stringify(targets)!==JSON.stringify(['#projects','#beyond','#creative']))
+  throw Error('Incorrect discovery targets: '+targets);
+ const sizes=await cards.evaluateAll(els=>els.map(e=>Math.round(e.getBoundingClientRect().width)));
+ if(new Set(sizes).size<2)throw Error('All cards are uniform width');
+ await region.screenshot({path:join(output,'neural-index-desktop.png')});
+ await cards.nth(1).click();
+ if(await cards.nth(1).getAttribute('aria-current')!=='location')throw Error('Active route missing');
+});
 await run('Project view toggle, constellation and asymmetric Bento',async()=>{
  const grid=page.locator('#project-grid'),map=page.locator('#project-constellation');
  await page.locator('[data-project-view="grid"]').click();
