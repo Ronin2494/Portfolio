@@ -1,0 +1,44 @@
+/* A navigable content graph, not a decorative constellation. */
+.neural-explorer{margin:42px 0 80px;padding:clamp(19px,3vw,35px);border:1px solid rgba(162,209,225,.35);border-radius:28px;background:linear-gradient(145deg,#0c172b,#070c1b 75%);color:#eaf4fc;box-shadow:0 24px 70px #02071669;isolation:isolate}
+.neural-explorer-heading{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:22px}
+.neural-explorer-kicker{font:700 10px/1.4 'Space Grotesk',sans-serif;letter-spacing:.17em;color:#b1ecdc;margin:0 0 10px}
+.neural-explorer h2{margin:0;font:600 clamp(29px,4vw,48px)/1.08 'Space Grotesk',sans-serif;letter-spacing:-.052em}
+.neural-explorer-heading p:last-child{font:400 13px/1.65 'DM Sans',sans-serif;color:#b8cadb;max-width:35ch;margin:0}
+.neural-explorer-shell{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(265px,.85fr);gap:16px;align-items:stretch}
+.neural-explorer-map{position:relative;overflow:hidden;min-height:495px;border-radius:20px;border:1px solid #a8d5e23b;background:radial-gradient(ellipse at 50% 43%,#182f47 0%,#111e34 45%,#081120 100%);touch-action:pan-y}
+.neural-explorer-map::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,#b0dbe23d 1px,transparent 1.3px);background-size:35px 35px;mask-image:radial-gradient(ellipse at 50% 50%,#000,transparent 80%);opacity:.45}
+.neural-explorer-world{position:absolute;inset:0;transform-origin:0 0;will-change:transform}
+.neural-explorer-links{width:100%;height:100%;position:absolute;inset:0;overflow:visible;pointer-events:none}
+.neural-explorer-edge{stroke:#7caeb9;stroke-width:.28;opacity:.34;transition:opacity .25s,stroke-width .25s,stroke .25s}
+.neural-explorer-edge.is-active{stroke:#b2f4d8;stroke-width:.62;opacity:.97}
+.neural-explorer-edge.is-muted{opacity:.055}
+.neural-explorer-nodes{position:absolute;inset:0}
+.neural-explorer-node{--node:#b5dfe7;position:absolute;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:8px;min-width:72px;padding:5px 3px;border:0;background:transparent;color:#eaf4ff;cursor:pointer;font:600 11px/1.35 'Space Grotesk',sans-serif;text-align:center;transition:opacity .25s;z-index:2}
+.neural-explorer-node.is-interest{--node:#d6b8f0}
+.neural-explorer-node-core{width:17px;height:17px;border-radius:50%;display:block;box-shadow:0 0 0 7px #84d9d51b,0 0 21px #afe0eb7c;background:var(--node);border:3px solid #14253a}
+.neural-explorer-node.is-related .neural-explorer-node-core{background:#baffdf;box-shadow:0 0 0 12px #a5f1d52a,0 0 30px #b7ffdc}
+.neural-explorer-node.is-selected .neural-explorer-node-core{background:#fbfaff;box-shadow:0 0 0 12px #d8baf057,0 0 40px #d5f4ff}
+.neural-explorer-node.is-muted{opacity:.23}
+.neural-explorer-node-label{max-width:90px;background:#081529db;border:1px solid #bbddeb27;padding:4px 7px;border-radius:8px;overflow-wrap:anywhere}
+.neural-explorer-node:focus-visible{outline:3px solid #c1f4e8;outline-offset:5px;border-radius:9px}
+.neural-explorer-map-hint{position:absolute;bottom:12px;left:14px;max-width:65%;font:600 9px/1.5 'Space Grotesk',sans-serif;letter-spacing:.08em;color:#c0d5e0;pointer-events:none}
+.neural-explorer-zoom{position:absolute;right:12px;bottom:12px;display:flex;gap:5px;z-index:5}
+.neural-explorer-zoom button,.neural-explorer-toolbar button,.neural-explorer-related{border:1px solid #a6c9d456;border-radius:12px;background:#1a2b40;color:#edf5fc;min-height:40px;padding:9px 12px;cursor:pointer;font:700 11px/1.4 'Space Grotesk',sans-serif}
+.neural-explorer-zoom button{min-width:41px}
+.neural-explorer :is(button,a):focus-visible{outline:3px solid #c4f2e5;outline-offset:3px}
+.neural-explorer button:disabled{opacity:.35;cursor:not-allowed}
+.neural-explorer-panel{display:flex;flex-direction:column;min-width:0;padding:23px;border-radius:20px;border:1px solid #bbd8e22c;background:linear-gradient(170deg,#19243a,#10192b)}
+.neural-explorer-panel-kicker,.neural-explorer-counter{color:#b7e6da;font:700 10px/1.45 'Space Grotesk',sans-serif;letter-spacing:.12em}
+.neural-explorer-panel h3{font:600 clamp(25px,2.5vw,37px)/1.1 'Space Grotesk',sans-serif;letter-spacing:-.045em;margin:19px 0 12px}
+.neural-explorer-panel p{font:400 13px/1.7 'DM Sans',sans-serif;color:#c4d0de;margin:0 0 17px}
+.neural-explorer-related-list{display:flex;flex-wrap:wrap;gap:9px;margin:13px 0 20px}
+.neural-explorer-related{min-height:39px;border-radius:99px;background:#27374c}
+.neural-explorer-action{display:inline-flex;align-items:center;justify-content:center;margin-top:auto;min-height:47px;padding:12px 17px;border-radius:99px;background:#c6e9dc;color:#0c2530;text-decoration:none;font:700 11px/1.4 'Space Grotesk',sans-serif;letter-spacing:.04em}
+.neural-explorer-action[hidden]{display:none}
+.neural-explorer-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:16px}
+.neural-explorer-toolbar button{background:#101e32}
+.neural-explorer-toolbar .neural-explorer-reset{margin-left:auto}
+.neural-explorer-toolbar-caption{margin:0 auto 0 0;font:700 10px 'Space Grotesk',sans-serif;letter-spacing:.08em;color:#b5cbd6}
+@media(max-width:900px){.neural-explorer-shell{grid-template-columns:1fr}.neural-explorer-map{min-height:440px}.neural-explorer-panel{min-height:235px}}
+@media(max-width:560px){.neural-explorer{margin:24px 0 55px;padding:16px;border-radius:22px}.neural-explorer-map{min-height:370px}.neural-explorer-node{min-width:57px;font-size:9px}.neural-explorer-node-label{max-width:73px}.neural-explorer-panel{padding:19px}.neural-explorer-map-hint{max-width:60%;font-size:8px}}
+@media(prefers-reduced-motion:reduce){.neural-explorer-node,.neural-explorer-edge{transition:none}.neural-explorer-world{will-change:auto}}
