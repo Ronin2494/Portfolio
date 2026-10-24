@@ -1,0 +1,78 @@
+/* NEURAL RESPONSE SYSTEM — interactions only when a user explores.
+   One shared visual primitive, no permanent JS animation loop. */
+html.neural-preview .signal-index{--signal-focus-x:50%;--signal-focus-y:50%}
+html.neural-preview .signal-index::before{
+ content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:radial-gradient(350px circle at var(--signal-focus-x) var(--signal-focus-y),
+ rgba(145,231,214,.085),transparent 72%);
+ opacity:var(--neural-intensity,0);transition:opacity .45s ease;
+ border-radius:inherit;
+}
+html.neural-preview :is(.signal-path,.beyond .hobby-card){
+ isolation:isolate;
+}
+html.neural-preview .neural-reactive-glow{
+ position:absolute;inset:0;display:block;z-index:0;pointer-events:none;
+ border-radius:inherit;opacity:0;overflow:hidden;
+ background:radial-gradient(250px circle at var(--neural-x,50%) var(--neural-y,50%),
+ rgba(190,252,238,.20),rgba(166,183,248,.055) 40%,transparent 78%);
+ transition:opacity .28s ease;
+}
+html.neural-preview :is(.signal-path,.beyond .hobby-card):is(:hover,:focus-visible,:focus-within)>.neural-reactive-glow{
+ opacity:1;
+}
+html.neural-preview .signal-path>.neural-reactive-glow{z-index:0}
+html.neural-preview .signal-path>:not(.neural-reactive-glow){position:relative;z-index:2}
+html.neural-preview .beyond .hobby-card>.neural-reactive-glow{z-index:1}
+html.neural-preview .neural-tap-ring{
+ position:absolute;left:var(--neural-x,50%);top:var(--neural-y,50%);
+ width:24px;height:24px;margin:-12px 0 0 -12px;
+ border-radius:50%;border:1px solid rgba(194,244,235,.68);
+ box-shadow:0 0 30px rgba(174,226,218,.25);
+ pointer-events:none;z-index:5;opacity:0;
+}
+html.neural-preview .signal-path:focus-visible .neural-reactive-glow,
+html.neural-preview .beyond .hobby-card:focus-visible .neural-reactive-glow{opacity:.75}
+html.neural-preview .signal-path:active{transform:translateY(-1px) scale(.995)}
+/* Fine axon traces, assembled once per section, then revealed by entry or focus. */
+html.neural-preview .signal-index-trace{
+ position:absolute;inset:0;z-index:-1;width:100%;height:100%;
+ pointer-events:none;overflow:visible;color:#a1f0da;
+ opacity:.5;
+}
+html.neural-preview .signal-index-trace path{
+ fill:none;stroke:currentColor;stroke-width:1;
+ stroke-dasharray:4 12;stroke-opacity:.40;
+}
+html.neural-preview .signal-index-trace circle{fill:#b5f0e1;opacity:.65}
+html.neural-preview .signal-path-node{transition:box-shadow .24s ease,transform .24s ease}
+html.neural-preview .signal-path:is(:hover,:focus-visible) .signal-path-node{
+ transform:scale(1.16);box-shadow:0 0 23px rgba(156,235,219,.22);
+}
+html.neural-preview .signal-path-bottom span:last-child{
+ transition:transform .25s cubic-bezier(.2,.7,.2,1);
+}
+html.neural-preview .signal-path:is(:hover,:focus-visible) .signal-path-bottom span:last-child{
+ transform:translate(3px,-3px);
+}
+html.neural-preview .neural-section-link{
+ position:relative;
+}
+html.neural-preview .neural-section-link::after{
+ content:"";position:absolute;left:0;bottom:-3px;width:100%;height:1px;
+ background:linear-gradient(90deg,#b4eee1,#b5aff6);
+ transform:scaleX(0);transform-origin:left;transition:transform .27s ease;
+}
+html.neural-preview .neural-section-link:is(:hover,:focus-visible)::after{transform:scaleX(1)}
+@media(hover:none),(pointer:coarse){
+ html.neural-preview .neural-reactive-glow{display:none}
+ html.neural-preview .signal-index::before{opacity:0}
+ html.neural-preview .neural-tap-ring{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ html.neural-preview .neural-reactive-glow,
+ html.neural-preview .signal-path-node,
+ html.neural-preview .signal-path-bottom span:last-child,
+ html.neural-preview .neural-section-link::after{transition:none!important;transform:none!important}
+ html.neural-preview .neural-tap-ring{display:none!important}
+}
