@@ -1,0 +1,79 @@
+/* FreeFrontend-inspired isometric project view.
+   Progressive enhancement of EXISTING asymmetric Bento cards, no clone markup.
+   Native document scroll remains in charge: no fixed positioning or scroll lock. */
+html.neural-preview #projects .isometric-view-switch{
+ display:inline-flex;align-items:center;gap:10px;justify-content:center;
+ min-height:42px;padding:11px 17px;margin-left:10px;
+ border:1px solid rgba(178,220,235,.38);border-radius:999px;
+ background:#16263b;color:#d9f5ee;cursor:pointer;
+ font:700 10px/1.3 'Space Grotesk',sans-serif;letter-spacing:.1em;
+ transition:background .2s,border-color .2s;
+}
+html.neural-preview #projects .isometric-view-switch[aria-pressed="true"]{
+ background:#bdeddd;color:#102a32;border-color:#bdeddd;
+}
+html.neural-preview #projects .isometric-view-switch:focus-visible{
+ outline:3px solid #bdf5e2;outline-offset:4px;
+}
+html.neural-preview #projects .isometric-view-note{
+ margin:10px 0 16px;text-align:center;color:#c3d6e4;
+ font:600 10px/1.5 'Space Grotesk',sans-serif;letter-spacing:.095em;
+}
+html.neural-preview #projects .isometric-view-note[hidden]{display:none}
+/* Only the grid gets the spatial transformation, never the hero or section heading. */
+html.neural-preview #project-grid.is-isometric-view{
+ --isometric-shift:0px;
+ transform-origin:50% 38%;
+ transform:perspective(1700px) rotateX(16deg) rotateZ(-5deg)
+   translate3d(0,var(--isometric-shift),0) scale(.94);
+ transform-style:preserve-3d;
+ transition:transform .45s cubic-bezier(.22,.68,.25,1);
+ margin:20px 0 35px;
+ overflow:visible;
+}
+html.neural-preview #project-grid.is-isometric-view>.tile{
+ transform-style:preserve-3d;
+ box-shadow:14px 18px 2px -8px rgba(6,21,33,.9),
+  18px 31px 35px rgba(0,5,18,.38),inset 0 1px rgba(226,247,246,.14);
+ transition:transform .25s ease,box-shadow .25s ease;
+}
+html.neural-preview #project-grid.is-isometric-view>.tile:hover{
+ transform:translate3d(0,-9px,24px);
+ box-shadow:17px 22px 2px -8px rgba(11,39,55,.95),
+  24px 45px 55px rgba(0,5,18,.5),inset 0 1px rgba(226,247,246,.18);
+}
+html.neural-preview #project-grid.is-isometric-view>.tile:focus-within{
+ transform:translate3d(0,-8px,20px);
+ outline:2px solid #bbefda;outline-offset:6px;
+}
+html.neural-preview #project-grid.is-isometric-view>.tile .round-link{
+ position:relative;z-index:8;
+}
+/* On small screens keep every button and thumbnail large and readable. */
+@media(max-width:900px){
+ html.neural-preview #project-grid.is-isometric-view{
+  transform:perspective(1450px) rotateX(8deg) rotateZ(-2deg)
+    translate3d(0,var(--isometric-shift),0) scale(.97);
+ }
+}
+@media(max-width:700px){
+ html.neural-preview #project-grid.is-isometric-view{
+  transform:none!important;
+  margin:0;
+ }
+ html.neural-preview #project-grid.is-isometric-view>.tile{box-shadow:0 20px 35px rgba(0,5,18,.22)}
+ html.neural-preview #project-grid.is-isometric-view>.tile:hover,
+ html.neural-preview #project-grid.is-isometric-view>.tile:focus-within{transform:none}
+ html.neural-preview #projects .isometric-view-switch{margin-left:0}
+}
+@media(prefers-reduced-motion:reduce){
+ html.neural-preview #project-grid.is-isometric-view,
+ html.neural-preview #project-grid.is-isometric-view>.tile{
+  transition:none!important;
+ }
+ html.neural-preview #project-grid.is-isometric-view{
+  transform:none!important;
+ }
+ html.neural-preview #project-grid.is-isometric-view>.tile:hover,
+ html.neural-preview #project-grid.is-isometric-view>.tile:focus-within{transform:none}
+}
