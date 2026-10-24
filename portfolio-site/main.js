@@ -133,12 +133,69 @@ if(virtualPortal){
     if(window.scrollY>2&&window.scrollY>=portalHeight()-3)releaseIntro(true);
   });
 }
+// Hands-free entrance: after two idle seconds, play the EXISTING scroll timeline.
+// Deliberate input always wins; auto-navigation never restarts on reverse scroll.
+// Respect reduced-motion users by leaving navigation manual, with a skip link.
+const HERO_IDLE_DELAY=2000;
+const HERO_AUTO_DURATION=5500;
+let heroAutoTimer=0,heroAutoFrame=0,heroAutoActive=false,heroAutoCancelled=false;
+function stopHeroAuto(){
+  heroAutoCancelled=true;
+  window.clearTimeout(heroAutoTimer);
+  if(heroAutoFrame)cancelAnimationFrame(heroAutoFrame);
+  if(heroAutoActive&&virtualPortal&&!introReleased){
+    target=progress; // Give control back at the EXACT visible frame.
+    finalFrameStartedAt=0;
+  }
+  heroAutoActive=false;heroAutoFrame=0;
+}
+function startHeroAuto(){
+  if(heroAutoCancelled||introReleased||paused||reduceMotion.matches||
+     document.hidden||location.hash&&!isPortalStartHash()||window.scrollY>2)return;
+  heroAutoActive=true;
+  const startProgress=virtualPortal?progress:0;
+  const startScroll=window.scrollY;
+  let began=0;
+  const work=document.getElementById('work');
+  const animate=(timestamp)=>{
+    if(!heroAutoActive||heroAutoCancelled||paused||document.hidden)return;
+    if(!began)began=timestamp;
+    const elapsed=clamp((timestamp-began)/HERO_AUTO_DURATION,0,1);
+    const eased=elapsed*elapsed*(3-2*elapsed);
+    if(virtualPortal){
+      target=startProgress+(1-startProgress)*eased;
+      if(elapsed===1)target=1; // Existing 300ms final-frame handoff releases it.
+    }else if(work){
+      const workTop=work.getBoundingClientRect().top+window.scrollY;
+      const destination=Math.max(0,workTop-startScroll);
+      window.scrollTo({top:startScroll+destination*eased,left:0,behavior:'instant'});
+    }
+    if(elapsed<1){heroAutoFrame=requestAnimationFrame(animate);}
+    else{heroAutoActive=false;heroAutoFrame=0;}
+  };
+  heroAutoFrame=requestAnimationFrame(animate);
+}
+if(!reduceMotion.matches&&!introReleased&&window.scrollY<=2&&
+   (!location.hash||isPortalStartHash())){
+  heroAutoTimer=window.setTimeout(startHeroAuto,HERO_IDLE_DELAY);
+  // Capture user intent before the existing wheel/keyboard scroll handlers.
+  for(const eventName of ['wheel','touchstart','pointerdown','keydown']){
+    document.addEventListener(eventName,stopHeroAuto,{capture:true,passive:true,once:true});
+  }
+  document.addEventListener('focusin',stopHeroAuto,{capture:true,passive:true,once:true});
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden)stopHeroAuto();
+  },{passive:true});
+  window.addEventListener('scroll',()=>{
+    if(!heroAutoActive&&window.scrollY>2)stopHeroAuto();
+  },{passive:true});
+}
 window.addEventListener('scroll',updateScroll,{passive:true});
 window.addEventListener('resize',updateScroll,{passive:true});
 updateScroll();
 function initVisibility(){let els=[...document.querySelectorAll('.section-reveal')];if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('is-visible'));return}let obs=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){e.target.classList.add('is-visible');obs.unobserve(e.target)}},{threshold:.08,rootMargin:'0px 0px -30px 0px'});els.forEach(e=>obs.observe(e))}
 initVisibility();document.getElementById('year').textContent=new Date().getFullYear();
-motionButton.addEventListener('click',()=>{paused=!paused;motionButton.innerHTML=paused?'RESUME MOTION <span aria-hidden="true">▶</span>':'PAUSE MOTION <span aria-hidden="true">Ⅱ</span>';motionButton.setAttribute('aria-label',paused?'Resume portal animation':'Pause portal animation');motionButton.setAttribute('aria-pressed',String(paused))});
+motionButton.addEventListener('click',()=>{stopHeroAuto();paused=!paused;motionButton.innerHTML=paused?'RESUME MOTION <span aria-hidden="true">▶</span>':'PAUSE MOTION <span aria-hidden="true">Ⅱ</span>';motionButton.setAttribute('aria-label',paused?'Resume portal animation':'Pause portal animation');motionButton.setAttribute('aria-pressed',String(paused))});
 function animateUI(timestamp){
   const t=reduceMotion.matches?Math.max(target,.01):(progress=ease(progress,target,target>=.999?.16:.08));
   const exit=clamp((t-.55)/.32,0,1);
