@@ -135,7 +135,7 @@ await run('Explore connected neural worlds, follow relationships and control cam
  const before=await world.evaluate(n=>getComputedStyle(n).transform);
  await explorer.locator('[data-explorer-zoom-in]').click();
  const after=await world.evaluate(n=>getComputedStyle(n).transform);
- if(before===after)throw Error('Zoom did not change network camera');
+ if(before===after)throw Error('Zoom did not change network camera: '+JSON.stringify({before,after,inline:await world.evaluate(n=>n.style.transform),disabled:await explorer.locator('[data-explorer-zoom-in]').isDisabled()}));
  await explorer.locator('[data-explorer-reset]').click();
  if(await explorer.locator('[data-explorer-title]').innerText()!=='Select a neuron')throw Error('Reset did not restore complete graph');
  await explorer.screenshot({path:join(output,'neural-explorer-desktop.png')});
