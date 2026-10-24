@@ -250,6 +250,21 @@ await run('Static metadata, skip link, canonical and accessible images',async()=
  const bad=await page.locator('img:not([alt])').count();
  if(bad)throw Error(bad+' images missing alt attribute');
 });
+await run('Hero autoplay starts after two seconds and respects manual controls',async()=>{
+ const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'no-preference'});
+ const p=await context.newPage();
+ await p.goto(base+'/',{waitUntil:'domcontentloaded'});
+ await p.waitForTimeout(2600);
+ const progress=Number(await p.locator('#portal-stage').getAttribute('data-neural-progress'));
+ if(progress<=.001)throw Error('Autoplay did not start after 2-second idle delay');
+ await p.mouse.wheel(0,300);
+ await p.waitForTimeout(700);
+ const settled=Number(await p.locator('#portal-stage').getAttribute('data-neural-progress'));
+ await p.waitForTimeout(500);
+ const later=Number(await p.locator('#portal-stage').getAttribute('data-neural-progress'));
+ if(later>settled+.07)throw Error('Autoplay continued after manual wheel');
+ await context.close();
+});
 await run('Neural canvas scroll coupling and pause button',async()=>{
  await page.locator('#neural-field').waitFor({state:'attached'});
  if(await page.locator('#motion-toggle').getAttribute('aria-pressed')!=='false')throw Error('Motion initially paused');
