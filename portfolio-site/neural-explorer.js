@@ -20,14 +20,14 @@ const coarse=window.matchMedia('(pointer: coarse)');
 const ns='http://www.w3.org/2000/svg';
 const positions=[[13,23],[34,14],[60,16],[83,30],[77,69],[47,81],[22,70],[45,46],[61,51],[34,57]];
 const connections=[
- ['footnow','buildingai'],['footnow','groundloop'],['footnow','seatpath'],
- ['lyricsverse','rhythm'],['lyricsverse','curiosity'],['seatpath','groundloop'],
- ['seatpath','buildingai'],['buildingai','groundloop'],
+ ['footnow','taskmail'],['footnow','seatpath'],['footnow','curiosity'],
+ ['lyricsverse','rhythm'],['lyricsverse','curiosity'],['seatpath','catalyst'],
+ ['seatpath','taskmail'],['catalyst','espionaaj'],
  ['rhythm','presence'],['rhythm','curiosity'],['movement','presence'],
- ['movement','seatpath'],['presence','curiosity'],['curiosity','groundloop'],
- ['footnow','curiosity'],['buildingai','curiosity']
+ ['movement','seatpath'],['presence','curiosity'],['curiosity','taskmail'], 
+ ['espionaaj','presence'],['espionaaj','rhythm'],['catalyst','curiosity']
 ];
-const ids=['footnow','lyricsverse','seatpath','groundloop','buildingai','other','rhythm','movement','presence','curiosity'];
+const ids=['footnow','lyricsverse','seatpath','catalyst','taskmail','espionaaj','rhythm','movement','presence','curiosity'];
 const interests={
  rhythm:{title:'Rhythm',kind:'CREATIVE WORLD',description:'Singing, rap, writing, and the original voice behind the products.',destination:'#beyond'},
  movement:{title:'Movement',kind:'DAILY LIFE',description:'Tracking real daily steps, energy, and the rituals that keep me moving.',destination:'#beyond'},
@@ -41,7 +41,7 @@ const projects=cards.map((card,index)=>{
  const name=title.toLowerCase();
  const known=name.includes('footnow')?'footnow':
    name.includes('lyricsverse')?'lyricsverse':name.includes('seatpath')?'seatpath':
-   name.includes('groundloop')?'groundloop':name.includes('building')?'buildingai':'other';
+   name.includes('catalyst')?'catalyst':name.includes('taskmail')?'taskmail':'espionaaj';
  return {id:known,title,kind:card.querySelector('.tile-index')?.textContent?.trim()||'SELECTED WORK',
   description:card.querySelector('.tile-text p')?.textContent?.trim()||'Explore this project.',
   destination:card.querySelector('.round-link')?.getAttribute('href')||'#projects',
