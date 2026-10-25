@@ -112,6 +112,35 @@ await run('Neural reactive cards respond to pointer and keyboard without blockin
  if(await beyond.count()!==4)throw Error('Creative card count changed');
  if(await beyond.locator('.neural-reactive-glow').count()!==4)throw Error('Shared effects missing on creative cards');
 });
+await run('Explore connected neural worlds, follow relationships and control camera',async()=>{
+ const explorer=page.locator('#neural-explorer');
+ await explorer.scrollIntoViewIfNeeded();
+ const nodes=explorer.locator('button[data-node]');
+ if(await nodes.count()!==10)throw Error('Expected ten project and creative nodes');
+ await explorer.locator('button[data-node="rhythm"]').click();
+ const heading=await explorer.locator('[data-explorer-title]').innerText();
+ if(heading!=='Rhythm')throw Error('Rhythm did not load into detail panel');
+ const connections=explorer.locator('.neural-explorer-node.is-related');
+ if(await connections.count()<1)throw Error('Selecting Rhythm did not reveal connections');
+ const lyrics=explorer.locator('[data-explorer-related] button',{hasText:'LyricsVerse'});
+ if(!await lyrics.count())throw Error('LyricsVerse relationship missing');
+ await lyrics.click();
+ if(await explorer.locator('[data-explorer-title]').innerText()!=='LyricsVerse')throw Error('Following connected neuron failed');
+ const action=explorer.locator('[data-explorer-action]');
+ if(!await action.isVisible())throw Error('Missing related project action');
+ if(!await action.getAttribute('href'))throw Error('Project destination missing');
+ await explorer.locator('[data-explorer-back]').click();
+ if(await explorer.locator('[data-explorer-title]').innerText()!=='Rhythm')throw Error('Navigation history failed');
+ const world=explorer.locator('[data-explorer-world]');
+ const before=await world.evaluate(n=>getComputedStyle(n).transform);
+ await explorer.locator('[data-explorer-zoom-in]').click();
+ const after=await world.evaluate(n=>getComputedStyle(n).transform);
+ if(before===after)throw Error('Zoom did not change network camera: '+JSON.stringify({before,after,inline:await world.evaluate(n=>n.style.transform),disabled:await explorer.locator('[data-explorer-zoom-in]').isDisabled()}));
+ await explorer.locator('[data-explorer-reset]').click();
+ if(await explorer.locator('[data-explorer-title]').innerText()!=='Select a neuron')throw Error('Reset did not restore complete graph');
+ await explorer.screenshot({path:join(output,'neural-explorer-desktop.png')});
+ return 'Selection, graph relationships, history, real destinations, zoom and reset verified';
+});
 await run('Project view toggle, constellation and asymmetric Bento',async()=>{
  const grid=page.locator('#project-grid'),map=page.locator('#project-constellation');
  await page.locator('[data-project-view="grid"]').click();

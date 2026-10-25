@@ -35,6 +35,7 @@
 <link rel="stylesheet" href="creative-card-refinement.css?v=20261023-1" />
 <link rel="stylesheet" href="signal-index.css?v=20261024-1" />
 <link rel="stylesheet" href="neural-interactions.css?v=20261024-1" />
+<link rel="stylesheet" href="neural-explorer.css?v=20261024-1" />
 <script src="ad-loader.js?v=postpaint-1" defer></script>
 </head>
 <body>
@@ -97,6 +98,42 @@
 <li><a class="signal-path" href="#beyond" data-route="create" aria-label="Explore music, movement and creative pursuits"><span class="signal-path-top"><span class="signal-path-number">02 / CREATE</span><span class="signal-path-node" aria-hidden="true"></span></span><span class="signal-path-copy"><strong>Make it personal.</strong><span class="signal-path-detail">Music, movement and life beyond products.</span></span><span class="signal-path-bottom"><span>GO BEYOND</span><span aria-hidden="true">↗</span></span></a></li>
 <li><a class="signal-path" href="#creative" data-route="explore" aria-label="Discover the featured creative film"><span class="signal-path-top"><span class="signal-path-number">03 / EXPLORE</span><span class="signal-path-node" aria-hidden="true"></span></span><span class="signal-path-copy"><strong>See the story.</strong><span class="signal-path-detail">An introduction beyond the usual résumé.</span></span><span class="signal-path-bottom"><span>WATCH THE FILM</span><span aria-hidden="true">↗</span></span></a></li>
 </ol></nav><div class="signal-index-foot"><span>CONNECTIONS / 03</span><span id="signal-index-status" role="status" aria-live="off">SELECT A PATH TO BEGIN</span></div>
+</section>
+<section class="neural-explorer" id="neural-explorer" aria-labelledby="neural-explorer-title">
+  <header class="neural-explorer-heading">
+    <div><p class="neural-explorer-kicker">EXPLORE THE CONNECTIONS / INTERACTIVE NETWORK</p><h2 id="neural-explorer-title">Everything connects.</h2></div>
+    <p>Choose a neuron. Follow the connections between my projects, passions and ideas. Every node leads somewhere real.</p>
+  </header>
+  <div class="neural-explorer-shell">
+    <div class="neural-explorer-map" data-explorer-viewport aria-label="Interactive neural network. Select nodes to reveal related topics." tabindex="0">
+      <div class="neural-explorer-world" data-explorer-world>
+        <svg class="neural-explorer-links" data-explorer-links viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="neural-explorer-nodes" data-explorer-nodes role="group" aria-label="Projects and interests"></div>
+      </div>
+      <span class="neural-explorer-map-hint">DRAG BACKGROUND TO EXPLORE · CTRL + SCROLL TO ZOOM</span>
+      <div class="neural-explorer-zoom" role="group" aria-label="Network zoom controls">
+        <button data-explorer-zoom-out type="button" aria-label="Zoom out">−</button>
+        <button data-explorer-zoom-in type="button" aria-label="Zoom in">+</button>
+        <button data-explorer-fit type="button" aria-label="Center the network">⌖</button>
+      </div>
+    </div>
+    <aside class="neural-explorer-panel" data-explorer-detail aria-labelledby="neural-explorer-detail-title">
+      <span class="neural-explorer-panel-kicker" data-explorer-kind>DISCOVER THE NETWORK</span>
+      <h3 data-explorer-title id="neural-explorer-detail-title">Select a neuron</h3>
+      <p data-explorer-summary>Choose a project or idea. Related neurons will light up, revealing how the worlds connect.</p>
+      <span class="neural-explorer-counter" data-explorer-counter>10 CONNECTED WORLDS</span>
+      <div class="neural-explorer-related-list" data-explorer-related aria-label="Follow connected neurons"></div>
+      <a class="neural-explorer-action" data-explorer-action href="#projects" hidden>GO TO EXPERIENCE ↗</a>
+      <p data-explorer-intro>Try selecting Rhythm, then follow its connection to LyricsVerse. Or start with FootNow and see where the ideas lead.</p>
+    </aside>
+  </div>
+  <div class="neural-explorer-toolbar" role="group" aria-label="Explore network navigation">
+    <span class="neural-explorer-toolbar-caption">10 WORLDS · CONNECTED BY IDEAS</span>
+    <button type="button" data-explorer-back disabled>← PREVIOUS</button>
+    <button type="button" data-explorer-all>SHOW ALL</button>
+    <button type="button" data-explorer-reset class="neural-explorer-reset">RESET VIEW ↺</button>
+  </div>
+  <span class="sr-only" data-explorer-live role="status" aria-live="polite"></span>
 </section>
 <section id="projects" class="projects" aria-labelledby="projects-title"><div class="section-heading section-reveal"><div><p class="kicker">01 / SELECTED WORK</p><h2 id="projects-title">Things I've put<br /><span>into motion.</span></h2></div><p>Independent products, real problems, and experiments in making everyday experiences better.</p></div>
       <div class="experience-view-toggle" id="experience-view-toggle" role="group" aria-label="Choose how to explore projects" hidden>
@@ -276,6 +313,7 @@
 <script src="portfolio-experience.js?v=deck-visibility-2" defer></script>
 <script src="signal-index.js?v=20261024-1" defer></script>
 <script src="neural-interactions.js?v=20261024-1" defer></script>
+<script src="neural-explorer.js?v=20261024-1" defer></script>
 <script type="module" src="main.js?v=neural-preview-2"></script>
 </body>
 </html>
