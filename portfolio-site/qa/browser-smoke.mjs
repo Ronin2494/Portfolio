@@ -112,6 +112,29 @@ await run('Neural reactive cards respond to pointer and keyboard without blockin
  if(await beyond.count()!==4)throw Error('Creative card count changed');
  if(await beyond.locator('.neural-reactive-glow').count()!==4)throw Error('Shared effects missing on creative cards');
 });
+await run('Glass profile tabs and skills stack respond to keyboard and buttons',async()=>{
+ const profile=page.locator('#identity-lab');
+ await profile.scrollIntoViewIfNeeded();
+ if(!await profile.isVisible())throw Error('Personal profile absent');
+ const tabs=profile.locator('[data-profile-tab]');
+ if(await tabs.count()!==3)throw Error('Expected three profile tabs');
+ await tabs.nth(1).click();
+ if(await tabs.nth(1).getAttribute('aria-selected')!=='true')throw Error('Approach tab was not selected');
+ if(!await profile.locator('#profile-approach').isVisible())throw Error('Approach panel hidden');
+ await tabs.nth(2).click();
+ if(!await profile.locator('#profile-connect').isVisible())throw Error('Connect tab hidden');
+ await tabs.nth(0).click();
+ const deck=profile.locator('.skill-stage');
+ if(await deck.locator('.skill-slide').count()!==5)throw Error('Skill deck missing');
+ const before=await deck.locator('.skill-slide[data-position="0"] h3').innerText();
+ await profile.locator('[data-skill-next]').click();
+ const after=await deck.locator('.skill-slide[data-position="0"] h3').innerText();
+ if(before===after)throw Error('Skill stack did not shuffle');
+ await profile.locator('[data-skill-prev]').click();
+ if(await deck.locator('.skill-slide[data-position="0"] h3').innerText()!==before)
+  throw Error('Skill deck did not reverse');
+ await profile.screenshot({path:join(output,'profile-skills-desktop.png')});
+});
 await run('Project view toggle, constellation and asymmetric Bento',async()=>{
  const grid=page.locator('#project-grid'),map=page.locator('#project-constellation');
  await page.locator('[data-project-view="grid"]').click();

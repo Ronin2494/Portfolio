@@ -59,7 +59,7 @@
       b.style.setProperty('--ny',item.position[1]+'%');
       b.setAttribute('aria-label',item.title+' – '+item.status);
       b.setAttribute('aria-pressed','false');
-      const dot=document.createElement('span');dot.className='constellation-star';dot.setAttribute('aria-hidden','true');
+      const dot=document.createElement('span');dot.className='constellation-star';dot.setAttribute('aria-hidden','true');dot.textContent=item.initials;
       const name=document.createElement('span');name.className='constellation-name';name.textContent=item.title;
       b.append(dot,name);
       b.addEventListener('click',()=>select(item.i));

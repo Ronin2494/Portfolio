@@ -1,0 +1,63 @@
+/* EDITORIAL IDENTITY / SPECULATIVE GLASS / PROJECT NEURAL ATLAS.
+   Adapts profile tabs, stacking and CSS carousel references with no runtime frameworks. */
+html.neural-preview .identity-lab{margin:32px 0 72px;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:22px;align-items:stretch;color:#f1f6ff}
+html.neural-preview .identity-profile,html.neural-preview .skill-theater{border:1px solid rgba(180,222,234,.32);border-radius:28px;overflow:hidden;position:relative;background:linear-gradient(147deg,rgba(29,47,70,.93),rgba(15,25,45,.97));box-shadow:0 25px 68px #0108145b,inset 0 1px #ffffff15}
+html.neural-preview .identity-profile:before,html.neural-preview .skill-theater:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 74% 5%,#a7a0ef27,transparent 49%),radial-gradient(circle at 4% 95%,#9de6d41b,transparent 48%);z-index:0}
+html.neural-preview .identity-profile>* ,html.neural-preview .skill-theater>*{position:relative;z-index:1}
+html.neural-preview .identity-profile{padding:clamp(22px,3vw,36px)}
+html.neural-preview .identity-eyebrow{display:block;color:#a8e9da;font:700 10px/1.4 'Space Grotesk',sans-serif;letter-spacing:.19em;margin-bottom:22px}
+html.neural-preview .identity-head{display:flex;gap:18px;align-items:center}
+html.neural-preview .identity-avatar{width:94px;height:94px;flex:0 0 94px;display:grid;place-items:center;border-radius:32px;border:1px solid #d2e5fc88;color:#ecf9ff;font:700 32px 'Space Grotesk',sans-serif;letter-spacing:-.075em;background:radial-gradient(circle at 25% 20%,#9bace17a,transparent 55%),linear-gradient(145deg,#4c5982,#172c3d);box-shadow:inset 0 1px #ffffff7a,0 18px 36px #040a1a80;transform:rotate(-5deg)}
+html.neural-preview .identity-avatar span{transform:rotate(5deg)}
+html.neural-preview .identity-head h2{margin:0;font:600 clamp(26px,3.1vw,44px)/1 'Space Grotesk',sans-serif;letter-spacing:-.055em;color:#f5f7ff}
+html.neural-preview .identity-head p{margin:10px 0 0;color:#bfd2e2;font:500 12px/1.65 'DM Sans',sans-serif}
+html.neural-preview .identity-tabs{display:flex;gap:5px;margin:27px 0 19px;padding:5px;background:#09182c8c;border:1px solid #c2e9ed25;border-radius:15px}
+html.neural-preview .identity-tabs button{flex:1;border:0;border-radius:11px;padding:11px 8px;cursor:pointer;background:transparent;color:#b9ccdc;font:700 11px 'Space Grotesk',sans-serif}
+html.neural-preview .identity-tabs button[aria-selected="true"]{color:#092932;background:#bbebdb;box-shadow:0 4px 15px #0003}
+html.neural-preview .identity-tabs button:focus-visible,html.neural-preview .skill-nav button:focus-visible{outline:3px solid #c0ffe5;outline-offset:3px}
+html.neural-preview .identity-panel{min-height:124px;color:#d2deea;font:400 13px/1.8 'DM Sans',sans-serif}
+html.neural-preview .identity-panel[hidden]{display:none}
+html.neural-preview .identity-panel p{margin:0 0 12px}
+html.neural-preview .identity-panel a{color:#cbffeb;text-underline-offset:4px}
+html.neural-preview .identity-panel .identity-chips{display:flex;gap:8px;flex-wrap:wrap}
+html.neural-preview .identity-chips span{display:inline-flex;border-radius:999px;padding:8px 11px;background:#c6e5f011;border:1px solid #e6f7fc30;color:#d9e9f8;font:600 10px 'Space Grotesk',sans-serif}
+html.neural-preview .skill-theater{padding:clamp(21px,2.6vw,31px);display:flex;flex-direction:column;min-height:354px}
+html.neural-preview .skill-theater-head{display:flex;justify-content:space-between;align-items:baseline;gap:15px}
+html.neural-preview .skill-theater h2{font:600 clamp(25px,2.8vw,37px)/1.1 'Space Grotesk',sans-serif;letter-spacing:-.045em;margin:0 0 8px;color:#fff}
+html.neural-preview .skill-theater .skill-caption{font:400 12px/1.6 'DM Sans',sans-serif;color:#bacfdb;margin:0}
+html.neural-preview .skill-counter{color:#b8ebde;font:700 10px 'Space Grotesk',sans-serif;white-space:nowrap}
+html.neural-preview .skill-stage{position:relative;flex:1;min-height:215px;margin:22px 8px 0;perspective:900px}
+html.neural-preview .skill-slide{position:absolute;inset:0 4px;display:flex;flex-direction:column;justify-content:space-between;padding:25px;border:1px solid #c7e8eb62;border-radius:21px;background:linear-gradient(150deg,#33445b,#15253c);box-shadow:0 18px 48px #0409148f;transform:translateX(calc(var(--skill-depth)*16px)) translateY(calc(var(--skill-depth)*-13px)) scale(calc(1 - var(--skill-depth)*.07)) rotate(calc(var(--skill-depth)*-2deg));transform-origin:bottom center;opacity:calc(1 - var(--skill-depth)*.2);transition:transform .48s cubic-bezier(.22,.72,.22,1),opacity .48s;z-index:calc(10 - var(--skill-depth));pointer-events:none}
+html.neural-preview .skill-slide[data-position="0"]{background:radial-gradient(ellipse at 90% 9%,#a8a9ff3b,transparent 53%),linear-gradient(150deg,#283e56,#142338);pointer-events:auto}
+html.neural-preview .skill-slide[data-position="1"]{filter:brightness(.82)}
+html.neural-preview .skill-slide[data-position="2"]{filter:brightness(.66)}
+html.neural-preview .skill-slide[hidden]{display:none}
+html.neural-preview .skill-slide small{font:700 10px 'Space Grotesk',sans-serif;letter-spacing:.13em;color:#b1e9d8}
+html.neural-preview .skill-slide h3{font:600 clamp(28px,2.8vw,40px)/1.06 'Space Grotesk',sans-serif;letter-spacing:-.05em;color:#fff;margin:13px 0}
+html.neural-preview .skill-slide p{font:400 12px/1.65 'DM Sans',sans-serif;color:#d4e0ee;margin:0;max-width:32ch}
+html.neural-preview .skill-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px}
+html.neural-preview .skill-nav button{border:1px solid #d6e4f14c;background:#18344a;color:#eaf6ff;border-radius:50%;width:43px;height:43px;font-size:20px;cursor:pointer}
+html.neural-preview .skill-nav span{color:#b6d2dd;font:600 10px 'Space Grotesk',sans-serif;letter-spacing:.1em}
+html.neural-preview .project-constellation{background:radial-gradient(ellipse at 49% 52%,#2b475865,transparent 62%),linear-gradient(160deg,#0e1f31,#0b1327 79%);border:1px solid #b8dce54e;box-shadow:0 26px 75px #02081684, inset 0 1px #c7ebf018}
+html.neural-preview .project-constellation:before{background-image:radial-gradient(#a9e9dc28 .8px,transparent 1px);background-size:36px 36px;opacity:.7}
+html.neural-preview .constellation-map{min-height:490px}
+html.neural-preview .constellation-lines{opacity:.8}
+html.neural-preview .constellation-lines path{stroke:#8cd3c75c;stroke-dasharray:0;stroke-width:1.25}
+html.neural-preview .constellation-lines path:first-child{stroke:#a4ddcb57;stroke-width:1.3}
+html.neural-preview .constellation-lines circle{stroke:#a6d9e431;stroke-width:.8;stroke-dasharray:2 9}
+html.neural-preview .constellation-center{width:100px;height:100px;border-radius:32px;font:700 29px 'Space Grotesk',sans-serif;background:radial-gradient(circle at 30% 20%,#a2eed054,#20394f 74%);border:1px solid #b9f1de96;box-shadow:0 0 0 14px #9ae3cd0b,0 0 68px #85d7d742;transform:translate(-50%,-50%) rotate(-6deg)}
+html.neural-preview .constellation-node{width:136px;min-height:105px;gap:9px;padding:12px 8px;border:1px solid #c5e3ec69;border-radius:17px;background:linear-gradient(150deg,#314460e8,#111f34ed);backdrop-filter:blur(12px);box-shadow:0 14px 29px #0209157c,inset 0 1px #ffffff24;color:#ecf5ff;transition:transform .27s,border-color .27s,box-shadow .27s}
+html.neural-preview .constellation-node:nth-child(2n){background:linear-gradient(150deg,#2a3a51ec,#162138ee);transform:translate(-50%,-50%) rotate(4deg)}
+html.neural-preview .constellation-node:nth-child(3n){transform:translate(-50%,-50%) rotate(-5deg)}
+html.neural-preview .constellation-node:hover,html.neural-preview .constellation-node[aria-pressed="true"]{z-index:8;transform:translate(-50%,-55%) rotate(0) scale(1.07);border-color:#b8f2da;box-shadow:0 18px 36px #0209169c,0 0 30px #b4f3da32}
+html.neural-preview .constellation-star{width:37px;height:37px;border-radius:13px;display:grid;place-items:center;font:700 13px 'Space Grotesk',sans-serif;letter-spacing:-.02em;color:#f4f7ff;background:radial-gradient(circle at 23% 16%,#d0d0ff72,transparent 73%),linear-gradient(130deg,#7276a4,#364764);border:1px solid #d4f1ff92;box-shadow:0 7px 15px #0007;animation:none}
+html.neural-preview .constellation-node[aria-pressed="true"] .constellation-star{background:linear-gradient(130deg,#baf1de,#70b8b5);color:#082a2f;box-shadow:0 0 22px #b7efdd50;border-color:#c8f8e9}
+html.neural-preview .constellation-name{font:700 11px/1.3 'Space Grotesk',sans-serif;max-width:118px;overflow-wrap:anywhere}
+html.neural-preview .constellation-preview{background:radial-gradient(ellipse at 90% 0%,#afa5ec22,transparent 56%),linear-gradient(155deg,#24354b,#10182b);border:1px solid #c7eaf04f;box-shadow:0 21px 50px #01091859,inset 0 1px #ffffff2d}
+html.neural-preview .constellation-preview-orb{background:linear-gradient(140deg,#7895b3,#273c5b);border-color:#beebea9b;transform:rotate(-6deg)}
+html.neural-preview .constellation-preview-cta{background:#c2eedb;color:#103134}
+@media(max-width:1100px){html.neural-preview .constellation-node{width:117px;min-height:98px}}
+@media(max-width:900px){html.neural-preview .identity-lab{grid-template-columns:1fr}html.neural-preview .constellation-node{width:110px}}
+@media(max-width:740px){html.neural-preview .constellation-node{width:94px;min-height:85px;padding:8px 5px}html.neural-preview .constellation-star{width:30px;height:30px;border-radius:10px}html.neural-preview .constellation-name{font-size:9px}}
+@media(max-width:520px){html.neural-preview .identity-head{align-items:flex-start}html.neural-preview .identity-avatar{width:72px;height:72px;flex-basis:72px;border-radius:22px;font-size:25px}html.neural-preview .identity-lab{gap:15px;margin:18px 0 52px}html.neural-preview .skill-theater{min-height:320px}html.neural-preview .constellation-node{width:83px;min-height:78px}html.neural-preview .constellation-map{height:410px}}
+@media(prefers-reduced-motion:reduce){html.neural-preview .skill-slide,html.neural-preview .constellation-node{transition:none!important}html.neural-preview .constellation-node:hover{transform:translate(-50%,-50%)}}
