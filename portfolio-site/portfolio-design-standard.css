@@ -39,3 +39,13 @@
   .bento>.tile:is(:hover,:focus-within) .project-scene{transform:none!important}
   :where(.header-enter,.header-contact,.scene-cta,.scene-instagram,.primary-button,.end-cta,.nav-contact,.constellation-preview-cta):is(:hover,:focus-visible) .ui-arrow-wrap{transform:none!important}
 }
+
+/* Windows high-contrast mode: shadows disappear in forced colors, so preserve
+   clearly bounded controls and discernible icon strokes without relying on glow. */
+@media(forced-colors:active){
+  .bento>.tile .round-link,.header-contact,.scene-cta,.scene-instagram,.primary-button,.end-cta{
+    forced-color-adjust:auto;border:2px solid ButtonText;box-shadow:none!important
+  }
+  :where(a,button):focus-visible{outline:3px solid Highlight!important;outline-offset:4px}
+  .ui-arrow{color:ButtonText;filter:none}
+}
