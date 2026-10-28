@@ -164,7 +164,7 @@ await run('TaskMail and ESPIONAAJ cards and constellation previews open live web
  for(const project of projects){
    await page.locator('#constellation-nodes .constellation-node').filter({hasText:project.name}).click();
    const actual=await preview.getAttribute('href');
-   if(actual!==project.url)
+   if(new URL(actual).href!==new URL(project.url).href)
      throw Error(project.name+' constellation preview URL mismatch: expected '+project.url+' but got '+actual+'; selected='+await page.locator('#constellation-preview-title').innerText());
  }
  await page.locator('[data-project-view="grid"]').click();
