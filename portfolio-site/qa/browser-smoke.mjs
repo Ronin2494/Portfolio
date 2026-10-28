@@ -97,7 +97,8 @@ await run('Portfolio icon/shadow design: keyboard focus, interactive states and 
   const card=page.locator('.tile-'+name);
   const img=card.locator('img.project-scene');
   if(await img.count()!==1)throw Error('Missing '+name+' bespoke project scene');
-  const loaded=await img.evaluate(el=>el.complete&&el.naturalWidth>0&&el.naturalHeight>0);
+  await img.scrollIntoViewIfNeeded();
+  const loaded=await img.evaluate(async el=>{try{await el.decode();return el.complete&&el.naturalWidth>0&&el.naturalHeight>0;}catch{return false}});
   if(!loaded)throw Error('Broken project artwork '+name);
   const dimensions=await img.evaluate(el=>({w:el.naturalWidth,h:el.naturalHeight,fit:getComputedStyle(el).objectFit}));
   if(dimensions.w!==1200||dimensions.h!==700||dimensions.fit!=='cover')throw Error('Distorted visual '+name);
@@ -108,13 +109,36 @@ await run('Portfolio icon/shadow design: keyboard focus, interactive states and 
  if(before==='none')throw Error('Project link missing depth effect');
  await link.scrollIntoViewIfNeeded();
  await link.hover();
+ await page.waitForTimeout(320);
  const after=await link.evaluate(el=>getComputedStyle(el).boxShadow);
- if(after==='none')throw Error('Project link lost shadow on hover');
+ if(after==='none'||after===before)throw Error('Project link hover state lacks distinct shadow feedback');
+ const rectBefore=await link.boundingBox();
+ await link.evaluate(el=>el.addEventListener('click',event=>event.preventDefault(),{once:true}));
+ const pt={x:rectBefore.x+rectBefore.width/2,y:rectBefore.y+rectBefore.height/2};
+ await page.mouse.move(pt.x,pt.y);
+ await page.mouse.down();
+ await page.waitForTimeout(70);
+ const pressed=await link.evaluate(el=>getComputedStyle(el).boxShadow);
+ if(pressed==='none')throw Error('Pressed link loses depth feedback');
+ await page.mouse.up();
+ const rectAfter=await link.boundingBox();
+ if(Math.abs(rectBefore.width-rectAfter.width)>2||Math.abs(rectBefore.height-rectAfter.height)>2)throw Error('Button shadow state changed hit target geometry');
  await link.focus();
  const focus=await link.evaluate(el=>({outline:getComputedStyle(el).outlineStyle,r:el.getBoundingClientRect().toJSON()}));
  if(focus.outline==='none')throw Error('Project link missing focus outline');
  if(focus.r.width<44||focus.r.height<44)throw Error('Project link touch target too small');
  await page.locator('.tile-footnow').screenshot({path:join(output,'project-scene-and-link-desktop.png')});
+});
+await run('Forced-colors mode preserves visible vector navigation and focus boundaries',async()=>{
+ const ctx=await browser.newContext({viewport:{width:1280,height:800},forcedColors:'active',reducedMotion:'reduce'});
+ const p=await ctx.newPage();
+ try{
+  await p.goto(base+'/#projects',{waitUntil:'domcontentloaded'});
+  const link=p.locator('.header-contact');
+  await link.focus();
+  const states=await link.evaluate(el=>({border:getComputedStyle(el).borderStyle,outline:getComputedStyle(el).outlineStyle,svg:!!el.querySelector('svg.ui-arrow')}));
+  if(!states.svg||states.border==='none'||states.outline==='none')throw Error('Controls disappear in forced-colors mode: '+JSON.stringify(states));
+ }finally{await ctx.close()}
 });
 await run('Neural Index links, layout, accessibility and responsive cards',async()=>{
  const region=page.locator('.signal-index');
