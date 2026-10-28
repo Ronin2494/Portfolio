@@ -1,0 +1,40 @@
+# badbunny.work — project description rewrites
+Prepared 2026-10-28, after actually visiting each live product. Grounded only in what the products show today — no invented metrics.
+
+## 01 · FootNow — LIVE
+**Now:** "Football, without the noise. Scores, stories, video, and a daily editorial experience in one destination."
+**Rewrite:** "Live football. Every moment. Scores as they happen, headlines from independent publishers around the world, and the latest highlights on video — a front-row seat with none of the noise."
+**Proof line (true today):** "Refreshed daily — today's front page carries world football headlines (ESPN and more) alongside a growing highlights library."
+
+## 02 · LyricVerse — LIVE
+**Now:** "A home for discovering lyrics, listening previews, and celebrating original voices."
+**Rewrite:** "Find the words. Feel the music. Search the lyrics, hear the preview, discover an original voice — a home for people who read songs, not just play them."
+**Housekeeping:** your card says "LyricsVerse" but the product itself brands as **LyricVerse** (no s). Pick one spelling — the product's own is the safer bet.
+
+## 03 · SeatPath — IN PROGRESS
+**Now:** "Intercity ridesharing with a smarter booking flow and timely driver responses."
+**Rewrite:** "Find your ride directly on the map. Drag the map, tap a glowing city, request your seat — no forms, no phone tag, no leaving the screen. Intercity ridesharing the way riders actually think: by place, not by paperwork."
+*(This borrows your own product's best line — "Find your ride directly on the map" — which is much stronger than the portfolio version.)*
+
+## 04 · Catalyst Immigration — LIVE (your strongest hidden story)
+**The discovery:** the live product isn't a generic immigration tool — it's **Her Path**, women-first immigration guidance for **Canada and India**, run as The Catalyst Care. Your card hides all three of those facts, and they're exactly what makes it memorable.
+**Rename the card:** "Her Path — by Catalyst Immigration" (or simply align it to the product name).
+**Now:** "Helping people understand immigration pathways with a clearer, more human digital experience."
+**Rewrite:** "Immigration guidance built for women planning a move to Canada or India. Share your story, see the pathways that genuinely fit, and leave with a clear checklist for what comes next — honest guidance, no guaranteed outcomes, ever."
+
+## 05 · TaskMail — IN DEVELOPMENT
+**Now:** "An intelligent space for turning inbox activity into clarity, priorities, and action."
+**Rewrite:** "Your inbox, turned into a plan. TaskMail sorts the noise from the necessary — what needs action, in what order, and what can quietly wait."
+**Note:** I couldn't verify the product itself — see the link warning below. This rewrite is from your concept line only.
+
+## 06 · Espionaaj — IN CONCEPT
+**Now:** "A distinctive beauty and self-care concept blending nail services, spa, and wellness."
+**Rewrite:** "Beauty, minus the ordinary. A self-care address in the making — nail artistry, spa ritual and wellness under one roof, built brand-first and experience-led."
+
+---
+
+## ⚠️ Two of your six cards lead to a dead end — verified today
+The TaskMail and Espionaaj cards link to `github.com/Ronin2494/taskmail` and `github.com/Ronin2494/Espionaaj`. Your GitHub profile loads fine, but **both repo links return 404 for a logged-out visitor** (private, renamed, or deleted — from a visitor's chair it makes no difference). Three honest options:
+1. Make the repos public, if the code can be seen.
+2. Point the cards at your GitHub profile instead, labelled "More experiments on GitHub ↗".
+3. Drop the outbound link on those two cards and end them with "In development — ask me about it" (which also starts conversations, your actual goal).
