@@ -94,3 +94,22 @@ test('SeatPath appears as in progress in both filters and constellation', () => 
   assert.match(html, /data-work-filter="live"[^\n]*>Live <span class="filter-number" aria-hidden="true">03<\/span>/);
   assert.match(html, /data-work-filter="building"[^\n]*>In progress <span class="filter-number" aria-hidden="true">03<\/span>/);
 });
+
+
+test('TaskMail and ESPIONAAJ launch their deployed products, never their source repositories', () => {
+  const expected = [
+    ['taskmail', 'TaskMail', 'https://taskmail.onrender.com'],
+    ['espionaaj', 'Espionaaj', 'https://espionaaj.onrender.com']
+  ];
+  for (const [tileClass, name, url] of expected) {
+    const card = html.match(new RegExp('<article class="tile tile-' + tileClass + '\\b[^]*?<\\/article>'))?.[0];
+    assert.ok(card, name + ' project card exists');
+    const anchors = [...card.matchAll(/<a\\b[^>]*class="round-link"[^>]*>/g)];
+    assert.equal(anchors.length, 1, name + ' has exactly one launch anchor');
+    assert.match(anchors[0][0], new RegExp('href="' + url.replace(/\\./g, '\\\\.') + '"'));
+    assert.match(anchors[0][0], new RegExp('aria-label="Visit ' + name + ' live website"'));
+    assert.match(anchors[0][0], /rel="noopener noreferrer"/);
+    assert.doesNotMatch(anchors[0][0], /github\\.com/i);
+  }
+  assert.match(html, /href="https:\/\/github\\.com\/Ronin2494"[^>]*>Explore my GitHub/);
+});
