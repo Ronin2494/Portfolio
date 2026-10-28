@@ -47,3 +47,112 @@
 @media(max-width:700px){.portal-header{padding:20px 24px;flex-wrap:wrap;gap:8px}.header-enter{margin-left:auto}.header-contact{padding:10px 12px;font-size:9px;letter-spacing:.04em}.scene-copy{width:88%;bottom:36px;left:6%}.scene-copy p{margin-bottom:18px;line-height:1.53;font-size:13px}.scene-copy h2{margin:12px 0 15px}.scene-actions{gap:8px}.scene-cta,.scene-instagram,.scene-connect{min-height:42px;padding:11px 13px;font-size:9px;letter-spacing:.02em}.scene-cta{gap:10px}.creator-reels{border-radius:20px;padding:18px;margin-top:25px}.creator-reels-heading{display:block}.creator-reels-all{display:inline-block;margin-top:15px}.creator-reels-grid{grid-template-columns:1fr 1fr;gap:10px}.creator-reel,.creator-reel-feature{min-height:240px;border-radius:14px}.creator-reel-feature{grid-column:span 2;min-height:260px}.creator-reel:last-child{grid-column:auto;min-height:240px}.creator-reel-overlay{inset:auto 10px 13px;gap:5px}.creator-reel-overlay strong{font-size:clamp(20px,6vw,29px)}.creator-reel-overlay>span{font-size:8px;letter-spacing:.03em}.footer{flex-direction:column;text-align:center;gap:18px}.footer nav{gap:16px}.end-actions{gap:10px}.member-preview-card{min-height:unset}}
 @media(max-width:390px){.header-enter{font-size:9px;letter-spacing:.06em}.header-contact{font-size:8px}.scene-copy{bottom:28px}.scene-copy h2{font-size:clamp(39px,10vw,46px)}.scene-actions a{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.creator-reel img,.header-contact,.scene-actions a{transition:none!important;transform:none!important}.creator-reel:hover img,.creator-reel:focus-visible img{transform:none!important}}
+
+
+/* Mobile project-card readability: preserve moving media, but give it a dedicated
+   visual stage. The opaque-gradient reading zone is never crossed by art or stats. */
+@media(max-width:700px){
+  html.neural-preview .bento:not(.is-layered-deck)>.tile{
+    display:flex;flex-direction:column;gap:0;
+    padding:0!important;min-height:0!important;height:auto!important;
+    overflow:hidden;isolation:isolate;
+    border-radius:24px;transform:none;
+    background:linear-gradient(155deg,rgba(40,46,78,.96),rgba(13,21,40,.99));
+    box-shadow:0 18px 38px rgba(3,7,22,.3);
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile::before{
+    inset:0;transform:none;border-radius:inherit;z-index:-1;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile>.tile-top{
+    order:0;position:relative;z-index:5;display:flex;align-items:center;
+    flex-wrap:wrap;justify-content:space-between;gap:8px;
+    padding:19px 20px 15px;margin:0;
+    background:linear-gradient(115deg,rgba(22,30,54,.98),rgba(32,36,68,.96));
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .tile-index,
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .status{
+    opacity:1;color:#f1f4ff;line-height:1.5;font-size:10px;letter-spacing:.09em;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile>.tile-art{
+    order:1;position:relative!important;inset:auto!important;
+    display:block;flex:0 0 auto;width:100%;height:clamp(150px,43vw,205px);
+    border:0;border-top:1px solid rgba(225,231,255,.16);
+    border-bottom:1px solid rgba(225,231,255,.2);
+    border-radius:0!important;overflow:hidden;pointer-events:none;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile>.tile-content{
+    order:2;display:flex;align-items:flex-end;gap:12px;
+    margin:0;padding:20px 20px 22px;min-width:0;
+    background:linear-gradient(155deg,rgba(25,34,61,.99),rgba(14,23,44,.99));
+    z-index:5;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .tile-text{
+    min-width:0;flex:1 1 auto;overflow-wrap:anywhere;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .tile-text h3{
+    color:#fff;font-size:clamp(29px,8vw,43px);line-height:1.09;
+    letter-spacing:-.055em;margin:0 0 14px;overflow-wrap:anywhere;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .tile-text>p:not(.project-proof){
+    color:#f0f3ff!important;opacity:1!important;
+    font-size:clamp(14px,3.7vw,16px);line-height:1.55;
+    max-width:100%;margin:0 0 15px;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .tile-text>.project-proof{
+    color:#f1f1ff!important;opacity:1!important;
+    font-size:13px!important;line-height:1.55!important;
+    margin:0 0 17px!important;padding:10px 0 10px 12px;
+    background:linear-gradient(90deg,rgba(207,197,255,.15),transparent);
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .tags{gap:7px}
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .tags span{
+    color:#f0f3ff;border-color:rgba(220,226,255,.52);
+    padding:7px 9px;font-size:11px;line-height:1.4;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .round-link{
+    width:48px;height:48px;min-width:48px;min-height:48px;
+    position:relative;flex-shrink:0;align-self:flex-end;
+    background:#fff;color:#121b32;font-size:25px;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .round-link:focus-visible{
+    outline:3px solid #e2f88f;outline-offset:3px;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .foot-ball{
+    top:50%;left:50%;right:auto;width:clamp(160px,44vw,210px);height:clamp(160px,44vw,210px);
+    transform:translate(-50%,-50%) rotate(-18deg);
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .foot-stat{
+    top:auto;bottom:12px;left:16px;font-size:20px;
+    text-shadow:0 2px 8px rgba(0,0,0,.9);
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .foot-stat b{
+    font-size:8px;letter-spacing:.12em;margin-top:4px;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .record{
+    top:50%;left:50%;width:clamp(155px,44vw,210px);height:clamp(155px,44vw,210px);
+    transform:translate(-50%,-50%) rotate(-15deg);
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .sound-wave{
+    top:53%;left:50%;transform:translateX(-50%);
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .route-chip{
+    top:auto;bottom:12px;right:14px;
+  }
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .tile-art .esp-large{
+    font-size:clamp(120px,34vw,185px);
+  }
+  .personal-dock{right:12px;bottom:calc(15px + env(safe-area-inset-bottom,0px))}
+  .dock-trigger{min-width:58px;min-height:58px;font-size:15px}
+}
+@media(max-width:370px){
+  html.neural-preview .bento:not(.is-layered-deck)>.tile>.tile-content{padding:17px 15px 20px}
+  html.neural-preview .bento:not(.is-layered-deck)>.tile>.tile-top{padding:17px 15px 13px}
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .tile-text h3{font-size:29px}
+}
+@media(max-width:700px) and (prefers-reduced-motion:reduce){
+  html.neural-preview .bento:not(.is-layered-deck)>.tile *,
+  html.neural-preview .bento:not(.is-layered-deck)>.tile *::before,
+  html.neural-preview .bento:not(.is-layered-deck)>.tile *::after{
+    animation:none!important;transition:none!important;
+  }
+}
