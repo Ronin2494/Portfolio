@@ -146,6 +146,29 @@ await run('Project view toggle, constellation and asymmetric Bento',async()=>{
  if(await grid.isVisible())throw Error('Grid not hidden');
  await page.locator('[data-project-view="grid"]').click();
 });
+await run('TaskMail and ESPIONAAJ cards and constellation previews open live websites',async()=>{
+ const projects=[
+   {tile:'taskmail',name:'TaskMail',url:'https://taskmail.onrender.com'},
+   {tile:'espionaaj',name:'Espionaaj',url:'https://espionaaj.onrender.com'}
+ ];
+ const grid=page.locator('#project-grid');
+ await page.locator('[data-project-view="grid"]').click();
+ for(const project of projects){
+   const link=grid.locator('.tile-'+project.tile+' .round-link');
+   if(await link.getAttribute('href')!==project.url)throw Error(project.name+' Bento anchor does not open its live site');
+   if(await link.getAttribute('aria-label')!=='Visit '+project.name+' live website')
+     throw Error(project.name+' Bento anchor has incorrect accessible label');
+ }
+ await page.locator('[data-project-view="constellation"]').click();
+ const preview=page.locator('#constellation-preview-link');
+ for(const project of projects){
+   await page.locator('#constellation-nodes .constellation-node').filter({hasText:project.name}).click();
+   const actual=await preview.getAttribute('href');
+   if(new URL(actual).href!==new URL(project.url).href)
+     throw Error(project.name+' constellation preview URL mismatch: expected '+project.url+' but got '+actual+'; selected='+await page.locator('#constellation-preview-title').innerText());
+ }
+ await page.locator('[data-project-view="grid"]').click();
+});
 await run('Project filters and layered card deck',async()=>{
  await page.locator('[data-work-filter="live"]').click();
  let count=await page.locator('#project-grid > .tile:visible').count();

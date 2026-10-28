@@ -94,3 +94,22 @@ test('SeatPath appears as in progress in both filters and constellation', () => 
   assert.match(html, /data-work-filter="live"[^\n]*>Live <span class="filter-number" aria-hidden="true">03<\/span>/);
   assert.match(html, /data-work-filter="building"[^\n]*>In progress <span class="filter-number" aria-hidden="true">03<\/span>/);
 });
+
+
+test('TaskMail and ESPIONAAJ launch their deployed products, never their source repositories', () => {
+  const expected = [
+    ['taskmail', 'TaskMail', 'https://taskmail.onrender.com'],
+    ['espionaaj', 'Espionaaj', 'https://espionaaj.onrender.com']
+  ];
+  for (const [tileClass, name, url] of expected) {
+    const card = html.match(new RegExp('<article class="tile tile-' + tileClass + '[^]*?</article>'))?.[0];
+    assert.ok(card, name + ' project card exists');
+    const anchors = [...card.matchAll(/<a[^>]*class="round-link"[^>]*>/g)];
+    assert.equal(anchors.length, 1, name + ' has exactly one launch anchor');
+    assert.ok(anchors[0][0].includes('href="' + url + '"'), name + ' points to its live URL');
+    assert.ok(anchors[0][0].includes('aria-label="Visit ' + name + ' live website"'));
+    assert.ok(anchors[0][0].includes('rel="noopener noreferrer"'));
+    assert.ok(!anchors[0][0].includes('github.com'), name + ' must not link to source code');
+  }
+  assert.ok(html.includes('href="https://github.com/Ronin2494"'), 'Explicit GitHub portfolio link is preserved');
+});
