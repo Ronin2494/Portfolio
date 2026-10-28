@@ -449,7 +449,10 @@ await run('Floating LinkedIn banner clears DS dock on 320px, 390px and desktop',
      throw Error('LinkedIn floating banner covers dock '+width+': '+JSON.stringify(info));
    const measuredWidth=await p.evaluate(()=>document.documentElement.scrollWidth);
    if(a.x < -1 || a.x+a.w > width+1)throw Error('LinkedIn ribbon itself extends beyond viewport '+width+': '+JSON.stringify(info));
-   if(measuredWidth>Math.max(width,baselineWidth)+2)throw Error('LinkedIn ribbon increases existing horizontal overflow at '+width+': baseline='+baselineWidth+' after='+measuredWidth);
+   if(measuredWidth>Math.max(width,baselineWidth)+2){
+    const offenders=await p.evaluate(()=>[...document.querySelectorAll('body *')].map(e=>({el:e,rect:e.getBoundingClientRect()})).filter(v=>v.rect.width&&v.rect.right>innerWidth+2&&!getComputedStyle(v.el).overflowX.includes('hidden')).slice(0,12).map(v=>({tag:v.el.tagName,cls:String(v.el.className).slice(0,80),right:Math.round(v.rect.right),left:Math.round(v.rect.left)})));
+    throw Error('LinkedIn ribbon increases existing horizontal overflow at '+width+': baseline='+baselineWidth+' after='+measuredWidth+' elements='+JSON.stringify(offenders));
+   }
    if(a.w<44||a.h<44)throw Error('LinkedIn target under minimum touch size '+width);
    if(info.position!=='fixed'||info.href!=='https://www.linkedin.com/in/deepak-s-b099186b')
      throw Error('Incorrect LinkedIn navigation '+width);
