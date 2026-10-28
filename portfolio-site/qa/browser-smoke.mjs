@@ -89,6 +89,7 @@ await run('Portfolio icon/shadow design: keyboard focus, interactive states and 
  const start=await header.evaluate(el=>({shadow:getComputedStyle(el).boxShadow,outline:getComputedStyle(el).outlineStyle,svg:el.querySelector('svg.ui-arrow')?.getBoundingClientRect().width}));
  if(!start.svg || start.svg<12)throw Error('Header still uses an emoji/fallback icon');
  if(start.shadow==='none')throw Error('Contact button shadow is absent');
+ await page.keyboard.press('Tab');
  await header.focus();
  const focused=await header.evaluate(el=>getComputedStyle(el).outlineStyle);
  if(focused==='none')throw Error('Contact CTA keyboard focus is not visible');
@@ -123,6 +124,7 @@ await run('Portfolio icon/shadow design: keyboard focus, interactive states and 
  await page.mouse.up();
  const rectAfter=await link.boundingBox();
  if(Math.abs(rectBefore.width-rectAfter.width)>2||Math.abs(rectBefore.height-rectAfter.height)>2)throw Error('Button shadow state changed hit target geometry');
+ await page.keyboard.press('Tab');
  await link.focus();
  const focus=await link.evaluate(el=>({outline:getComputedStyle(el).outlineStyle,r:el.getBoundingClientRect().toJSON()}));
  if(focus.outline==='none')throw Error('Project link missing focus outline');
@@ -135,6 +137,7 @@ await run('Forced-colors mode preserves visible vector navigation and focus boun
  try{
   await p.goto(base+'/#projects',{waitUntil:'domcontentloaded'});
   const link=p.locator('.header-contact');
+  await p.keyboard.press('Tab');
   await link.focus();
   const states=await link.evaluate(el=>({border:getComputedStyle(el).borderStyle,outline:getComputedStyle(el).outlineStyle,svg:!!el.querySelector('svg.ui-arrow')}));
   if(!states.svg||states.border==='none'||states.outline==='none')throw Error('Controls disappear in forced-colors mode: '+JSON.stringify(states));
