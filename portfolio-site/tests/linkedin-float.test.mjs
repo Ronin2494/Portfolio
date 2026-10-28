@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const html=read('index.html'), css=read('linkedin-float.css');
 test('Canva LinkedIn banner renders as a separate meaningful link with original copy',()=>{
- assert.match(html,/class="linkedin-float" href="https:\/\/www\.linkedin\.com\/in\/deepak-s-b099186b"/);
+ assert.match(html,/class="linkedin-float" hidden href="https:\/\/www\.linkedin\.com\/in\/deepak-s-b099186b"/);
  assert.match(html,/Life is short, make the best of it!/);
  assert.match(html,/CONNECT ON LINKEDIN/);
  assert.match(html,/class="linkedin-float-mark"/);
@@ -24,4 +24,18 @@ test('floating banner does not displace main layout or replace DS floating navig
  assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
  assert.match(css,/@media\(forced-colors:active\)/);
  assert.match(css,/:focus-visible/);
+});
+
+test('the banner is footer-triggered, animated, and hidden from keyboard flow elsewhere',()=>{
+ const js=read('linkedin-float.js');
+ assert.match(html,/class="linkedin-float" hidden href=/);
+ assert.match(html,/src="linkedin-float\.js\?v=/);
+ assert.match(js,/IntersectionObserver/);
+ assert.match(js,/entry\.isIntersecting/);
+ assert.match(js,/banner\.hidden = !visible/);
+ assert.match(js,/observer\.observe\(footer\)/);
+ assert.match(css,/\.linkedin-float\[hidden\]\{display:none!important\}/);
+ assert.match(css,/@keyframes linkedin-entrance/);
+ assert.match(css,/\.linkedin-float-light/);
+ assert.match(css,/prefers-reduced-motion:reduce/);
 });
