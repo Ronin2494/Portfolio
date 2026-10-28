@@ -75,7 +75,7 @@
   }
   html.neural-preview .bento:not(.is-layered-deck)>.tile>.tile-art{
     order:1;position:relative!important;inset:auto!important;
-    display:block;flex:0 0 auto;width:100%;height:clamp(150px,43vw,205px);
+    display:block;flex:0 0 auto;width:100%;height:clamp(270px,76vw,330px);
     border:0;border-top:1px solid rgba(225,231,255,.16);
     border-bottom:1px solid rgba(225,231,255,.2);
     border-radius:0!important;overflow:hidden;pointer-events:none;
@@ -118,7 +118,7 @@
     outline:3px solid #e2f88f;outline-offset:3px;
   }
   html.neural-preview .bento:not(.is-layered-deck)>.tile .foot-ball{
-    top:50%;left:50%;right:auto;width:clamp(160px,44vw,210px);height:clamp(160px,44vw,210px);
+    top:48%;left:54%;right:auto;width:clamp(168px,48vw,215px);height:clamp(168px,48vw,215px);
     transform:translate(-50%,-50%) rotate(-18deg);
   }
   html.neural-preview .bento:not(.is-layered-deck)>.tile .foot-stat{
@@ -129,11 +129,12 @@
     font-size:8px;letter-spacing:.12em;margin-top:4px;
   }
   html.neural-preview .bento:not(.is-layered-deck)>.tile .record{
-    top:50%;left:50%;width:clamp(155px,44vw,210px);height:clamp(155px,44vw,210px);
-    transform:translate(-50%,-50%) rotate(-15deg);
+    top:13%;left:50%;width:clamp(190px,55vw,235px);height:clamp(190px,55vw,235px);
+    /* Preserve vinyl's original keyframe transform: translateX(-50%) and rotation. */
+    transform:translateX(-50%) rotate(-15deg);
   }
   html.neural-preview .bento:not(.is-layered-deck)>.tile .sound-wave{
-    top:53%;left:50%;transform:translateX(-50%);
+    top:38%;left:50%;transform:translateX(-50%);
   }
   html.neural-preview .bento:not(.is-layered-deck)>.tile .route-chip{
     top:auto;bottom:12px;right:14px;
@@ -155,4 +156,15 @@
   html.neural-preview .bento:not(.is-layered-deck)>.tile *::after{
     animation:none!important;transition:none!important;
   }
+}
+
+/* Keep the original kinetic illustration intact; the previous narrow media crop
+   flattened the orbits and made the vinyl visually jump when keyframes started. */
+@media(max-width:700px){
+  html.neural-preview .bento:not(.is-layered-deck)>.tile>.tile-art{overflow:hidden;isolation:isolate}
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .foot-track{opacity:.9}
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .foot-ball:after{inset:-19%}
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .foot-stat{z-index:2}
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .record{animation:vinyl 30s linear infinite}
+  html.neural-preview .bento:not(.is-layered-deck)>.tile .tile-art::after{pointer-events:none}
 }

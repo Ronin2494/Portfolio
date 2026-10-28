@@ -29,3 +29,11 @@ test('mobile cards use independent art and content zones instead of painted text
   assert.match(rule,/@media\(max-width:370px\)/);
   assert.match(rule,/prefers-reduced-motion:reduce/);
 });
+
+test('mobile artwork keeps its intended 3D composition and vinyl keyframes',()=>{
+  const rule=css.slice(css.indexOf('/* Mobile project-card readability:'));
+  assert.match(rule,/height:clamp\(270px,76vw,330px\)/);
+  assert.match(rule,/\.record\{[^}]*transform:translateX\(-50%\) rotate\(-15deg\)/);
+  assert.match(rule,/\.record\{animation:vinyl 30s linear infinite\}/);
+  assert.match(rule,/prefers-reduced-motion:reduce/);
+});
