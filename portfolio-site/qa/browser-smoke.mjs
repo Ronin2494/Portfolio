@@ -433,7 +433,9 @@ await run('Floating LinkedIn banner clears DS dock on 320px, 390px and desktop',
   try{
    await p.goto(base+'/#projects',{waitUntil:'domcontentloaded'});
    const banner=p.locator('.linkedin-float'),dock=p.locator('#dock-trigger');
-   if(!await banner.isVisible())throw Error('Floating LinkedIn ribbon hidden at '+width);
+   if(await banner.isVisible())throw Error('LinkedIn ribbon must stay hidden before footer at '+width);
+   await p.locator('footer.footer').scrollIntoViewIfNeeded();
+   await banner.waitFor({state:'visible',timeout:6000});
    const info=await p.evaluate(()=>{
     const a=document.querySelector('.linkedin-float'),b=document.querySelector('#dock-trigger');
     const ar=a.getBoundingClientRect(),br=b.getBoundingClientRect();
@@ -450,7 +452,10 @@ await run('Floating LinkedIn banner clears DS dock on 320px, 390px and desktop',
      throw Error('Incorrect LinkedIn navigation '+width);
    await banner.focus();
    if(await banner.evaluate(el=>getComputedStyle(el).outlineStyle)==='none')throw Error('No visible focus '+width);
-   if(width===390)await p.screenshot({path:join(output,'floating-linkedin-390.png')});
+   if(width===390)await p.screenshot({path:join(output,'floating-linkedin-footer-390.png')});
+   await p.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+   await banner.waitFor({state:'hidden',timeout:6000});
+   if(await banner.isVisible())throw Error('LinkedIn ribbon persists away from footer at '+width);
   }finally{await ctx.close()}
  }
 });
