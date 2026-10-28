@@ -163,8 +163,9 @@ await run('TaskMail and ESPIONAAJ cards and constellation previews open live web
  const preview=page.locator('#constellation-preview-link');
  for(const project of projects){
    await page.locator('#constellation-nodes .constellation-node').filter({hasText:project.name}).click();
-   if(await preview.getAttribute('href')!==project.url)
-     throw Error(project.name+' constellation preview does not open its live site');
+   const actual=await preview.getAttribute('href');
+   if(actual!==project.url)
+     throw Error(project.name+' constellation preview URL mismatch: expected '+project.url+' but got '+actual+'; selected='+await page.locator('#constellation-preview-title').innerText());
  }
  await page.locator('[data-project-view="grid"]').click();
 });
