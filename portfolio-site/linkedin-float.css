@@ -1,0 +1,38 @@
+/* Canva-inspired floating LinkedIn banner — separate from DS quick navigation. */
+.linkedin-float{
+  position:fixed;left:clamp(14px,2.4vw,36px);bottom:calc(18px + env(safe-area-inset-bottom,0px));
+  z-index:74;display:flex;align-items:center;gap:13px;
+  min-height:68px;max-width:min(375px,calc(100vw - 160px));padding:10px 15px 10px 11px;
+  isolation:isolate;overflow:hidden;border:1px solid rgba(188,208,255,.52);border-radius:22px;
+  background:linear-gradient(125deg,rgba(17,33,63,.96),rgba(32,29,66,.94));
+  box-shadow:inset 0 1px rgba(255,255,255,.18),0 10px 23px rgba(0,5,19,.36),0 24px 46px rgba(10,19,49,.24);
+  color:#f6f7ff;text-decoration:none;backdrop-filter:blur(16px);
+  transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease;
+}
+.linkedin-float::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 4% 40%,rgba(100,177,255,.18),transparent 60%)}
+.linkedin-float-mark{display:grid;flex:none;place-items:center;width:44px;height:44px;border-radius:14px;color:white;background:linear-gradient(145deg,#137dc1,#064d92);box-shadow:inset 0 1px rgba(255,255,255,.34),0 6px 16px rgba(3,19,43,.4)}
+.linkedin-float-mark svg{width:23px;height:23px}
+.linkedin-float-copy{display:flex;flex:1 1 auto;min-width:0;flex-direction:column;gap:5px}
+.linkedin-float-quote{font:600 clamp(12px,1.05vw,14px)/1.3 'Space Grotesk',sans-serif;letter-spacing:-.02em;color:#fff}
+.linkedin-float-action{font:700 9px/1.3 'Space Grotesk',sans-serif;letter-spacing:.13em;color:#b7d9fb}
+.linkedin-float-arrow{display:grid;flex:none;place-items:center;width:25px;height:25px;color:#dce9ff}
+.linkedin-float-arrow svg{width:19px;height:19px}
+.linkedin-float:is(:hover,:focus-visible){transform:translateY(-3px);border-color:#b2d9ff;box-shadow:inset 0 1px rgba(255,255,255,.22),0 14px 28px rgba(0,5,19,.4),0 0 28px rgba(72,145,235,.18)}
+.linkedin-float:focus-visible{outline:3px solid #e2f88f;outline-offset:4px}
+.linkedin-float:active{transform:translateY(1px)}
+@media(max-width:700px){
+ .linkedin-float{bottom:calc(14px + env(safe-area-inset-bottom,0px));left:12px;max-width:calc(100vw - 105px);min-height:58px;padding:7px 9px;gap:9px;border-radius:17px}
+ .linkedin-float-mark{width:41px;height:41px;border-radius:12px}
+ .linkedin-float-quote{font-size:11px;line-height:1.22}
+ .linkedin-float-action{font-size:8px;letter-spacing:.075em}
+ .linkedin-float-arrow{width:19px}
+ .linkedin-float-arrow svg{width:16px;height:16px}
+}
+@media(max-width:365px){
+ .linkedin-float{max-width:calc(100vw - 99px);gap:6px}
+ .linkedin-float-quote{font-size:10px}
+ .linkedin-float-mark{width:38px;height:38px}
+ .linkedin-float-arrow{display:none}
+}
+@media(prefers-reduced-motion:reduce){.linkedin-float{transition:none!important;transform:none!important}.linkedin-float:is(:hover,:focus-visible){transform:none!important}}
+@media(forced-colors:active){.linkedin-float,.linkedin-float-mark{border:2px solid ButtonText;box-shadow:none;background:Canvas;color:CanvasText}.linkedin-float-action{color:CanvasText}.linkedin-float:focus-visible{outline:3px solid Highlight}}
