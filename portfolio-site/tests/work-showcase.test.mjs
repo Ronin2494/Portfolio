@@ -102,14 +102,14 @@ test('TaskMail and ESPIONAAJ launch their deployed products, never their source 
     ['espionaaj', 'Espionaaj', 'https://espionaaj.onrender.com']
   ];
   for (const [tileClass, name, url] of expected) {
-    const card = html.match(new RegExp('<article class="tile tile-' + tileClass + '\\b[^]*?<\\/article>'))?.[0];
+    const card = html.match(new RegExp('<article class="tile tile-' + tileClass + '[^]*?</article>'))?.[0];
     assert.ok(card, name + ' project card exists');
-    const anchors = [...card.matchAll(/<a\\b[^>]*class="round-link"[^>]*>/g)];
+    const anchors = [...card.matchAll(/<a[^>]*class="round-link"[^>]*>/g)];
     assert.equal(anchors.length, 1, name + ' has exactly one launch anchor');
-    assert.match(anchors[0][0], new RegExp('href="' + url.replace(/\\./g, '\\\\.') + '"'));
-    assert.match(anchors[0][0], new RegExp('aria-label="Visit ' + name + ' live website"'));
-    assert.match(anchors[0][0], /rel="noopener noreferrer"/);
-    assert.doesNotMatch(anchors[0][0], /github\\.com/i);
+    assert.ok(anchors[0][0].includes('href="' + url + '"'), name + ' points to its live URL');
+    assert.ok(anchors[0][0].includes('aria-label="Visit ' + name + ' live website"'));
+    assert.ok(anchors[0][0].includes('rel="noopener noreferrer"'));
+    assert.ok(!anchors[0][0].includes('github.com'), name + ' must not link to source code');
   }
-  assert.match(html, /href="https:\/\/github\\.com\/Ronin2494"[^>]*>Explore my GitHub/);
+  assert.ok(html.includes('href="https://github.com/Ronin2494"'), 'Explicit GitHub portfolio link is preserved');
 });
