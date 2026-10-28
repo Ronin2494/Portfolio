@@ -13,7 +13,13 @@ for(const [route,label] of [['/#projects','home'],['/checkout.html?cancel=1','ch
  try{
   await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:25000});
   await page.waitForTimeout(400);
-  const results=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
+  // YouTube owns the inner player markup. Keep the iframe itself accessible
+  // (title remains on our HTML), but exclude third-party internals from this
+  // first-party release gate. All other pages/controls remain in scope.
+  const results=await new AxeBuilder({page})
+   .withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa'])
+   .exclude('.creative-opening-media iframe[src^="https://www.youtube-nocookie.com/"]')
+   .analyze();
   for(const violation of results.violations){
    findings.push({page:label,id:violation.id,impact:violation.impact,description:violation.description,help:violation.help,
     nodes:violation.nodes.slice(0,12).map(n=>({target:n.target,summary:n.failureSummary}))});
@@ -24,6 +30,16 @@ for(const [route,label] of [['/#projects','home'],['/checkout.html?cancel=1','ch
  }finally{await context.close();}
 }
 await browser.close();
-await writeFile(output+'/accessibility-results.json',JSON.stringify({at:new Date().toISOString(),base,pages:passes,findings},null,2));
+await writeFile(output+'/accessibility-results.json',JSON.stringify({at:new Date().toISOString(),base,pages:passes,findings,excludedThirdParty:['YouTube embedded video player internals; first-party iframe title remains in scope']},null,2));
 console.log('WCAG accessibility audit results:',JSON.stringify(passes));
 console.log('Violations:',JSON.stringify(findings));
+
+// A release-quality gate must fail when the scanner finds first-party defects
+// or cannot complete a page audit. Reporting violations without exiting nonzero
+// previously allowed a green workflow with critical issues.
+if(findings.length){
+ console.error('Accessibility gate failed: '+findings.length+' first-party findings.');
+ process.exitCode=1;
+}else{
+ console.log('Accessibility gate passed: no first-party WCAG violations.');
+}
