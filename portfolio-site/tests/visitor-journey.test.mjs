@@ -19,7 +19,7 @@ test('hero explains builder positioning and offers immediate ways to connect', (
 test('creator reel gallery references three existing visual assets and accessible public posts', () => {
   const markup = html.match(/<div class="creator-reels"[^]*?<dialog id="beyond-detail"/)?.[0];
   assert.ok(markup, 'the reel showcase belongs to Beyond the Screen');
-  assert.equal((markup.match(/<a class="creator-reel(?:\\s|")/g)||[]).length,3);
+  assert.equal((markup.match(/<a class="creator-reel/g)||[]).length,3);
   const covers = ['DeW2g_8sPnv.jpg','Dd2VMqrtrG5.jpg','DeVGL5PshF3.jpg'];
   for(const name of covers){
     assert.ok(markup.includes('media/reels/'+name),'reel cover is referenced: '+name);
