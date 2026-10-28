@@ -1,0 +1,71 @@
+/* Portfolio interaction depth: layered, restrained shadows, no change to card layout or media. */
+:root{--depth-shadow:0 10px 19px rgba(1,5,19,.25),0 24px 48px rgba(3,6,24,.22);--depth-edge:inset 0 1px 0 rgba(255,255,255,.23)}
+/* Shared button treatment: visual hierarchy remains in existing brand palette. */
+:is(.scene-cta,.scene-instagram,.scene-connect,.primary-button,.end-cta,.header-contact,
+    .constellation-preview-cta,.enter-film-theater,.member-cta,.deck-nav,.dock-trigger){
+  box-shadow:var(--depth-edge),0 7px 15px rgba(2,5,18,.22),0 17px 33px rgba(36,27,92,.20);
+  transition-property:transform,box-shadow,background,border-color,filter;
+  transition-duration:.25s;
+  transition-timing-function:cubic-bezier(.2,.75,.2,1);
+}
+:is(.scene-cta,.scene-instagram,.scene-connect,.primary-button,.end-cta,.header-contact,
+    .constellation-preview-cta,.enter-film-theater,.member-cta,.deck-nav,.dock-trigger):is(:hover,:focus-visible):not(:disabled){
+  box-shadow:var(--depth-edge),0 10px 22px rgba(2,4,18,.30),0 23px 43px rgba(125,98,227,.25);
+}
+:is(.scene-cta,.scene-instagram,.scene-connect,.primary-button,.end-cta,.header-contact,
+    .constellation-preview-cta,.enter-film-theater,.member-cta,.deck-nav,.dock-trigger):active:not(:disabled){
+  box-shadow:inset 0 2px 7px rgba(5,6,27,.28),0 4px 11px rgba(2,4,18,.17);
+}
+/* Project links: a consistent raised glass coin rather than a plain arrow glyph.
+   Limit hover animation to the icon: never rotate a whole 48px tap target. */
+.bento>.tile .round-link{
+  overflow:visible;
+  isolation:isolate;
+  border:1px solid rgba(255,255,255,.95);
+  background:linear-gradient(145deg,#fff 8%,#d8deff 100%);
+  color:#11182c;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -3px 6px rgba(67,74,127,.17),
+    0 6px 0 rgba(7,12,29,.36),
+    0 12px 21px rgba(3,6,25,.34),
+    0 0 23px rgba(191,170,255,.21);
+  transform:none;
+  transition:box-shadow .24s ease,background .24s ease,translate .24s ease;
+}
+.bento>.tile .round-link:is(:hover,:focus-visible){
+  transform:none;
+  translate:0 -2px;
+  background:linear-gradient(145deg,#fff,#e9e3ff);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -3px 6px rgba(67,74,127,.14),
+    0 7px 0 rgba(7,12,29,.33),
+    0 17px 29px rgba(3,6,25,.43),
+    0 0 30px rgba(176,148,255,.30);
+}
+.bento>.tile .round-link:active{translate:0 2px;box-shadow:inset 0 2px 6px rgba(24,29,54,.18),0 3px 8px rgba(3,6,25,.29)}
+.bento>.tile .round-link .project-launch-icon{
+  display:inline-block;font:600 29px/1 'Space Grotesk',sans-serif;
+  transform:translate(0,0) rotate(0deg);
+  transition:transform .23s cubic-bezier(.25,.8,.25,1);
+  text-shadow:0 2px 3px rgba(25,32,71,.2);
+}
+.bento>.tile .round-link:is(:hover,:focus-visible) .project-launch-icon{transform:translate(2px,-2px) rotate(9deg)}
+/* Differentiated elevation by purpose: sections, media, and active controls. */
+.bento:not(.is-layered-deck)>.tile:nth-child(3n+1){box-shadow:0 15px 25px rgba(3,7,23,.24),0 30px 58px rgba(40,54,99,.19)}
+.bento:not(.is-layered-deck)>.tile:nth-child(3n+2){box-shadow:0 11px 28px rgba(4,6,24,.29),0 26px 50px rgba(91,57,132,.16)}
+.bento:not(.is-layered-deck)>.tile:nth-child(3n){box-shadow:0 13px 30px rgba(3,6,21,.23),0 26px 52px rgba(29,84,95,.13)}
+:is(.creator-reels,.creative-opening,.membership-section,.project-constellation,.identity-profile){
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 20px 50px rgba(4,7,24,.20),0 38px 78px rgba(5,7,29,.12);
+}
+.creator-reel{box-shadow:0 7px 12px rgba(2,4,17,.28),0 23px 45px rgba(4,7,28,.34)}
+.beyond-media-link:is(:hover,:focus-visible){box-shadow:0 10px 16px rgba(2,5,23,.21),0 24px 46px rgba(33,21,72,.25)}
+/* Focus stays visible above glow; disabled and reduced-motion states stay stable. */
+.bento>.tile .round-link:focus-visible{outline:3px solid #e2f88f;outline-offset:5px}
+@media(hover:none){.bento>.tile .round-link:hover{translate:0 0}}
+@media(prefers-reduced-motion:reduce){
+  .bento>.tile .round-link,.bento>.tile .round-link .project-launch-icon,
+  :is(.scene-cta,.scene-instagram,.scene-connect,.primary-button,.end-cta,.header-contact,
+      .constellation-preview-cta,.enter-film-theater,.member-cta,.deck-nav,.dock-trigger){transition:none!important}
+  .bento>.tile .round-link:is(:hover,:focus-visible){translate:0 0}
+  .bento>.tile .round-link:is(:hover,:focus-visible) .project-launch-icon{transform:none}
+}
