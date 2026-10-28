@@ -84,6 +84,38 @@ await run('Header, main anchors, footer and quick navigation',async()=>{
  await page.locator('#dock-trigger').click();
  if(await page.locator('#dock-trigger').getAttribute('aria-expanded')!=='false')throw Error('Dock did not close');
 });
+await run('Portfolio icon/shadow design: keyboard focus, interactive states and SVG assets',async()=>{
+ const header=page.locator('.header-contact');
+ const start=await header.evaluate(el=>({shadow:getComputedStyle(el).boxShadow,outline:getComputedStyle(el).outlineStyle,svg:el.querySelector('svg.ui-arrow')?.getBoundingClientRect().width}));
+ if(!start.svg || start.svg<12)throw Error('Header still uses an emoji/fallback icon');
+ if(start.shadow==='none')throw Error('Contact button shadow is absent');
+ await header.focus();
+ const focused=await header.evaluate(el=>getComputedStyle(el).outlineStyle);
+ if(focused==='none')throw Error('Contact CTA keyboard focus is not visible');
+ await page.locator('[data-project-view="grid"]').click();
+ for(const name of ['footnow','seatpath','espionaaj']){
+  const card=page.locator('.tile-'+name);
+  const img=card.locator('img.project-scene');
+  if(await img.count()!==1)throw Error('Missing '+name+' bespoke project scene');
+  const loaded=await img.evaluate(el=>el.complete&&el.naturalWidth>0&&el.naturalHeight>0);
+  if(!loaded)throw Error('Broken project artwork '+name);
+  const dimensions=await img.evaluate(el=>({w:el.naturalWidth,h:el.naturalHeight,fit:getComputedStyle(el).objectFit}));
+  if(dimensions.w!==1200||dimensions.h!==700||dimensions.fit!=='cover')throw Error('Distorted visual '+name);
+ }
+ const link=page.locator('.tile-footnow .round-link');
+ if(await link.locator('svg.ui-arrow').count()!==1)throw Error('Missing vector arrow');
+ const before=await link.evaluate(el=>getComputedStyle(el).boxShadow);
+ if(before==='none')throw Error('Project link missing depth effect');
+ await link.scrollIntoViewIfNeeded();
+ await link.hover();
+ const after=await link.evaluate(el=>getComputedStyle(el).boxShadow);
+ if(after==='none')throw Error('Project link lost shadow on hover');
+ await link.focus();
+ const focus=await link.evaluate(el=>({outline:getComputedStyle(el).outlineStyle,r:el.getBoundingClientRect().toJSON()}));
+ if(focus.outline==='none')throw Error('Project link missing focus outline');
+ if(focus.r.width<44||focus.r.height<44)throw Error('Project link touch target too small');
+ await page.locator('.tile-footnow').screenshot({path:join(output,'project-scene-and-link-desktop.png')});
+});
 await run('Neural Index links, layout, accessibility and responsive cards',async()=>{
  const region=page.locator('.signal-index');
  if(!await region.isVisible())throw Error('Neural Index is not visible');
