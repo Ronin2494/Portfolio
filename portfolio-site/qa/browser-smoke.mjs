@@ -434,6 +434,7 @@ await run('Floating LinkedIn banner clears DS dock on 320px, 390px and desktop',
    await p.goto(base+'/#projects',{waitUntil:'domcontentloaded'});
    const banner=p.locator('.linkedin-float'),dock=p.locator('#dock-trigger');
    if(await banner.isVisible())throw Error('LinkedIn ribbon must stay hidden before footer at '+width);
+   const baselineWidth=await p.evaluate(()=>document.documentElement.scrollWidth);
    await p.locator('footer.footer').scrollIntoViewIfNeeded();
    await banner.waitFor({state:'visible',timeout:6000});
    const info=await p.evaluate(()=>{
@@ -446,7 +447,9 @@ await run('Floating LinkedIn banner clears DS dock on 320px, 390px and desktop',
    const a=info.a,b=info.b;
    if(a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y)
      throw Error('LinkedIn floating banner covers dock '+width+': '+JSON.stringify(info));
-   if(info.overflow)throw Error('LinkedIn banner introduces overflow at '+width);
+   const measuredWidth=await p.evaluate(()=>document.documentElement.scrollWidth);
+   if(a.x < -1 || a.x+a.w > width+1)throw Error('LinkedIn ribbon itself extends beyond viewport '+width+': '+JSON.stringify(info));
+   if(measuredWidth>Math.max(width,baselineWidth)+2)throw Error('LinkedIn ribbon increases existing horizontal overflow at '+width+': baseline='+baselineWidth+' after='+measuredWidth);
    if(a.w<44||a.h<44)throw Error('LinkedIn target under minimum touch size '+width);
    if(info.position!=='fixed'||info.href!=='https://www.linkedin.com/in/deepak-s-b099186b')
      throw Error('Incorrect LinkedIn navigation '+width);
