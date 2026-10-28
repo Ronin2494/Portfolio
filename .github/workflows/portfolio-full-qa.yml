@@ -59,8 +59,7 @@ jobs:
             --output=json --output-path=portfolio-site/qa-results/lighthouse-branch/mobile.json \
             --quiet --max-wait-for-load=45000
           node portfolio-site/qa/print-branch-lighthouse.mjs
-      - name: WCAG 2.1 AA audit on all public-facing pages
-        continue-on-error: true
+      - name: WCAG 2.1 AA first-party accessibility release gate
         run: node portfolio-site/qa/accessibility-audit.mjs
       - name: Read-only production UI smoke (external APIs safely mocked)
         id: production-smoke
