@@ -425,6 +425,46 @@ await run('Mobile project media, descriptions and CTA do not overlap at 320px an
   }finally{await ctx.close();}
  }
 });
+await run('Floating LinkedIn banner clears DS dock on 320px, 390px and desktop',async()=>{
+ for(const width of [320,390,1280]){
+  const ctx=await browser.newContext({viewport:{width,height:800},reducedMotion:'reduce'});
+  await routeAPI(ctx);
+  const p=await ctx.newPage();
+  try{
+   await p.goto(base+'/#projects',{waitUntil:'domcontentloaded'});
+   const banner=p.locator('.linkedin-float'),dock=p.locator('#dock-trigger');
+   if(await banner.isVisible())throw Error('LinkedIn ribbon must stay hidden before footer at '+width);
+   const baselineWidth=await p.evaluate(()=>document.documentElement.scrollWidth);
+   await p.locator('footer.footer').scrollIntoViewIfNeeded();
+   await banner.waitFor({state:'visible',timeout:6000});
+   const info=await p.evaluate(()=>{
+    const a=document.querySelector('.linkedin-float'),b=document.querySelector('#dock-trigger');
+    const ar=a.getBoundingClientRect(),br=b.getBoundingClientRect();
+    return {a:{x:ar.x,y:ar.y,w:ar.width,h:ar.height},b:{x:br.x,y:br.y,w:br.width,h:br.height},
+      overflow:document.documentElement.scrollWidth>innerWidth+2,href:a.getAttribute('href'),
+      focus:getComputedStyle(a).outlineStyle,position:getComputedStyle(a).position};
+   });
+   const a=info.a,b=info.b;
+   if(a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y)
+     throw Error('LinkedIn floating banner covers dock '+width+': '+JSON.stringify(info));
+   const measuredWidth=await p.evaluate(()=>document.documentElement.scrollWidth);
+   if(a.x < -1 || a.x+a.w > width+1)throw Error('LinkedIn ribbon itself extends beyond viewport '+width+': '+JSON.stringify(info));
+   if(measuredWidth>Math.max(width,baselineWidth)+2){
+    const offenders=await p.evaluate(()=>[...document.querySelectorAll('body *')].map(e=>({el:e,rect:e.getBoundingClientRect()})).filter(v=>v.rect.width&&v.rect.right>innerWidth+2&&!getComputedStyle(v.el).overflowX.includes('hidden')).slice(0,12).map(v=>({tag:v.el.tagName,cls:String(v.el.className).slice(0,80),right:Math.round(v.rect.right),left:Math.round(v.rect.left)})));
+    throw Error('LinkedIn ribbon increases existing horizontal overflow at '+width+': baseline='+baselineWidth+' after='+measuredWidth+' elements='+JSON.stringify(offenders));
+   }
+   if(a.w<44||a.h<44)throw Error('LinkedIn target under minimum touch size '+width);
+   if(info.position!=='fixed'||info.href!=='https://www.linkedin.com/in/deepak-s-b099186b')
+     throw Error('Incorrect LinkedIn navigation '+width);
+   await banner.focus();
+   if(await banner.evaluate(el=>getComputedStyle(el).outlineStyle)==='none')throw Error('No visible focus '+width);
+   if(width===390)await p.screenshot({path:join(output,'floating-linkedin-footer-390.png')});
+   await p.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+   await banner.waitFor({state:'hidden',timeout:6000});
+   if(await banner.isVisible())throw Error('LinkedIn ribbon persists away from footer at '+width);
+  }finally{await ctx.close()}
+ }
+});
 await run('Reduced-motion mode retains content and scroll access',async()=>{
  const ctx=await browser.newContext({viewport:{width:768,height:900},reducedMotion:'reduce'});
  await routeAPI(ctx);
