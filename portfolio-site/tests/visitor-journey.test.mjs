@@ -14,7 +14,7 @@ test('hero explains builder positioning and offers immediate ways to connect', (
   assert.match(html, /class="scene-instagram" href="https:\/\/www\.instagram\.com\/puru\.ushah\//);
   assert.match(html, /href="#connect" class="scene-connect"/);
   assert.match(html, /class="header-contact" href="#connect"/);
-  assert.match(html, /<footer class="footer"[^]*?INSTAGRAM ↗/);
+  assert.match(html, /<footer class="footer"[^]*?INSTAGRAM <span class="ui-arrow-wrap" aria-hidden="true"><svg class="ui-arrow"/);
 });
 test('creator reel gallery references three existing visual assets and accessible public posts', () => {
   const markup = html.match(/<div class="creator-reels"[^]*?<dialog id="beyond-detail"/)?.[0];
