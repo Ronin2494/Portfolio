@@ -337,6 +337,35 @@ await run('Mobile navigation, cards and overflow at 390px',async()=>{
  await p.locator('#beyond-close').click();
  await ctx.close();
 });
+await run('Mobile project media, descriptions and CTA do not overlap at 320px and 390px',async()=>{
+ for(const width of [320,390]){
+  const ctx=await browser.newContext({viewport:{width,height:800},deviceScaleFactor:2,reducedMotion:'reduce',isMobile:true,hasTouch:true});
+  await routeAPI(ctx);
+  const p=await ctx.newPage();
+  try{
+   await p.goto(base+'/#projects',{waitUntil:'domcontentloaded'});
+   await p.locator('[data-project-view="grid"]').click();
+   const cards=p.locator('#project-grid > .tile');
+   for(const i of [0,1,2,3,4,5]){
+    const card=cards.nth(i);
+    const detail=await card.evaluate(node=>{
+     const box=selector=>{const el=node.querySelector(selector),r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,bottom:r.bottom,top:r.top};};
+     const art=box('.tile-art'),text=box('.tile-text'),content=box('.tile-content'),cta=box('.round-link');
+     const paragraph=node.querySelector('.tile-text>p:not(.project-proof)');
+     return {art,text,content,cta,opacity:getComputedStyle(paragraph).opacity,cardHeight:node.getBoundingClientRect().height};
+    });
+    if(detail.art.bottom>detail.content.top+2)throw Error('Media overlaps copy '+width+'px card '+i+': '+JSON.stringify(detail));
+    if(detail.text.top<detail.art.bottom-2)throw Error('Text overlaps visual '+width+'px card '+i);
+    if(detail.cta.width<44||detail.cta.height<44)throw Error('Small CTA '+width+'px card '+i);
+    if(detail.opacity!=='1')throw Error('Paragraph opacity insufficient '+width+'px card '+i);
+    if(detail.cardHeight>1100)throw Error('Excessively tall card '+width+'px card '+i+': '+detail.cardHeight);
+   }
+   const scroll=await p.evaluate(()=>({width:document.documentElement.scrollWidth,screen:innerWidth}));
+   if(scroll.width>scroll.screen+2)throw Error('Mobile horizontal overflow '+JSON.stringify(scroll));
+   await p.locator('.tile-footnow').screenshot({path:join(output,'footnow-mobile-'+width+'.png')});
+  }finally{await ctx.close();}
+ }
+});
 await run('Reduced-motion mode retains content and scroll access',async()=>{
  const ctx=await browser.newContext({viewport:{width:768,height:900},reducedMotion:'reduce'});
  await routeAPI(ctx);
