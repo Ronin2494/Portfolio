@@ -19,7 +19,7 @@ test('hero explains builder positioning and offers immediate ways to connect', (
 test('creator reel gallery references three existing visual assets and accessible public posts', () => {
   const markup = html.match(/<div class="creator-reels"[^]*?<dialog id="beyond-detail"/)?.[0];
   assert.ok(markup, 'the reel showcase belongs to Beyond the Screen');
-  assert.equal((markup.match(/<a class="creator-reel /g)||[]).length,3);
+  assert.equal((markup.match(/<a class="creator-reel(?:\\s|")/g)||[]).length,3);
   const covers = ['DeW2g_8sPnv.jpg','Dd2VMqrtrG5.jpg','DeVGL5PshF3.jpg'];
   for(const name of covers){
     assert.ok(markup.includes('media/reels/'+name),'reel cover is referenced: '+name);
@@ -27,7 +27,7 @@ test('creator reel gallery references three existing visual assets and accessibl
   }
   assert.equal((markup.match(/loading="lazy" decoding="async"/g)||[]).length,3);
   assert.equal((markup.match(/alt="Cover artwork from /g)||[]).length,3);
-  assert.equal((markup.match(/rel="noopener noreferrer"/g)||[]).length,4,'reel and all-reels links are safe');
+  assert.equal((markup.match(/rel="noopener noreferrer"/g)||[]).length,5,'reel and all-reels links are safe');
   assert.match(css, /prefers-reduced-motion:reduce/);
 });
 test('six project cards contain concrete product demonstrations without fake business metrics', () => {
@@ -42,7 +42,7 @@ test('six project cards contain concrete product demonstrations without fake bus
 });
 test('private gallery retains an accessible no-JS preview and avoids invented prices', () => {
   assert.match(html, /id="member-collection-meta"/);
-  assert.match(html, /class="member-preview-art"/);
+  assert.match(html, /class="member-media-stage member-preview-art"/);
   assert.match(html, /class="member-noscript"/);
   assert.match(html, /This is an illustrative preview/);
   assert.doesNotMatch(html, /<p id="member-empty"[^>]*>Loading gallery/);
