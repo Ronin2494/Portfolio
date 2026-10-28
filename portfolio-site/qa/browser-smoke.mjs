@@ -84,6 +84,65 @@ await run('Header, main anchors, footer and quick navigation',async()=>{
  await page.locator('#dock-trigger').click();
  if(await page.locator('#dock-trigger').getAttribute('aria-expanded')!=='false')throw Error('Dock did not close');
 });
+await run('Portfolio icon/shadow design: keyboard focus, interactive states and SVG assets',async()=>{
+ const header=page.locator('.header-contact');
+ const start=await header.evaluate(el=>({shadow:getComputedStyle(el).boxShadow,outline:getComputedStyle(el).outlineStyle,svg:el.querySelector('svg.ui-arrow')?.getBoundingClientRect().width}));
+ if(!start.svg || start.svg<12)throw Error('Header still uses an emoji/fallback icon');
+ if(start.shadow==='none')throw Error('Contact button shadow is absent');
+ await page.keyboard.press('Tab');
+ await header.focus();
+ const focused=await header.evaluate(el=>getComputedStyle(el).outlineStyle);
+ if(focused==='none')throw Error('Contact CTA keyboard focus is not visible');
+ await page.locator('[data-project-view="grid"]').click();
+ for(const name of ['footnow','seatpath','espionaaj']){
+  const card=page.locator('.tile-'+name);
+  const img=card.locator('img.project-scene');
+  if(await img.count()!==1)throw Error('Missing '+name+' bespoke project scene');
+  await img.scrollIntoViewIfNeeded();
+  const loaded=await img.evaluate(async el=>{try{await el.decode();return el.complete&&el.naturalWidth>0&&el.naturalHeight>0;}catch{return false}});
+  if(!loaded)throw Error('Broken project artwork '+name);
+  const dimensions=await img.evaluate(el=>({w:el.naturalWidth,h:el.naturalHeight,fit:getComputedStyle(el).objectFit}));
+  if(dimensions.w!==1200||dimensions.h!==700||dimensions.fit!=='cover')throw Error('Distorted visual '+name);
+ }
+ const link=page.locator('.tile-footnow .round-link');
+ if(await link.locator('svg.ui-arrow').count()!==1)throw Error('Missing vector arrow');
+ const before=await link.evaluate(el=>getComputedStyle(el).boxShadow);
+ if(before==='none')throw Error('Project link missing depth effect');
+ await link.scrollIntoViewIfNeeded();
+ await link.hover();
+ await page.waitForTimeout(320);
+ const after=await link.evaluate(el=>getComputedStyle(el).boxShadow);
+ if(after==='none'||after===before)throw Error('Project link hover state lacks distinct shadow feedback');
+ const rectBefore=await link.boundingBox();
+ await link.evaluate(el=>el.addEventListener('click',event=>event.preventDefault(),{once:true}));
+ const pt={x:rectBefore.x+rectBefore.width/2,y:rectBefore.y+rectBefore.height/2};
+ await page.mouse.move(pt.x,pt.y);
+ await page.mouse.down();
+ await page.waitForTimeout(70);
+ const pressed=await link.evaluate(el=>getComputedStyle(el).boxShadow);
+ if(pressed==='none')throw Error('Pressed link loses depth feedback');
+ await page.mouse.up();
+ const rectAfter=await link.boundingBox();
+ if(Math.abs(rectBefore.width-rectAfter.width)>2||Math.abs(rectBefore.height-rectAfter.height)>2)throw Error('Button shadow state changed hit target geometry');
+ await page.keyboard.press('Tab');
+ await link.focus();
+ const focus=await link.evaluate(el=>({outline:getComputedStyle(el).outlineStyle,r:el.getBoundingClientRect().toJSON()}));
+ if(focus.outline==='none')throw Error('Project link missing focus outline');
+ if(focus.r.width<44||focus.r.height<44)throw Error('Project link touch target too small');
+ await page.locator('.tile-footnow').screenshot({path:join(output,'project-scene-and-link-desktop.png')});
+});
+await run('Forced-colors mode preserves visible vector navigation and focus boundaries',async()=>{
+ const ctx=await browser.newContext({viewport:{width:1280,height:800},forcedColors:'active',reducedMotion:'reduce'});
+ const p=await ctx.newPage();
+ try{
+  await p.goto(base+'/#projects',{waitUntil:'domcontentloaded'});
+  const link=p.locator('.header-contact');
+  await p.keyboard.press('Tab');
+  await link.focus();
+  const states=await link.evaluate(el=>({border:getComputedStyle(el).borderStyle,outline:getComputedStyle(el).outlineStyle,svg:!!el.querySelector('svg.ui-arrow')}));
+  if(!states.svg||states.border==='none'||states.outline==='none')throw Error('Controls disappear in forced-colors mode: '+JSON.stringify(states));
+ }finally{await ctx.close()}
+});
 await run('Neural Index links, layout, accessibility and responsive cards',async()=>{
  const region=page.locator('.signal-index');
  if(!await region.isVisible())throw Error('Neural Index is not visible');
