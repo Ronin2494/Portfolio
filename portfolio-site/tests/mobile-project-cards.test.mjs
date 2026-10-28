@@ -24,8 +24,8 @@ test('mobile cards use independent art and content zones instead of painted text
   assert.match(rule,/@media\(max-width:700px\)/);
   assert.match(rule,/\.tile>\.tile-art\{[^}]*position:relative!important/);
   assert.match(rule,/\.tile>\.tile-content\{[^}]*background:linear-gradient/);
-  assert.match(rule,/\.tile\.tile-text>p:not\(\.project-proof\)\{[^}]*opacity:1!important/);
-  assert.match(rule,/\.tile\.round-link\{[^}]*min-width:48px;min-height:48px/);
+  assert.match(rule,/\.tile \.tile-text>p:not\(\.project-proof\)\{[^}]*opacity:1!important/);
+  assert.match(rule,/\.tile \.round-link\{[^}]*min-width:48px;min-height:48px/);
   assert.match(rule,/@media\(max-width:370px\)/);
   assert.match(rule,/prefers-reduced-motion:reduce/);
 });
