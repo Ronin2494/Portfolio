@@ -36,3 +36,21 @@
 }
 @media(prefers-reduced-motion:reduce){.linkedin-float{transition:none!important;transform:none!important}.linkedin-float:is(:hover,:focus-visible){transform:none!important}}
 @media(forced-colors:active){.linkedin-float,.linkedin-float-mark{border:2px solid ButtonText;box-shadow:none;background:Canvas;color:CanvasText}.linkedin-float-action{color:CanvasText}.linkedin-float:focus-visible{outline:3px solid Highlight}}
+
+/* Reveal only at the closing scene, with a brief illuminated rise. */
+.linkedin-float[hidden]{display:none!important}
+.linkedin-float.is-visible{animation:linkedin-entrance .62s cubic-bezier(.2,.8,.22,1) both}
+.linkedin-float-light{
+  position:absolute;inset:-90% -30%;pointer-events:none;z-index:-1;opacity:.48;
+  background:radial-gradient(ellipse at 16% 38%,rgba(128,204,255,.42),transparent 38%);
+  animation:linkedin-aura 6s ease-in-out infinite alternate;
+}
+@keyframes linkedin-entrance{
+  0%{opacity:0;transform:translateY(calc(100% + 22px)) scale(.93)}
+  70%{opacity:1;transform:translateY(-5px) scale(1.01)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes linkedin-aura{from{opacity:.24;transform:translateX(-8%)}to{opacity:.56;transform:translateX(8%)}}
+@media(prefers-reduced-motion:reduce){
+  .linkedin-float.is-visible,.linkedin-float-light{animation:none!important}
+}
