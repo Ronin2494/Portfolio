@@ -325,11 +325,22 @@ await run('Daily movement validation rejects out-of-range values',async()=>{
 });
 await run('Private gallery remains locked and disabled checkout is not actionable',async()=>{
  await page.locator('#member-gallery-grid .member-media-card').first().waitFor({state:'attached',timeout:10000});
- if(await page.locator('#member-gallery-grid .member-media-card').count()!==2)throw Error('Gallery fixtures not loaded');
+ await page.locator('#member-release-select').waitFor({state:'visible',timeout:12000});
+ if(await page.locator('#member-gallery-grid .member-media-card').count()!==1)throw Error('Private gallery must contain exactly one card');
+ const picker=page.locator('#member-release-select');
+ if(await picker.locator('option').count()!==2)throw Error('Expected both test releases inside one card');
  if(!await page.locator('.member-media-stage.member-media-locked').first().isVisible())throw Error('Media lock missing');
  if(!await page.locator('.member-media-pay').first().isDisabled())throw Error('Checkout enabled while backend disabled');
  if(await page.locator('#member-gallery-grid img').count())throw Error('Unsafe HTML rendered as image');
- return 'Disabled sandbox and locked media verified';
+ if(!await page.locator('.member-item-price').innerText().then(x=>x.includes('12.00')))throw Error('Selected first release price not shown');
+ await picker.selectOption('1');
+ if(await page.locator('#member-gallery-grid .member-media-card').count()!==1)throw Error('Changing release created another gallery card');
+ if(!await page.locator('.member-item-price').innerText().then(x=>x.includes('15.00')))throw Error('Second release price mismatch');
+ if(!await page.locator('.member-media-lock-label').innerText().then(x=>x.includes('PRIVATE VIDEO')))throw Error('Video release lock label missing');
+ if(!await page.locator('.member-media-pay').isDisabled())throw Error('Selected release bypassed disabled checkout');
+ await picker.selectOption('0');
+ if(await page.locator('#member-gallery-grid img').count())throw Error('Unsafe HTML rendered as image on selection');
+ return 'One card with two selectable locked releases, correct prices and disabled checkout';
 });
 await run('Checkout missing token and cancelled payment states',async()=>{
  const checkout=await desktop.context.newPage();
