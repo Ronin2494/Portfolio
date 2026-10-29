@@ -411,7 +411,7 @@ await run('Mobile primary navigation fits, opens, follows links and dismisses by
    const count=await nav.locator('a:visible').count();
    if(count!==5)throw Error('Missing menu routes at '+width+': '+count);
    const boxes=await nav.locator('a').evaluateAll(els=>els.map(e=>{const r=e.getBoundingClientRect();return {left:r.left,right:r.right,width:r.width,height:r.height}}));
-   if(boxes.some(b=>b.left<0||b.right>innerWidth+2||b.height<44))throw Error('Menu links overflow or have small tap areas at '+width+': '+JSON.stringify(boxes));
+   if(boxes.some(b=>b.left<0||b.right>width+2||b.height<44))throw Error('Menu links overflow or have small tap areas at '+width+': '+JSON.stringify(boxes));
    await p.keyboard.press('Escape');
    if(await nav.isVisible()||await menu.getAttribute('aria-expanded')!=='false')throw Error('Escape failed at '+width);
    await menu.click();
