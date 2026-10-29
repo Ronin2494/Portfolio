@@ -66,3 +66,21 @@
 @media(hover:none){.member-media-card:hover{transform:none}.member-price:hover::after{transform:translateX(-110%)}}
 @media(max-width:680px){.membership-section::after{right:-75%;top:-20%;width:120vw}.member-media-card{padding:13px}.member-media-stage{aspect-ratio:16/11}.member-cta{min-height:48px}}
 @media(prefers-reduced-motion:reduce){.member-price::after,.member-media-card,.member-media-card::before,.member-cta{transition:none!important;animation:none!important}.member-media-card:hover,.member-cta:hover:not(:disabled){transform:none}}
+
+/* Single-card private gallery: one visual stage, one release, one checkout. */
+#membership .membership-intro{max-width:760px;margin-inline:auto;text-align:center;justify-content:center}
+#membership .membership-intro p:not(.kicker){margin-inline:auto}
+#membership .membership-gallery{max-width:760px;margin:24px auto 0;padding:0;background:transparent;border:0;box-shadow:none}
+#membership .member-gallery-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+#membership .member-media-card{padding:clamp(15px,2.5vw,25px);border-radius:26px;background:linear-gradient(152deg,rgba(37,29,66,.94),rgba(9,15,35,.98));border:1px solid rgba(218,197,255,.43);box-shadow:0 22px 60px rgba(3,5,19,.42),0 0 50px rgba(145,116,250,.12)}
+#membership .member-media-card .member-media-stage{aspect-ratio:16/9;max-height:390px;border-radius:20px;background:radial-gradient(ellipse at 50% 42%,rgba(130,107,206,.38),transparent 50%),linear-gradient(135deg,#232044,#0a1425)}
+#membership .member-gallery-status,#membership .member-collection-meta{text-align:center;margin:0 auto 12px;color:#c9c4df;font-size:12px;line-height:1.55}
+#membership .member-media-card h4{font-size:clamp(23px,3vw,33px);letter-spacing:-.04em;margin-top:20px}
+#membership .member-media-card>p{font-size:clamp(13px,1.4vw,15px);line-height:1.65}
+#membership .member-media-tools{max-width:470px;width:100%;align-self:center}
+#membership .member-release-picker{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+#membership .member-release-picker label{font:700 10px 'Space Grotesk',sans-serif;letter-spacing:.12em;color:#d8d0f1}
+#membership .member-release-picker select{width:100%;min-height:48px;max-width:100%;padding:11px 15px;border:1px solid rgba(223,210,255,.55);border-radius:13px;color:#fff;background:#1c1d35;font:600 14px 'Space Grotesk',sans-serif}
+#membership .member-release-picker select:focus-visible{outline:3px solid #e2f88f;outline-offset:3px}
+@media(max-width:680px){#membership .membership-gallery{margin-top:18px}#membership .member-media-card{padding:13px;border-radius:20px}#membership .member-media-card .member-media-stage{aspect-ratio:4/3}#membership .member-media-card h4{font-size:24px}}
+@media(prefers-reduced-motion:reduce){#membership .member-media-card{transition:none!important;transform:none!important}}

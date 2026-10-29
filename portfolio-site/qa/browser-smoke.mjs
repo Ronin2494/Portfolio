@@ -325,11 +325,22 @@ await run('Daily movement validation rejects out-of-range values',async()=>{
 });
 await run('Private gallery remains locked and disabled checkout is not actionable',async()=>{
  await page.locator('#member-gallery-grid .member-media-card').first().waitFor({state:'attached',timeout:10000});
- if(await page.locator('#member-gallery-grid .member-media-card').count()!==2)throw Error('Gallery fixtures not loaded');
+ await page.locator('#member-release-select').waitFor({state:'visible',timeout:12000});
+ if(await page.locator('#member-gallery-grid .member-media-card').count()!==1)throw Error('Private gallery must contain exactly one card');
+ const picker=page.locator('#member-release-select');
+ if(await picker.locator('option').count()!==2)throw Error('Expected both test releases inside one card');
  if(!await page.locator('.member-media-stage.member-media-locked').first().isVisible())throw Error('Media lock missing');
  if(!await page.locator('.member-media-pay').first().isDisabled())throw Error('Checkout enabled while backend disabled');
  if(await page.locator('#member-gallery-grid img').count())throw Error('Unsafe HTML rendered as image');
- return 'Disabled sandbox and locked media verified';
+ if(!await page.locator('.member-item-price').innerText().then(x=>x.includes('12.00')))throw Error('Selected first release price not shown');
+ await picker.selectOption('1');
+ if(await page.locator('#member-gallery-grid .member-media-card').count()!==1)throw Error('Changing release created another gallery card');
+ if(!await page.locator('.member-item-price').innerText().then(x=>x.includes('15.00')))throw Error('Second release price mismatch');
+ if(!await page.locator('.member-media-lock-label').innerText().then(x=>x.includes('PRIVATE VIDEO')))throw Error('Video release lock label missing');
+ if(!await page.locator('.member-media-pay').isDisabled())throw Error('Selected release bypassed disabled checkout');
+ await picker.selectOption('0');
+ if(await page.locator('#member-gallery-grid img').count())throw Error('Unsafe HTML rendered as image on selection');
+ return 'One card with two selectable locked releases, correct prices and disabled checkout';
 });
 await run('Checkout missing token and cancelled payment states',async()=>{
  const checkout=await desktop.context.newPage();
@@ -434,7 +445,7 @@ await run('Floating LinkedIn banner clears DS dock on 320px, 390px and desktop',
    await p.goto(base+'/#projects',{waitUntil:'domcontentloaded'});
    const banner=p.locator('.linkedin-float'),dock=p.locator('#dock-trigger');
    if(await banner.isVisible())throw Error('LinkedIn ribbon must stay hidden before footer at '+width);
-   const baselineWidth=await p.evaluate(()=>document.documentElement.scrollWidth);
+   // Compare against the same footer viewport; scrolling itself can expose pre-existing overhangs.
    await p.locator('footer.footer').scrollIntoViewIfNeeded();
    await banner.waitFor({state:'visible',timeout:6000});
    const info=await p.evaluate(()=>{
@@ -448,10 +459,18 @@ await run('Floating LinkedIn banner clears DS dock on 320px, 390px and desktop',
    if(a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y)
      throw Error('LinkedIn floating banner covers dock '+width+': '+JSON.stringify(info));
    const measuredWidth=await p.evaluate(()=>document.documentElement.scrollWidth);
+   const footerBaselineWidth=await p.evaluate(()=>{
+     const banner=document.querySelector('.linkedin-float');
+     const wasHidden=banner.hidden;
+     banner.hidden=true;
+     const width=document.documentElement.scrollWidth;
+     banner.hidden=wasHidden;
+     return width;
+   });
    if(a.x < -1 || a.x+a.w > width+1)throw Error('LinkedIn ribbon itself extends beyond viewport '+width+': '+JSON.stringify(info));
-   if(measuredWidth>Math.max(width,baselineWidth)+2){
+   if(measuredWidth>Math.max(width,footerBaselineWidth)+2){
     const offenders=await p.evaluate(()=>[...document.querySelectorAll('body *')].map(e=>({el:e,rect:e.getBoundingClientRect()})).filter(v=>v.rect.width&&v.rect.right>innerWidth+2&&!getComputedStyle(v.el).overflowX.includes('hidden')).slice(0,12).map(v=>({tag:v.el.tagName,cls:String(v.el.className).slice(0,80),right:Math.round(v.rect.right),left:Math.round(v.rect.left)})));
-    throw Error('LinkedIn ribbon increases existing horizontal overflow at '+width+': baseline='+baselineWidth+' after='+measuredWidth+' elements='+JSON.stringify(offenders));
+    throw Error('LinkedIn ribbon increases existing horizontal overflow at '+width+': baseline='+footerBaselineWidth+' after='+measuredWidth+' elements='+JSON.stringify(offenders));
    }
    if(a.w<44||a.h<44)throw Error('LinkedIn target under minimum touch size '+width);
    if(info.position!=='fixed'||info.href!=='https://www.linkedin.com/in/deepak-s-b099186b')
