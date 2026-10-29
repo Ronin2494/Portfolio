@@ -393,6 +393,34 @@ await run('Neural canvas scroll coupling and pause button',async()=>{
 });
 await desktop.context.close();
 
+await run('Mobile primary navigation fits, opens, follows links and dismisses by keyboard',async()=>{
+ for(const width of [320,375,390,768,900]){
+  const ctx=await browser.newContext({viewport:{width,height:800},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
+  await routeAPI(ctx);
+  const p=await ctx.newPage();
+  try{
+   await p.goto(base+'/#projects',{waitUntil:'domcontentloaded'});
+   const menu=p.locator('.mobile-nav-toggle'),nav=p.locator('#primary-site-links');
+   if(!await menu.isVisible())throw Error('Missing mobile menu trigger at '+width);
+   const before=await p.evaluate(()=>({width:document.documentElement.scrollWidth,screen:innerWidth,button:document.querySelector('.mobile-nav-toggle').getBoundingClientRect().toJSON()}));
+   if(before.width>before.screen+2)throw Error('Header overflows viewport at '+width+': '+JSON.stringify(before));
+   if(before.button.width<44||before.button.height<44)throw Error('Menu touch target too small at '+width);
+   if(await nav.isVisible())throw Error('Mobile links exposed before opening at '+width);
+   await menu.click();
+   if(await menu.getAttribute('aria-expanded')!=='true'||!await nav.isVisible())throw Error('Menu failed to open at '+width);
+   const count=await nav.locator('a:visible').count();
+   if(count!==5)throw Error('Missing menu routes at '+width+': '+count);
+   const boxes=await nav.locator('a').evaluateAll(els=>els.map(e=>{const r=e.getBoundingClientRect();return {left:r.left,right:r.right,width:r.width,height:r.height}}));
+   if(boxes.some(b=>b.left<0||b.right>innerWidth+2||b.height<44))throw Error('Menu links overflow or have small tap areas at '+width+': '+JSON.stringify(boxes));
+   await p.keyboard.press('Escape');
+   if(await nav.isVisible()||await menu.getAttribute('aria-expanded')!=='false')throw Error('Escape failed at '+width);
+   await menu.click();
+   await nav.locator('a[href="#membership"]').click();
+   if(await nav.isVisible()||await menu.getAttribute('aria-expanded')!=='false')throw Error('Menu stayed open after navigation '+width);
+   if(width===390)await p.screenshot({path:join(output,'mobile-navigation-390.png')});
+  }finally{await ctx.close()}
+ }
+});
 await run('Mobile navigation, cards and overflow at 390px',async()=>{
  const ctx=await browser.newContext({...devices['iPhone 13'],reducedMotion:'reduce'});
  await routeAPI(ctx);
