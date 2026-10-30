@@ -99,8 +99,10 @@ await run('Button shadow palette, pressed feedback and keyboard focus remain usa
   const pressed=await cta.evaluate(el=>({shadow:getComputedStyle(el).boxShadow,background:getComputedStyle(el).backgroundColor}));
   await page.mouse.up();
   if(pressed.shadow===hover.shadow)throw Error('Pressed feedback did not change the shadow');
+  await page.keyboard.press('Tab');
   await cta.focus();
-  if(await cta.evaluate(el=>getComputedStyle(el).outlineStyle)==='none')throw Error('CTA has no keyboard focus indication');
+  const focus=await cta.evaluate(el=>({visible:el.matches(':focus-visible'),outline:getComputedStyle(el).outlineStyle}));
+  if(!focus.visible||focus.outline==='none')throw Error('CTA has no keyboard focus indication: '+JSON.stringify(focus));
   const ctx=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce',hasTouch:true,isMobile:true});
   try{
     const p=await ctx.newPage();
