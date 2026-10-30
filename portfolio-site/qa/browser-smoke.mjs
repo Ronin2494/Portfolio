@@ -84,6 +84,36 @@ await run('Header, main anchors, footer and quick navigation',async()=>{
  await page.locator('#dock-trigger').click();
  if(await page.locator('#dock-trigger').getAttribute('aria-expanded')!=='false')throw Error('Dock did not close');
 });
+await run('Button shadow palette, pressed feedback and keyboard focus remain usable',async()=>{
+  const cta=page.locator('.header-contact');
+  await cta.scrollIntoViewIfNeeded();
+  const normal=await cta.evaluate(el=>({shadow:getComputedStyle(el).boxShadow,rect:el.getBoundingClientRect().toJSON()}));
+  if(normal.shadow==='none')throw Error('CTA lost depth');
+  await cta.hover();
+  await page.waitForTimeout(330);
+  const hover=await cta.evaluate(el=>({shadow:getComputedStyle(el).boxShadow,rect:el.getBoundingClientRect().toJSON()}));
+  if(hover.shadow===normal.shadow)throw Error('CTA hover depth did not change');
+  if(Math.abs(normal.rect.width-hover.rect.width)>2)throw Error('CTA hover resized hit area');
+  await page.mouse.down();
+  await page.waitForTimeout(260);
+  const pressed=await cta.evaluate(el=>({shadow:getComputedStyle(el).boxShadow,background:getComputedStyle(el).backgroundColor}));
+  await page.mouse.up();
+  if(pressed.shadow===hover.shadow)throw Error('Pressed feedback did not change the shadow');
+  await page.keyboard.press('Tab');
+  await cta.focus();
+  const focus=await cta.evaluate(el=>({visible:el.matches(':focus-visible'),outline:getComputedStyle(el).outlineStyle}));
+  if(!focus.visible||focus.outline==='none')throw Error('CTA has no keyboard focus indication: '+JSON.stringify(focus));
+  const ctx=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce',hasTouch:true,isMobile:true});
+  try{
+    const p=await ctx.newPage();
+    await p.goto(base+'/',{waitUntil:'domcontentloaded'});
+    const menu=p.locator('.mobile-nav-toggle');
+    if(!await menu.isVisible())throw Error('Mobile nav missing after button refinement');
+    if(await menu.evaluate(el=>getComputedStyle(el).transitionDuration)!=='0s')throw Error('Reduced-motion button transitions still active');
+    await menu.click();
+    if(await menu.getAttribute('aria-expanded')!=='true')throw Error('Button CSS broke mobile nav click');
+  }finally{await ctx.close()}
+});
 await run('Portfolio icon/shadow design: keyboard focus, interactive states and SVG assets',async()=>{
  const header=page.locator('.header-contact');
  const start=await header.evaluate(el=>({shadow:getComputedStyle(el).boxShadow,outline:getComputedStyle(el).outlineStyle,svg:el.querySelector('svg.ui-arrow')?.getBoundingClientRect().width}));

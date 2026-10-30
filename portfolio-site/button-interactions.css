@@ -1,0 +1,72 @@
+/* Expressive control system: navy depth, lavender hover, teal secondary, lime focus.
+   No layout changes; hover effects only for precise pointers. */
+:root{--control-depth:rgba(2,5,18,.32);--control-violet:rgba(141,117,248,.36);--control-teal:rgba(92,224,210,.28)}
+:is(.scene-cta,.scene-instagram,.scene-connect,.primary-button,.end-cta,.header-contact,.nav-contact,
+ .constellation-preview-cta,.member-cta,.deck-nav,.dock-trigger,.mobile-nav-toggle,
+ .linkedin-float,.work-filter,.deck-view-switch,.experience-view-toggle button,
+ .creative-video-launch,.round-link,.header-enter){
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .22s cubic-bezier(.2,.75,.2,1),translate .22s cubic-bezier(.2,.75,.2,1),
+    box-shadow .24s ease,border-color .24s ease,color .24s ease,background-color .24s ease,
+    filter .24s ease;
+}
+:is(.scene-cta,.scene-instagram,.scene-connect,.primary-button,.end-cta,.header-contact,.nav-contact,
+ .constellation-preview-cta,.member-cta,.deck-nav,.dock-trigger,.mobile-nav-toggle,
+ .linkedin-float,.work-filter,.deck-view-switch,.experience-view-toggle button,
+ .creative-video-launch,.round-link,.header-enter):focus-visible{
+  outline:3px solid #e2f88f;outline-offset:4px;
+}
+@media(hover:hover) and (pointer:fine){
+ :is(.scene-cta,.scene-instagram,.primary-button,.end-cta,.header-contact,.nav-contact,
+   .constellation-preview-cta,.member-cta,.deck-nav,.mobile-nav-toggle,
+   .work-filter,.deck-view-switch,.experience-view-toggle button,.header-enter):hover:not(:disabled){
+   translate:0 -2px;
+   border-color:rgba(226,210,255,.84);
+   box-shadow:inset 0 1px 0 rgba(255,255,255,.26),
+     0 9px 19px var(--control-depth),0 18px 36px var(--control-violet);
+   filter:brightness(1.08);
+ }
+ :is(.scene-connect,.dock-trigger,.linkedin-float):hover:not(:disabled){
+   border-color:rgba(159,240,224,.85);
+   box-shadow:inset 0 1px 0 rgba(255,255,255,.24),
+     0 10px 22px var(--control-depth),0 22px 44px var(--control-teal);
+ }
+ .bento>.tile .round-link:hover{background:linear-gradient(145deg,#fff,#d9d0ff)}
+ .member-cta:hover:not(:disabled){background-color:#e7dfff;color:#17142c}
+}
+:is(.scene-cta,.scene-instagram,.scene-connect,.primary-button,.end-cta,.header-contact,.nav-contact,
+ .constellation-preview-cta,.member-cta,.deck-nav,.dock-trigger,.mobile-nav-toggle,
+ .linkedin-float,.work-filter,.deck-view-switch,.experience-view-toggle button,
+ .creative-video-launch,.round-link,.header-enter):active:not(:disabled){
+  translate:0 2px;filter:brightness(.94);
+  box-shadow:inset 0 3px 9px rgba(5,7,24,.28),0 3px 9px rgba(2,5,18,.22);
+}
+:is(.scene-cta,.header-contact,.primary-button,.end-cta,.member-cta,.mobile-nav-toggle):active:not(:disabled){
+  background-color:#b5a6f7;color:#18142e;
+}
+:is(.scene-connect,.nav-contact,.dock-trigger,.linkedin-float):active:not(:disabled){
+  border-color:#78ddcb;
+}
+:is(.work-filter,.experience-view-toggle button)[aria-pressed="true"]{
+  box-shadow:inset 0 2px 6px rgba(3,7,23,.25),0 0 0 1px rgba(208,197,255,.38);
+}
+:is(button,a):disabled{cursor:not-allowed}
+@media(hover:none){
+ :is(.scene-cta,.scene-instagram,.scene-connect,.primary-button,.end-cta,.header-contact,.nav-contact,
+  .constellation-preview-cta,.member-cta,.deck-nav,.dock-trigger,.mobile-nav-toggle,
+  .linkedin-float,.work-filter,.deck-view-switch,.experience-view-toggle button,
+  .creative-video-launch,.round-link,.header-enter):hover{translate:0 0;filter:none}
+}
+@media(prefers-reduced-motion:reduce){
+ :is(.scene-cta,.scene-instagram,.scene-connect,.primary-button,.end-cta,.header-contact,.nav-contact,
+  .constellation-preview-cta,.member-cta,.deck-nav,.dock-trigger,.mobile-nav-toggle,
+  .linkedin-float,.work-filter,.deck-view-switch,.experience-view-toggle button,
+  .creative-video-launch,.round-link,.header-enter){transition:none!important;translate:0 0!important}
+}
+@media(forced-colors:active){
+ :is(.scene-cta,.scene-instagram,.scene-connect,.primary-button,.end-cta,.header-contact,.nav-contact,
+  .constellation-preview-cta,.member-cta,.deck-nav,.dock-trigger,.mobile-nav-toggle,
+  .linkedin-float,.work-filter,.deck-view-switch,.experience-view-toggle button,
+  .creative-video-launch,.round-link,.header-enter){box-shadow:none!important;filter:none!important}
+ :is(button,a):focus-visible{outline:3px solid Highlight!important;outline-offset:3px}
+}
