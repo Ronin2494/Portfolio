@@ -85,19 +85,43 @@
     code { overflow-wrap: anywhere; }
     .back-link { display: inline-block; margin-bottom: 1.5rem; color: var(--text); }
     .back-link:focus-visible { outline: 2px solid var(--accent2); outline-offset: 4px; }
+    a { color: #bcb4ff; text-underline-offset: 3px; }
+    a:focus-visible, summary:focus-visible { outline: 2px solid #d97757; outline-offset: 4px; }
+    h3 { margin: 1.2rem 0 .5rem; font-size: 1rem; }
+    .card p { margin: .6rem 0; }
+    .card ol { padding-left: 1.3rem; }
+    .card li strong { color: #bcb4ff; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background: #252836; border-radius: 8px; margin: .8rem 0; }
+    pre code { padding: 0; background: transparent; }
+    .toc { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin: 1rem 0 2rem; }
+    .toc a { padding: .3rem 0; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    th, td { text-align: left; vertical-align: top; padding: .7rem; border-bottom: 1px solid var(--border); }
+    th { color: #dba18c; }
+    blockquote { border-left: 3px solid var(--accent2); padding: .8rem 1rem; margin: .8rem 0; background: #202132; }
+    .source, .meta { color: var(--muted); font-size: .85rem; }
+    summary { cursor: pointer; padding: .8rem 0; font-weight: 600; }
+    details + details { border-top: 1px solid var(--border); }
+    section { scroll-margin-top: 1rem; }
+    @media (max-width: 480px) { body { padding: 1rem; } .card { padding: 1rem; } h1 { font-size: 1.5rem; } th, td { padding: .5rem; } }
+    @media print { body { max-width: none; background: white; color: #111; } .card { background: white; border-color: #aaa; } h1 { background: none; -webkit-text-fill-color: #111; } a, .card h2, .card li strong, .source, .meta { color: #333; } pre, blockquote { background: #eee; color: #111; } code { color: #174717; } nav { display: none; } }
   </style>
 </head>
 <body>
 
-  <nav aria-label="Back to portfolio"><a class="back-link" href="/">← Back to portfolio</a></nav>
+  <nav aria-label="Back to portfolio"><a class="back-link" href="https://badbunny.work/">← Back to portfolio</a></nav>
 
   <h1>Claude × YouTube Integration Guide</h1>
-  <p class="subtitle">Claude cannot natively watch YouTube videos. Use MCP servers or connectors to bridge the gap.</p>
+  <p class="subtitle">A practical guide to transcripts, channel research, analytics and publishing with Claude. Choose tools by the data and actions they actually expose.</p>
 
+  <p class="meta">Expanded edition · Documentation checked 3 November 2026 · Setup instructions are documentation-verified, not an account connection test.</p>
+  <nav class="toc" aria-label="Guide contents"><a href="#choose">Choose a route</a><a href="#manual">Manual transcript</a><a href="#remote">Connect Claude</a><a href="#local">Local transcript server</a><a href="#analytics">Analytics</a><a href="#publishing">Publishing</a><a href="#prompts">Example prompts</a><a href="#troubleshooting">Troubleshooting</a><a href="#faq">FAQ</a><a href="#sources">Sources</a></nav>
+  <main>
   <div class="card">
     <h2><span class="num">1</span> Video Content &amp; Transcripts</h2>
     <ul>
-      <li><strong>YouTube Transcript MCP</strong> — install via <code>npx youtube-transcript-mcp</code></li>
+      <li><strong>YouTube Transcript MCP</strong> — use the maintainer-documented package <code>@kimtaeyoon83/mcp-server-youtube-transcript</code></li>
       <li><strong>Community MCPs</strong> — e.g. <code>kimtaeyoon83/mcp-server-youtube-transcript</code> (no API key needed)</li>
       <li><strong>Manual</strong> — copy-paste from YouTube's "Show Transcript" button</li>
     </ul>
@@ -107,17 +131,17 @@
     <h2><span class="num">2</span> Channel Analytics &amp; Data</h2>
     <ul>
       <li><strong>vidIQ</strong> — connect via <code>https://mcp.vidiq.com/mcp</code></li>
-      <li><strong>Windsor.ai</strong> — pull Analytics data for traffic &amp; engagement</li>
-      <li><strong>Supermetrics</strong> — no-code channel data queries</li>
+      <li><strong>Owned-channel analytics</strong> — connect the channel you manage; public research does not establish access to its private analytics.</li>
+      <li><strong>Other reporting options</strong> — Windsor.ai and Supermetrics were listed in the short guide; their current setup and feature coverage are not verified in this walkthrough.</li>
     </ul>
   </div>
 
   <div class="card">
     <h2><span class="num">3</span> Publishing &amp; Automation</h2>
     <ul>
-      <li><strong>Blotato</strong> — <code>https://mcp.blotato.com/mcp</code> for uploads, titles, thumbnails</li>
-      <li><strong>Upload-Post</strong> — full metadata (tags, chapters, visibility)</li>
-      <li><strong>Composio</strong> — list videos, subscriber counts, channel actions</li>
+      <li><strong>Blotato</strong> — <code>https://mcp.blotato.com/mcp</code> for supported publishing workflows; inspect the current tools before choosing an action</li>
+      <li><strong>Upload-Post</strong> — an alternative to evaluate separately; this guide does not verify its metadata or scheduling coverage.</li>
+      <li><strong>Composio</strong> — an alternative integration route to evaluate separately; exposed actions depend on the configured toolkit.</li>
     </ul>
   </div>
 
@@ -125,12 +149,121 @@
     <h2><span class="num">✓</span> Setup Summary</h2>
     <ol>
       <li><strong>Install / Connect</strong> — add the connector in Claude Desktop or via CLI</li>
-      <li><strong>Authorize</strong> — sign in with Google/YouTube via OAuth</li>
+      <li><strong>Authorize</strong> — follow the provider’s authentication flow; connect your YouTube channel separately when needed</li>
       <li><strong>Query</strong> — ask Claude to analyze URLs or channel data</li>
     </ol>
   </div>
 
-  <footer>Generated Nov 2026 · For reference only — verify endpoints before use</footer>
+
+  <section class="card" id="choose">
+    <h2>4. Choose the right route</h2>
+    <div class="table-wrap"><table><caption>Match your goal to the required input</caption><thead><tr><th>Goal</th><th>Start with</th><th>Check the output</th></tr></thead><tbody>
+      <tr><td>Understand a spoken explanation</td><td>Caption transcript, pasted or fetched</td><td>Language, timestamps and missing passages</td></tr>
+      <tr><td>Review editing or on-screen events</td><td>A tool explicitly supporting visual video analysis</td><td>Whether it received video, frames or only captions</td></tr>
+      <tr><td>Research other creators</td><td>Public research tools such as vidIQ</td><td>Source links, observation date and estimates</td></tr>
+      <tr><td>Explain your channel’s performance</td><td>Authorized channel analytics or an exported report</td><td>Correct channel, date range and available metrics</td></tr>
+      <tr><td>Upload or schedule a video</td><td>A publishing connector with your channel connected</td><td>Actual video ID, visibility and scheduling result</td></tr>
+    </tbody></table></div>
+    <p>A YouTube URL alone does not prove that Claude retrieved the video. Ask which tool ran and what it returned. A transcript can support a summary of speech, but cannot by itself establish visual pacing or on-screen details. Actual capability depends on the selected tool.</p>
+    <p class="source">References: <a href="#source-transcript">transcript server</a>, <a href="#source-vidiq">vidIQ</a>.</p>
+  </section>
+  <section class="card" id="manual">
+    <h2>5. Start without installing anything</h2>
+    <ol><li>Open a captioned video on YouTube and expand its description.</li><li>Select <strong>Show transcript</strong>. Check the language and a few lines against the spoken audio.</li><li>Paste the relevant transcript into Claude with the video title, URL and your question. Keep timestamps when available.</li><li>For a long video, send numbered parts and ask Claude to wait until the final part before summarizing.</li></ol>
+    <blockquote>Using only this transcript, summarize the main argument in five points. Give timestamps where provided. Separate the speaker’s claims from your interpretation, and list gaps you cannot resolve from the text.</blockquote>
+    <p>For a video without available captions, this route will not provide a transcript. If you have an authorized media file, a separate transcription tool may be needed. Do not replace missing passages with guesses.</p>
+    <p class="source">Source: <a href="https://support.google.com/youtube/answer/15930243?hl=en-GB">YouTube transcript instructions</a>.</p>
+  </section>
+  <section class="card" id="remote">
+    <h2>6. Connect a hosted service to Claude</h2>
+    <h3>Claude web or Desktop: remote connector</h3>
+    <ol><li>Open <strong>Customize → Connectors</strong> (some versions use Settings → Connectors).</li><li>Choose the directory listing or add a custom connector. For custom vidIQ, enter <code>https://mcp.vidiq.com/mcp</code>.</li><li>Review the detected authentication method and finish the provider’s sign-in flow.</li><li>Enable the connector in the conversation if it is not already enabled.</li><li>Make one small read request and confirm an actual tool result appears.</li></ol>
+    <p>A remote connector is reached from Claude’s cloud, so a localhost address is not a replacement for a publicly reachable provider endpoint. Organization policy may restrict who can add connectors.</p>
+    <p class="source">Source: <a href="https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">Claude custom connector setup</a>.</p>
+    <h3>Claude Code: terminal setup</h3>
+    <p>With Claude Code installed, run:</p>
+    <pre><code>claude mcp add --transport http vidiq https://mcp.vidiq.com/mcp
+claude mcp list
+claude mcp get vidiq</code></pre>
+    <p>Inside Claude Code, enter <code>/mcp</code> to inspect the connection and complete authentication where supported. A saved configuration is not the same as a successful tool call. These commands configure Claude Code; they are not instructions to paste into a normal web chat.</p>
+    <p class="source">Source: <a href="https://code.claude.com/docs/en/mcp">Claude Code MCP reference</a>.</p>
+  </section>
+  <section class="card" id="local">
+    <h2>7. Use a local transcript server</h2>
+    <p>The community project below documents a local Node/npx server. Install Node.js first if <code>node --version</code> and <code>npx --version</code> do not work. Review the maintainer’s instructions before running a community package.</p>
+    <p>For a Claude Desktop installation supporting local MCP JSON configuration, add this entry to its MCP configuration, preserving your other servers:</p>
+    <pre><code>{
+  "mcpServers": {
+    "youtube-transcript": {
+      "command": "npx",
+      "args": ["-y", "@kimtaeyoon83/mcp-server-youtube-transcript"]
+    }
+  }
+}</code></pre>
+    <p>Restart the client after saving. If it already contains <code>mcpServers</code>, merge the inner server entry rather than creating a duplicate key. This local setup is separate from the remote-connector form.</p>
+    <p>Ask for <code>get_transcript</code> with your video URL, <code>lang: "en"</code> and <code>include_timestamps: true</code>. Set <code>strip_ads: false</code> when you need the full text, because the documented default filters promotional passages. The transcript function does not require the optional TwelveLabs key.</p>
+    <p class="source">Source and installation updates: <a id="source-transcript" href="https://github.com/kimtaeyoon83/mcp-server-youtube-transcript">Maintainer’s README</a>. The earlier unscoped package command has been replaced with this documented package name.</p>
+  </section>
+  <section class="card" id="analytics">
+    <h2>8. Research and channel analytics</h2>
+    <p>vidIQ supports research and analytics workflows. Its Claude directory connection and custom connection expose different tool sets; the directory version excludes some creation and video-change tools. Use the provider’s feature list to choose. vidIQ credits and the Claude subscription are separate.</p>
+    <p>For your channel, verify the connected channel identity before requesting private analytics. For another creator, label public observations and estimates rather than treating them as private retention or revenue data.</p>
+    <p class="source">Source: <a id="source-vidiq" href="https://support.vidiq.com/en/articles/15082430-vidiq-mcp">vidIQ MCP setup and capability list</a>.</p>
+    <h3>A useful audit specification</h3>
+    <blockquote>Analyze my connected channel for the last 28 complete days against the preceding 28. State exact dates and timezone. Separate Shorts, long-form videos and livestreams. Return available metrics with source and retrieval time. Mark unavailable fields as unavailable. Recommend three experiments with one measurable outcome each.</blockquote>
+    <p>Compare like with like: a new upload has had less time to collect views than an older one. Ask for comparable upload-age windows when possible. Treat a proposed explanation as a hypothesis until the data supports it.</p>
+    <h3>If you build your own integration</h3>
+    <p>YouTube’s Analytics API supports targeted reports; the Reporting API supports bulk reports. A custom integration needs the appropriate authorization and supported metric/dimension combinations. An MCP server supplies the assistant interface; it does not remove Google’s access requirements.</p>
+    <p class="source">Source: <a href="https://developers.google.com/youtube/analytics">YouTube Analytics and Reporting APIs</a>.</p>
+  </section>
+  <section class="card" id="publishing">
+    <h2>9. Set up publishing separately</h2>
+    <p>Blotato documents the endpoint <code>https://mcp.blotato.com/mcp</code>. Connect it through Claude’s custom connector flow, authorize your Blotato account, then ask it to call <code>blotato_list_accounts</code>. An empty account list can mean authentication worked but no social account is connected.</p>
+    <p>Connect the intended YouTube account in Blotato before publishing. Its documentation states that MCP/API access requires a paid subscription and is not included in the free trial; generating an API key during the trial starts billing.</p>
+    <p>For local media, the documented flow requests a presigned upload URL, uploads the raw bytes using HTTP PUT, then passes the returned public media URL to the posting tool. A path on your laptop is not a remotely accessible video URL.</p>
+    <p class="source">Source: <a href="https://help.blotato.com/start-with-an-ai-agent/mcp/setup">Blotato client setup and upload flow</a>.</p>
+    <h3>Suggested release workflow</h3>
+    <ol><li><strong>Prepare:</strong> select the exact media file and destination channel. Draft the title, description and thumbnail brief.</li><li><strong>Check capability:</strong> ask which current tool supports each required field. Do not assume support for chapters, custom thumbnails or scheduling.</li><li><strong>Review:</strong> inspect the final title, audience setting, visibility and scheduled date with timezone. Use private or unlisted visibility for a test if the provider supports it.</li><li><strong>Approve:</strong> authorize the exact upload or update after reviewing the values.</li><li><strong>Verify:</strong> record the returned job/video ID, check processing status, and inspect the result in YouTube Studio. A queued job is not proof of publication.</li></ol>
+    <blockquote>Prepare a publishing proposal for this video. Show the destination channel, title, description, visibility, audience setting, media source and scheduled time. List unsupported fields. Do not submit until I approve the final values.</blockquote>
+    <p>For a direct Google implementation, <code>videos.insert</code> handles uploads with authorization. Google documents restrictions on uploads from unverified API projects; check the current reference before relying on public publishing.</p>
+    <p class="source">Source: <a href="https://developers.google.com/youtube/data/reference/rest/v3/videos/insert">YouTube upload API</a>.</p>
+  </section>
+  <section class="card" id="prompts">
+    <h2>10. Reusable prompts</h2>
+    <p>These are suggested task specifications, not guarantees that every connector has the required tools.</p>
+    <h3>Video breakdown</h3><blockquote>Retrieve the transcript for [URL]. Confirm the title and language. Map the opening hook, key claims, examples and conclusion with timestamps. Analyze only retrieved material and identify what requires visual inspection.</blockquote>
+    <h3>Original content ideas</h3><blockquote>Research five relevant public videos about [topic] for [audience]. Include URLs and observation dates. Identify unanswered questions, then propose three original angles. Separate measured facts from your interpretation.</blockquote>
+    <h3>Title improvement</h3><blockquote>Using this transcript and intended audience, draft five accurate titles. Explain the specific promise in each. Avoid claims the video does not support. Keep these as drafts.</blockquote>
+    <h3>Small first connection test</h3><blockquote>Using the connected service, retrieve the title and available transcript for [URL]. Tell me the tool used, whether it succeeded, and whether the result is complete. If a capability is missing, stop and name it.</blockquote>
+  </section>
+  <section class="card" id="troubleshooting">
+    <h2>11. Troubleshoot by symptom</h2>
+    <div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Check next</th></tr></thead><tbody>
+    <tr><td>Connector added, no tools available</td><td>Confirm authentication and conversation enablement. In Claude Code inspect <code>/mcp</code> and <code>claude mcp get vidiq</code>.</td></tr>
+    <tr><td>Local server will not start</td><td>Check Node/npx availability, JSON syntax and the client’s MCP logs. Confirm you used the documented package name.</td></tr>
+    <tr><td>Transcript missing or incomplete</td><td>Check whether captions exist in YouTube, which language was returned, and whether filtering was enabled. Report missing text explicitly.</td></tr>
+    <tr><td>Public research works, channel analytics do not</td><td>Verify the connected channel and permissions. Request a small supported report before a full audit.</td></tr>
+    <tr><td>Authentication or subscription error</td><td>Read the returned provider error. Confirm the account, authorization and plan; do not keep retrying the same failed request.</td></tr>
+    <tr><td>Upload fails with a local file path</td><td>Use the provider’s upload flow first. Verify that the returned media URL is the one passed to the publishing action.</td></tr>
+    <tr><td>Published twice after a timeout</td><td>Inspect the first job’s status before retrying. Keep job IDs so an uncertain response does not become a duplicate submission.</td></tr>
+    </tbody></table></div>
+    <p>When asking for help, include the client, connector name, attempted operation and redacted error. Keep API keys and authorization tokens out of screenshots, prompts and shared configuration.</p>
+  </section>
+  <section class="card" id="faq">
+    <h2>12. Frequently asked questions</h2>
+    <details><summary>Does a transcript mean Claude watched the video?</summary><p>No. It shows access to caption text. Ask a visual-analysis tool for on-screen evidence when the question concerns camera work, graphics or editing.</p></details>
+    <details><summary>Do all routes need a YouTube API key?</summary><p>No. Manual transcript use and the documented community transcript function do not. Hosted services manage their own integration requirements; access to your channel may require a separate account connection.</p></details>
+    <details><summary>Can I use one connector for everything?</summary><p>Only if its available tools cover every required action. Verify transcript access, analytics and publishing individually. Being connected does not imply permission to publish.</p></details>
+    <details><summary>Will this keep running on a schedule?</summary><p>Not merely because a connector was added. A recurring workflow needs a scheduler or supported automation feature, credentials that remain valid, a defined destination and a failure-reporting path.</p></details>
+    <details><summary>What should I save with an analysis?</summary><p>Keep the video URLs, exact date range, channel identity, retrieval time, data limitations and proposed actions. This makes the next comparison reproducible.</p></details>
+  </section>
+  <section class="card" id="sources">
+    <h2>Sources and verification scope</h2>
+    <p>Provider documentation was checked on 3 November 2026. These instructions have not been tested by signing into your Claude, vidIQ or Blotato accounts. Interface labels, plan access and exposed tools can change.</p>
+    <ul><li><a href="https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">Claude: remote connectors</a></li><li><a href="https://code.claude.com/docs/en/mcp">Claude Code: MCP configuration</a></li><li><a href="https://support.google.com/youtube/answer/15930243?hl=en-GB">YouTube: viewing transcripts</a></li><li><a href="https://github.com/kimtaeyoon83/mcp-server-youtube-transcript">Community transcript server: maintainer documentation</a></li><li><a href="https://support.vidiq.com/en/articles/15082430-vidiq-mcp">vidIQ: setup, tools and account requirements</a></li><li><a href="https://help.blotato.com/start-with-an-ai-agent/mcp/setup">Blotato: authentication and media upload</a></li><li><a href="https://developers.google.com/youtube/analytics">Google: analytics and reporting</a></li><li><a href="https://developers.google.com/youtube/data/reference/rest/v3/videos/insert">Google: video uploads</a></li></ul>
+  </section>
+  </main>
+  <footer>Claude × YouTube Integration Guide · Expanded November 2026 · <a href="https://badbunny.work/">Portfolio</a></footer>
 
 </body>
 </html>
