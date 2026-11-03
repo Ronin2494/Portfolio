@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude × YouTube Integration Guide</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --accent: #d97757;
+      --accent2: #7c6ff0;
+      --text: #e2e4ea;
+      --muted: #9a9db0;
+      --border: #2a2d3a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 2rem 1.5rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.4rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.2rem;
+    }
+    .card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.6rem;
+      color: var(--accent);
+    }
+    .card h2 .num {
+      display: inline-block;
+      width: 1.6rem; height: 1.6rem;
+      line-height: 1.6rem;
+      text-align: center;
+      background: var(--accent2);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+    }
+    .card ul { list-style: none; padding-left: 0.5rem; }
+    .card li {
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.92rem;
+    }
+    .card li:last-child { border-bottom: none; }
+    .card li strong { color: var(--accent2); }
+    code {
+      background: #252836;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: #a8d8a8;
+    }
+    .setup {
+      background: linear-gradient(135deg, #1e1b2e, #1a1d27);
+      border-color: var(--accent2);
+    }
+    .setup ol { padding-left: 1.2rem; font-size: 0.92rem; }
+    .setup li { margin-bottom: 0.4rem; }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 2rem;
+    }
+    code { overflow-wrap: anywhere; }
+    .back-link { display: inline-block; margin-bottom: 1.5rem; color: var(--text); }
+    .back-link:focus-visible { outline: 2px solid var(--accent2); outline-offset: 4px; }
+  </style>
+</head>
+<body>
+
+  <nav aria-label="Back to portfolio"><a class="back-link" href="/">← Back to portfolio</a></nav>
+
+  <h1>Claude × YouTube Integration Guide</h1>
+  <p class="subtitle">Claude cannot natively watch YouTube videos. Use MCP servers or connectors to bridge the gap.</p>
+
+  <div class="card">
+    <h2><span class="num">1</span> Video Content &amp; Transcripts</h2>
+    <ul>
+      <li><strong>YouTube Transcript MCP</strong> — install via <code>npx youtube-transcript-mcp</code></li>
+      <li><strong>Community MCPs</strong> — e.g. <code>kimtaeyoon83/mcp-server-youtube-transcript</code> (no API key needed)</li>
+      <li><strong>Manual</strong> — copy-paste from YouTube's "Show Transcript" button</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">2</span> Channel Analytics &amp; Data</h2>
+    <ul>
+      <li><strong>vidIQ</strong> — connect via <code>https://mcp.vidiq.com/mcp</code></li>
+      <li><strong>Windsor.ai</strong> — pull Analytics data for traffic &amp; engagement</li>
+      <li><strong>Supermetrics</strong> — no-code channel data queries</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">3</span> Publishing &amp; Automation</h2>
+    <ul>
+      <li><strong>Blotato</strong> — <code>https://mcp.blotato.com/mcp</code> for uploads, titles, thumbnails</li>
+      <li><strong>Upload-Post</strong> — full metadata (tags, chapters, visibility)</li>
+      <li><strong>Composio</strong> — list videos, subscriber counts, channel actions</li>
+    </ul>
+  </div>
+
+  <div class="card setup">
+    <h2><span class="num">✓</span> Setup Summary</h2>
+    <ol>
+      <li><strong>Install / Connect</strong> — add the connector in Claude Desktop or via CLI</li>
+      <li><strong>Authorize</strong> — sign in with Google/YouTube via OAuth</li>
+      <li><strong>Query</strong> — ask Claude to analyze URLs or channel data</li>
+    </ol>
+  </div>
+
+  <footer>Generated Nov 2026 · For reference only — verify endpoints before use</footer>
+
+</body>
+</html>
