@@ -2,4 +2,5 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://badbunny.work/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
   <url><loc>https://badbunny.work/claude-youtube-integration-guide.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://badbunny.work/ai-guide.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
