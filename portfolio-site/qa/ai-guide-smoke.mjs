@@ -98,6 +98,21 @@ await check('Instagram caption generates specific tutorial steps',async()=>{
    if(!content.includes('Use AI prompts to research ideas'))throw Error('Source caption missing from guide');
  }finally{await ctx.close();}
 });
+await check('Flockbay eight steps, official docs, and copy control',async()=>{
+ const p=await browser.newPage();
+ try{
+  await p.goto(base+'/ai-guide.html',{waitUntil:'domcontentloaded'});
+  const sec=p.locator('#flockbay-guide');
+  if(await sec.locator('article.flock-step').count()!==8)throw Error('Missing Flockbay steps');
+  const body=await sec.innerText();
+  for(const term of ['New project','Demo','F5','F6','F8','MCP','Export'])if(!body.includes(term))throw Error('Missing '+term);
+  if(await sec.locator('a[href="https://flockbay.com/docs/quickstart/"]').count()<1)throw Error('Official reference missing');
+  await p.locator('#flockbay-copy-prompt').click();
+  const status=await p.locator('#flockbay-copy-status').innerText();
+  if(!/copied|unavailable/i.test(status))throw Error('Copy button status missing');
+  if(await p.locator('#tools a[href="#flockbay-guide"]').count()!==1)throw Error('Tool map link missing');
+ }finally{await p.close();}
+});
 await browser.close();
 await writeFile(output+'/ai-guide-results.json',JSON.stringify(results,null,2));
 const fail=results.filter(x=>x.status==='FAIL');
