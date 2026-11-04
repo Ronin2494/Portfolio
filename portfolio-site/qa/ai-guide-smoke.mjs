@@ -22,7 +22,7 @@ for(const width of [320,390,768,1440]){
       if(!await page.locator('h1').isVisible())throw Error('Heading missing');
       for(const id of ['learn','tools','prompts','subscribe','questions'])if(await page.locator('#'+id).count()!==1)throw Error('Missing '+id);
       const dims=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth}));
-      if(dims.scroll>dims.viewport+2)throw Error('Horizontal overflow '+JSON.stringify(dims));
+      if(dims.scroll>dims.viewport+2){const offenders=await page.evaluate(()=>[...document.querySelectorAll('body *')].map(el=>({el,box:el.getBoundingClientRect()})).filter(o=>o.box.width>0&&(o.box.right>innerWidth+2||o.box.left< -2)).slice(0,12).map(o=>({tag:o.el.tagName,cls:String(o.el.className).slice(0,70),text:o.el.textContent.trim().slice(0,48),left:Math.round(o.box.left),right:Math.round(o.box.right)})));throw Error('Horizontal overflow '+JSON.stringify({dims,offenders}));}
       if(errors.length)throw Error('Page errors: '+errors.join('|'));
       if(width===390)await page.screenshot({path:output+'/ai-guide-mobile-390.png',fullPage:true});
       if(width===1440)await page.screenshot({path:output+'/ai-guide-desktop-1440.png',fullPage:true});
