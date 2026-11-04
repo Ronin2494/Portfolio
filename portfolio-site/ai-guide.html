@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Learn AI skills, explore 2026 AI advancements, compare ChatGPT, Claude, Gemini and GitHub Copilot, and find official subscription guides.">
+<meta name="theme-color" content="#080c18">
+<link rel="canonical" href="https://badbunny.work/ai-guide.html">
+<title>AI Field Guide | Learn, Build & Choose AI Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#080c18;--ink:#f5f6fc;--muted:#b5c2d8;--border:#ffffff26;--mint:#a5f4d6;--lav:#bbb1ff;--gold:#e1efb4}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 'DM Sans',system-ui,sans-serif}
+a{color:inherit}
+button,input,select{font:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid #b9ffe1;outline-offset:4px}
+.skip{position:absolute;top:-100px;left:16px;padding:12px;background:white;color:black;z-index:10}
+.skip:focus{top:12px}
+.shell{width:min(1180px,calc(100% - 40px));margin:auto}
+.sitebar{padding:21px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--border)}
+.brand{font:700 15px 'Space Grotesk',sans-serif;letter-spacing:.08em;text-decoration:none}
+.brand b{color:var(--mint)}
+.nav-links{display:flex;gap:22px;flex-wrap:wrap}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:13px}
+.nav-links a:hover{color:white}
+.hero{min-height:570px;position:relative;isolation:isolate;display:grid;align-items:center;padding:95px 0 90px;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at 72% 43%,#35306b90 0,transparent 37%),radial-gradient(ellipse at 80% 70%,#146e6970 0,transparent 37%),linear-gradient(135deg,#0d1227,#080c18)}
+.hero:after{content:"";position:absolute;width:min(60vw,610px);aspect-ratio:1;right:-12%;top:0;z-index:-1;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,transparent 0 24px,#affff51e 26px 27px,transparent 29px 50px);transform:perspective(600px) rotateX(54deg) rotateZ(18deg);animation:orbits 27s linear infinite;pointer-events:none}
+@keyframes orbits{to{transform:perspective(600px) rotateX(54deg) rotateZ(378deg)}}
+.eyebrow{font:700 11px 'Space Grotesk',sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--mint)}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;line-height:1.13}
+h1{font-size:clamp(46px,7.4vw,106px);letter-spacing:-.065em;max-width:900px;margin:20px 0 24px}
+h1 em{font-style:normal;color:var(--mint)}
+h2{font-size:clamp(30px,4vw,52px);letter-spacing:-.045em;margin:0 0 12px}
+h3{font-size:21px;margin:10px 0}
+.lead{font-size:clamp(17px,1.7vw,21px);max-width:690px;color:#c9d3e8}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;border-radius:999px;padding:12px 20px;font-weight:700;font-size:13px;text-decoration:none;border:1px solid var(--border);background:#ffffff0c;color:var(--ink)}
+.btn.primary{background:var(--mint);border-color:var(--mint);color:#071c1b}
+.btn:hover{transform:translateY(-2px);border-color:var(--mint)}
+.btn:active{transform:translateY(0)}
+.pill{display:inline-block;border-radius:50px;padding:5px 10px;background:#ffffff12;border:1px solid #ffffff20;font-size:11px;color:var(--mint);font-weight:700;letter-spacing:.04em}
+.section{padding:78px 0;border-top:1px solid var(--border);scroll-margin-top:24px}
+.section-sub{max-width:720px;color:var(--muted);margin:10px 0 26px}
+.bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.card{grid-column:span 4;min-width:0;overflow:hidden;border:1px solid var(--border);border-radius:22px;padding:26px;position:relative;background:radial-gradient(circle at 94% 9%,var(--glow,#7361c72d),transparent 65%),repeating-linear-gradient(130deg,transparent 0 36px,#ffffff07 37px 38px),#101729}
+.card.wide{grid-column:span 7}.card.mid{grid-column:span 5}.card.half{grid-column:span 6}
+.card:before{content:"";position:absolute;right:-40px;top:-54px;width:170px;height:170px;border:1px solid #ffffff17;border-radius:50%;box-shadow:0 0 0 30px #ffffff07,0 0 0 62px #ffffff04;pointer-events:none}
+.card>*{position:relative}
+.card p{color:var(--muted);max-width:560px}
+.card ul{padding-left:19px;color:var(--muted)}
+.card li{margin:5px 0}
+.card .link{color:var(--mint);text-underline-offset:4px;font-weight:700}
+.card[hidden]{display:none}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:20px 0 24px}
+.toolbar input{flex:1;min-width:180px;padding:12px 16px;border-radius:12px;border:1px solid var(--border);background:#111a2d;color:white}
+.chip{border:1px solid var(--border);border-radius:40px;padding:9px 14px;background:#11182a;color:#dae4f4;font-size:13px}
+.chip[aria-pressed="true"]{background:var(--lav);color:#101225;border-color:var(--lav)}
+.steps{margin:13px 0 0;padding-left:22px;color:#d5dfed}
+.steps li{margin-bottom:9px}
+.tool-logo{font:700 42px 'Space Grotesk',sans-serif;letter-spacing:-.08em;line-height:1;color:var(--mint)}
+.tool-card .pill{margin-top:12px}
+.meta{font-size:12px;color:#a2b0c9}
+.lab{display:grid;grid-template-columns:minmax(240px,.8fr) minmax(0,1.2fr);gap:16px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+.field select{width:100%;padding:13px;background:#17223a;border:1px solid #ffffff35;color:white;border-radius:12px}
+.field{margin:14px 0}
+.output{background:#0a1020;border:1px solid #ffffff29;border-radius:17px;padding:24px;min-height:220px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7}
+.output p{margin:0;color:#dce5f5}
+.source{font-size:12px;color:var(--muted);line-height:1.55;margin-top:16px}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.choice{padding:16px;text-align:left;background:linear-gradient(135deg,#1b2750,#112332);border:1px solid #ffffff33;border-radius:14px;color:white}
+.choice[aria-pressed=true]{border-color:var(--mint);box-shadow:inset 0 0 0 1px var(--mint)}
+.choice span{display:block;font-size:12px;color:#b8c8de}
+.answer{padding:24px;border:1px solid #adf9d769;border-radius:18px;background:radial-gradient(circle at 80% 20%,#245b5270,transparent 60%),#101b2e}
+.answer a{color:var(--mint)}
+details{border-bottom:1px solid var(--border);padding:18px 4px}
+summary{cursor:pointer;font-weight:700}
+details p{color:var(--muted);max-width:800px}
+.footer{padding:35px 0 55px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.footer a{color:#dce8ef}
+.status{min-height:1.4em;color:var(--mint);font-size:13px}
+@media(max-width:850px){.card,.card.wide,.card.mid,.card.half{grid-column:span 6}.hero:after{right:-25%;width:80vw}.lab{grid-template-columns:1fr}}
+@media(max-width:600px){.shell{width:min(100% - 28px,1180px)}.hero{min-height:520px;padding:60px 0 70px}.hero:after{width:110vw;right:-35%;opacity:.65}.card,.card.wide,.card.mid,.card.half{grid-column:span 12}.section{padding:54px 0}.nav-links{gap:10px}.choices{grid-template-columns:1fr}.card{padding:23px}h1{font-size:clamp(46px,13vw,72px)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important;transform:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to guide</a>
+<header class="sitebar shell"><a class="brand" href="/"><b>DS</b> / AI FIELD GUIDE</a><nav class="nav-links" aria-label="Guide navigation"><a href="#learn">Learn</a><a href="#tools">Tools</a><a href="#prompts">Prompt lab</a><a href="#subscribe">Subscriptions</a><a href="/">Portfolio</a></nav></header>
+<main id="main">
+<section class="hero"><div class="shell"><span class="eyebrow">A practical guide to using AI · Updated November 2026</span><h1>Make AI <em>work for you.</em></h1><p class="lead">Discover useful AI advances. Follow practical tutorials. Try a reusable prompt. Find the right tool and learn how to subscribe—without getting lost in the hype.</p><div class="actions"><a class="btn primary" href="#learn">Start learning ↗</a><a class="btn" href="#subscribe">Compare subscriptions</a></div></div></section>
+<section class="section shell" id="learn"><div class="eyebrow">01 / Learn by doing</div><h2>Six useful skills. Real outcomes.</h2><p class="section-sub">Choose an outcome and follow the steps. Start with a free plan before deciding whether a paid subscription is worth it.</p>
+<div class="toolbar" role="group" aria-label="Filter lessons"><input id="lesson-search" type="search" placeholder="Search lessons: research, coding, images…" aria-label="Search AI lessons"><button class="chip" type="button" aria-pressed="true" data-filter="all">All lessons</button><button class="chip" type="button" aria-pressed="false" data-filter="beginner">Beginner</button><button class="chip" type="button" aria-pressed="false" data-filter="builder">Builder</button></div>
+<div class="bento" id="lesson-grid">
+<article class="card wide" data-level="beginner" data-keywords="research citations summarize verify study web search"><span class="pill">BEGINNER · 10 MIN</span><h3>Research with sources</h3><p>Use an AI assistant to investigate a question and verify the answer using primary sources.</p><ol class="steps"><li>Ask a specific question with location and date.</li><li>Request cited sources and links to original documents.</li><li>Open the original sources and check the crucial facts.</li><li>Ask the assistant to separate known facts from speculation.</li></ol><a class="link" href="#prompts">Use research prompt ↗</a></article>
+<article class="card mid" data-level="beginner" data-keywords="documents writing emails resume edit"><span class="pill">BEGINNER · 8 MIN</span><h3>Draft and improve writing</h3><p>Create a useful first draft, then specify the audience, tone and length. Review and edit before publishing.</p><ol class="steps"><li>State the audience and goal.</li><li>Provide your rough notes.</li><li>Ask for a clear structure and alternative openings.</li><li>Correct facts and personalize the result.</li></ol></article>
+<article class="card mid" data-level="beginner" data-keywords="images image generate graphics visuals design"><span class="pill">BEGINNER · 12 MIN</span><h3>Generate an image</h3><p>Describe the subject, composition, lighting and aspect ratio. Iterate on one element at a time.</p><ol class="steps"><li>Choose a tool that offers image creation.</li><li>Describe what should appear and what should not.</li><li>Refine typography and composition.</li><li>Check usage rights and factual accuracy.</li></ol></article>
+<article class="card wide" data-level="builder" data-keywords="coding github copilot debug test web developer"><span class="pill">BUILDER · 20 MIN</span><h3>Build a mini web app</h3><p>Ask for a functioning interface with accessible controls and tests—not just a screenshot.</p><ol class="steps"><li>Describe features and acceptance criteria.</li><li>Create a small app and run it locally.</li><li>Test desktop, mobile and error cases.</li><li>Review security before deployment.</li></ol><a class="link" href="https://docs.github.com/en/copilot/get-started/plans" target="_blank" rel="noopener noreferrer">Explore Copilot documentation ↗</a></article>
+<article class="card half" data-level="builder" data-keywords="automation agents workflows task review approvals"><span class="pill">BUILDER · 18 MIN</span><h3>Use AI agents responsibly</h3><p>Delegate multi-step tasks such as reviewing files or updating a project, while keeping approvals for consequential actions.</p><ol class="steps"><li>Define a measurable goal.</li><li>Limit tool permissions.</li><li>Require a review before sensitive actions.</li><li>Record results and rerun tests.</li></ol></article>
+<article class="card half" data-level="beginner" data-keywords="spreadsheets excel analyze data charts files"><span class="pill">BEGINNER · 15 MIN</span><h3>Analyze a spreadsheet</h3><p>Upload a sample CSV or spreadsheet and ask for a summary, chart and anomalies.</p><ol class="steps"><li>Remove personal or confidential information.</li><li>Ask for a data dictionary and quality checks.</li><li>Generate charts and explain assumptions.</li><li>Validate key calculations.</li></ol></article>
+</div><p id="lesson-empty" class="status" hidden role="status">No lessons match. Try another search.</p></section>
+<section class="section shell" id="tools"><div class="eyebrow">02 / The tool map</div><h2>Know what each tool does.</h2><p class="section-sub">Product features and models change often. These links go to the providers' current official plan and product pages.</p><div class="bento">
+<article class="card tool-card" style="--glow:#9de3d744"><div class="tool-logo">G</div><h3>ChatGPT</h3><p>Writing, reasoning, research, image creation, files and coding support.</p><span class="pill">FREE + PAID</span><p><a class="link" href="https://chatgpt.com/pricing/" target="_blank" rel="noopener noreferrer">Official plans ↗</a></p></article>
+<article class="card tool-card" style="--glow:#d9a48b55"><div class="tool-logo" style="color:#e9bca4">C</div><h3>Claude</h3><p>Long-form analysis, drafting, coding, and projects with knowledge context.</p><span class="pill">FREE + PAID</span><p><a class="link" href="https://claude.ai/upgrade" target="_blank" rel="noopener noreferrer">Official plans ↗</a></p></article>
+<article class="card tool-card" style="--glow:#92b1f84a"><div class="tool-logo" style="color:#aac4ff">✧</div><h3>Gemini</h3><p>AI assistance and Google ecosystem workflows, with tier-dependent capabilities.</p><span class="pill">FREE + PAID</span><p><a class="link" href="https://one.google.com/intl/en_ca/about/google-ai-plans/" target="_blank" rel="noopener noreferrer">Official plans ↗</a></p></article>
+<article class="card half tool-card" style="--glow:#c3aaff48"><div class="tool-logo" style="color:#cabaff">{ }</div><h3>GitHub Copilot</h3><p>AI assistance for code suggestions, editor chat and development workflows.</p><p><a class="link" href="https://github.com/features/copilot/plans" target="_blank" rel="noopener noreferrer">Compare developer plans ↗</a></p></article>
+<article class="card half tool-card" style="--glow:#a6f5d744"><div class="tool-logo">↗</div><h3>What's new in AI?</h3><p>Follow official release notes instead of a static list that can become outdated.</p><ul><li><a class="link" href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes" target="_blank" rel="noopener noreferrer">OpenAI updates</a></li><li><a class="link" href="https://blog.google/technology/ai/" target="_blank" rel="noopener noreferrer">Google AI updates</a></li><li><a class="link" href="https://www.anthropic.com/news" target="_blank" rel="noopener noreferrer">Anthropic news</a></li></ul></article>
+</div></section>
+<section class="section shell" id="prompts"><div class="eyebrow">03 / Interactive workshop</div><h2>Build a better prompt.</h2><p class="section-sub">Choose a task and detail level. The generator produces a prompt you can copy and use in your preferred AI tool.</p><div class="lab"><div class="card"><div class="field"><label for="prompt-task">My goal</label><select id="prompt-task"><option value="research">Research a topic</option><option value="write">Write a professional email</option><option value="code">Build a web feature</option><option value="learn">Learn a new skill</option></select></div><div class="field"><label for="prompt-depth">Detail level</label><select id="prompt-depth"><option value="quick">Quick answer</option><option value="deep">Detailed, step-by-step</option></select></div><button id="copy-prompt" class="btn primary" type="button">Copy this prompt</button><p class="status" id="copy-status" role="status" aria-live="polite"></p></div><div class="output" id="prompt-output" aria-live="polite"></div></div></section>
+<section class="section shell" id="subscribe"><div class="eyebrow">04 / Choose deliberately</div><h2>Which subscription fits?</h2><p class="section-sub">Answer two questions for a starting recommendation. This is independent educational guidance, not a reseller or checkout service. Verify exact pricing, country availability, tax and limits with the provider before buying.</p><div class="lab"><div class="card"><p class="eyebrow">Your main reason</p><div class="choices" role="group" aria-label="What do you want to do?"><button class="choice" type="button" aria-pressed="true" data-goal="general"><strong>Everyday AI</strong><span>Writing, planning, research</span></button><button class="choice" type="button" aria-pressed="false" data-goal="coding"><strong>Build software</strong><span>Code and development tasks</span></button><button class="choice" type="button" aria-pressed="false" data-goal="google"><strong>Google apps</strong><span>Gmail, Drive and Gemini</span></button><button class="choice" type="button" aria-pressed="false" data-goal="long"><strong>Long documents</strong><span>Analysis and drafting</span></button></div><div class="field"><label for="usage">How often?</label><select id="usage"><option value="light">Occasionally</option><option value="regular">Most days</option></select></div></div><div class="answer" aria-live="polite"><span class="pill">A PLACE TO START</span><h3 id="plan-title">Start free with ChatGPT</h3><p id="plan-description">Use the free option for real tasks before committing to a subscription.</p><a id="plan-link" class="btn primary" href="https://chatgpt.com/pricing/" target="_blank" rel="noopener noreferrer">See official plans ↗</a><p class="source">Plan features and prices can change. AI app subscriptions generally do not include separately billed API usage. Never share passwords or billing information through unofficial links.</p></div></div>
+<div style="margin-top:26px" class="bento"><article class="card half"><span class="pill">HOW TO SUBSCRIBE</span><h3>Four steps</h3><ol class="steps"><li>Open the provider's official pricing page above.</li><li>Create or sign into your own account.</li><li>Compare Free, individual and team plans, including limits and renewal terms.</li><li>Choose a plan and complete payment only on the provider's own checkout.</li></ol></article><article class="card half"><span class="pill">BEFORE YOU PAY</span><h3>Know what you're getting</h3><ul><li>Higher limits don't guarantee perfect answers.</li><li>Prices may differ by region, tax and billing channel.</li><li>Subscriptions and developer APIs can be billed separately.</li><li>Try your actual tasks first; upgrade only if usage or features justify it.</li></ul></article></div></section>
+<section class="section shell" id="questions"><div class="eyebrow">05 / Common questions</div><h2>Answers that save time.</h2>
+<details><summary>Do I need to pay to start learning AI?</summary><p>No. ChatGPT, Claude, Gemini and GitHub Copilot offer entry-level access in supported locations. Availability and limits vary.</p></details>
+<details><summary>What is the difference between an AI chatbot and an API?</summary><p>A chatbot is an application for people. An API lets developers integrate an AI model into software. The chatbot subscription generally does not include API usage charges.</p></details>
+<details><summary>Can AI agents operate my accounts?</summary><p>Some products can connect to tools and perform authorized actions. Review permissions and require approval for sending messages, modifying records, payments, and other consequential changes.</p></details>
+<details><summary>Will this guide automatically update with new models and prices?</summary><p>Not automatically. This editorial page links to provider-maintained release notes and plan pages for current details. This guide was reviewed in November 2026.</p></details>
+<details><summary>Where can I learn the Claude and YouTube workflow?</summary><p>Read the <a href="/claude-youtube-integration-guide.html">Claude × YouTube integration guide</a> for a focused tutorial.</p></details>
+</section>
+</main>
+<footer class="footer shell"><span>AI Field Guide · Independent education · Reviewed November 2026</span><div><a href="/">Back to Portfolio</a> · <a href="/claude-youtube-integration-guide.html">Claude × YouTube</a> · <a href="#main">Back to top</a></div></footer>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const search=$('lesson-search'),cards=[...document.querySelectorAll('#lesson-grid [data-level]')],filters=[...document.querySelectorAll('[data-filter]')];let category='all';
+function showLessons(){const q=search.value.trim().toLowerCase();let visible=0;cards.forEach(card=>{const ok=(category==='all'||card.dataset.level===category)&&(!q||(card.textContent+' '+card.dataset.keywords).toLowerCase().includes(q));card.hidden=!ok;if(ok)visible++;});$('lesson-empty').hidden=visible>0;}
+search.addEventListener('input',showLessons);
+filters.forEach(b=>b.addEventListener('click',()=>{category=b.dataset.filter;filters.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));showLessons();}));
+const prompts={
+research:'Act as a research assistant. Investigate [TOPIC] for [AUDIENCE] in [LOCATION] as of [DATE]. Separate verified facts from assumptions. Cite primary sources with working links. Flag uncertainty and suggest ways to check critical claims.',
+write:'Draft a concise professional email to [RECIPIENT] about [GOAL]. Use these facts: [NOTES]. Write a clear subject, opening, one specific ask, and a polite closing. Do not invent facts or commitments.',
+code:'Act as a software engineer. Implement [FEATURE] in [TECH STACK]. Preserve existing functionality. First list affected components and acceptance criteria. Produce accessible, responsive code with tests for success, failure and regression cases.',
+learn:'Teach me [SKILL] starting from [CURRENT LEVEL]. Create a hands-on exercise, an example with an explanation, and three questions to test my understanding. Adapt the next lesson to my answers.'
+};
+function buildPrompt(){const task=$('prompt-task').value,detail=$('prompt-depth').value;const suffix=detail==='deep'?' Give numbered steps, alternatives, common mistakes and a validation checklist.':' Keep the answer under 200 words and make the next action clear.';$('prompt-output').textContent=prompts[task]+suffix;return $('prompt-output').textContent;}
+$('prompt-task').addEventListener('change',buildPrompt);$('prompt-depth').addEventListener('change',buildPrompt);buildPrompt();
+$('copy-prompt').addEventListener('click',async()=>{const text=buildPrompt();try{if(!navigator.clipboard||!window.isSecureContext)throw Error('Clipboard unavailable');await navigator.clipboard.writeText(text);$('copy-status').textContent='Copied to clipboard.';}catch{$('copy-status').textContent='Copy unavailable. Select the prompt text and copy it manually.';}});
+const plans={
+general:{light:['Start free with ChatGPT','Try writing, research, file analysis and follow-up questions before upgrading.','https://chatgpt.com/pricing/'],regular:['Compare ChatGPT paid plans','If higher limits and expanded tools save you time most days, compare current Plus and other tiers.','https://chatgpt.com/pricing/']},
+coding:{light:['Start with GitHub Copilot Free','Test completion and coding assistance inside your actual editor first.','https://github.com/features/copilot/plans'],regular:['Compare GitHub Copilot paid plans','Review developer-focused features, usage allowances and pricing for your workflow.','https://github.com/features/copilot/plans']},
+google:{light:['Try Gemini free first','Use everyday Gemini features and identify which Google apps matter most.','https://one.google.com/intl/en_ca/about/google-ai-plans/'],regular:['Compare Google AI plans','Review Google AI Plus, Pro and Ultra for your region and Google ecosystem needs.','https://one.google.com/intl/en_ca/about/google-ai-plans/']},
+long:{light:['Explore Claude Free','Test summarization, drafting and document analysis using sample content.','https://claude.ai/upgrade'],regular:['Compare Claude Pro and Max','Review current message allowances, projects and advanced features for regular work.','https://claude.ai/upgrade']}
+};
+let goal='general';const opts=[...document.querySelectorAll('[data-goal]')];
+function renderPlan(){const v=plans[goal][$('usage').value];$('plan-title').textContent=v[0];$('plan-description').textContent=v[1];$('plan-link').href=v[2];}
+opts.forEach(b=>b.addEventListener('click',()=>{goal=b.dataset.goal;opts.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderPlan();}));$('usage').addEventListener('change',renderPlan);renderPlan();
+})();
+</script>
+</body>
+</html>
