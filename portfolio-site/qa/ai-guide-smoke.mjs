@@ -72,6 +72,32 @@ await check('Portfolio footer exposes guide and preserves existing guide',async(
     if(await footer.locator('a[href="/claude-youtube-integration-guide.html"]').count()!==1)throw Error('Original guide link lost');
   }finally{await page.close();}
 });
+await check('Instagram post renders and opens a safe fallback guide',async()=>{
+  const page=await browser.newPage();
+  try{
+    await page.goto(base+'/ai-guide.html',{waitUntil:'domcontentloaded'});
+    await page.locator('#instagram-post-grid .ig-post').first().waitFor();
+    const original=page.locator('#instagram-post-grid a[href="https://www.instagram.com/p/DfTMZktj8t6/"]');
+    if(await original.count()!==1)throw Error('Seeded Instagram post missing');
+    await page.locator('#instagram-post-grid [data-ig-guide]').first().click();
+    if(!await page.locator('#instagram-guide').isVisible())throw Error('Dynamic guide failed to open');
+    if(!((await page.locator('#instagram-guide-content').innerText()).includes('caption')))throw Error('Missing transparent caption fallback');
+    await page.keyboard.press('Escape');
+    if(await page.locator('#instagram-guide').isVisible())throw Error('Guide does not close on Escape');
+  }finally{await page.close();}
+});
+await check('Instagram caption generates specific tutorial steps',async()=>{
+ const ctx=await browser.newContext();
+ try{
+   await ctx.route('**/instagram-posts.json',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({posts:[{id:'Demo123',permalink:'https://www.instagram.com/p/Demo123/',caption:'Use AI prompts to research ideas and verify sources.',mediaType:'IMAGE'}]})}));
+   const page=await ctx.newPage();
+   await page.goto(base+'/ai-guide.html');
+   await page.locator('[data-ig-guide="Demo123"]').click();
+   const content=await page.locator('#instagram-guide-content').innerText();
+   if(!content.includes('AI workflow')||!content.includes('Test the method'))throw Error('Caption-driven walkthrough was not generated');
+   if(!content.includes('Use AI prompts to research ideas'))throw Error('Source caption missing from guide');
+ }finally{await ctx.close();}
+});
 await browser.close();
 await writeFile(output+'/ai-guide-results.json',JSON.stringify(results,null,2));
 const fail=results.filter(x=>x.status==='FAIL');
