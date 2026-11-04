@@ -33,6 +33,7 @@ jobs:
           python3 -m http.server 4173 --directory portfolio-site > /tmp/portfolio-qa-server.log 2>&1 &
           sleep 2
           node portfolio-site/qa/browser-smoke.mjs
+          node portfolio-site/qa/ai-guide-smoke.mjs
       - name: Check out production baseline for same-run performance comparison
         uses: actions/checkout@v4
         with:
