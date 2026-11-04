@@ -108,6 +108,7 @@ await check('Flockbay eight steps, official docs, and copy control',async()=>{
   for(const term of ['New project','Demo','F5','F6','F8','MCP','Export'])if(!body.includes(term))throw Error('Missing '+term);
   if(await sec.locator('a[href="https://flockbay.com/docs/quickstart/"]').count()<1)throw Error('Official reference missing');
   await p.locator('#flockbay-copy-prompt').click();
+  await p.waitForFunction(()=>/copied|unavailable/i.test(document.querySelector('#flockbay-copy-status')?.textContent||''),{timeout:5000});
   const status=await p.locator('#flockbay-copy-status').innerText();
   if(!/copied|unavailable/i.test(status))throw Error('Copy button status missing');
   if(await p.locator('#tools a[href="#flockbay-guide"]').count()!==1)throw Error('Tool map link missing');
