@@ -32,5 +32,5 @@ test('Page is interactive, supports close controls and is wired to a periodic au
  assert.match(script,/replaceChildren/);
  assert.match(yaml,/schedule:/);
  assert.match(yaml,/INSTAGRAM_ACCESS_TOKEN/);
- assert.match(yaml,/node --test portfolio-site\\/tests\\/instagram-guides.test.mjs/);
+ assert.ok(yaml.includes('node --test portfolio-site/tests/instagram-guides.test.mjs'));
 });
