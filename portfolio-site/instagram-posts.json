@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "updatedAt": null,
+  "source": "initial-seed",
+  "posts": [
+    {
+      "id": "DfTMZktj8t6",
+      "permalink": "https://www.instagram.com/p/DfTMZktj8t6/",
+      "caption": "",
+      "mediaType": "UNKNOWN",
+      "mediaUrl": "",
+      "thumbnailUrl": "",
+      "timestamp": "",
+      "origin": "user-provided",
+      "captionStatus": "awaiting-authorized-sync"
+    }
+  ]
+}

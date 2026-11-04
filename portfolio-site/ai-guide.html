@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="instagram-guides.css?v=1">
 <style>
 :root{color-scheme:dark;--bg:#080c18;--ink:#f5f6fc;--muted:#b5c2d8;--border:#ffffff26;--mint:#a5f4d6;--lav:#bbb1ff;--gold:#e1efb4}
 *{box-sizing:border-box}
@@ -116,7 +117,18 @@ details p{color:var(--muted);max-width:800px}
 <section class="section shell" id="prompts"><div class="eyebrow">03 / Interactive workshop</div><h2>Build a better prompt.</h2><p class="section-sub">Choose a task and detail level. The generator produces a prompt you can copy and use in your preferred AI tool.</p><div class="lab"><div class="card"><div class="field"><label for="prompt-task">My goal</label><select id="prompt-task"><option value="research">Research a topic</option><option value="write">Write a professional email</option><option value="code">Build a web feature</option><option value="learn">Learn a new skill</option></select></div><div class="field"><label for="prompt-depth">Detail level</label><select id="prompt-depth"><option value="quick">Quick answer</option><option value="deep">Detailed, step-by-step</option></select></div><button id="copy-prompt" class="btn primary" type="button">Copy this prompt</button><p class="status" id="copy-status" role="status" aria-live="polite"></p></div><div class="output" id="prompt-output" aria-live="polite"></div></div></section>
 <section class="section shell" id="subscribe"><div class="eyebrow">04 / Choose deliberately</div><h2>Which subscription fits?</h2><p class="section-sub">Answer two questions for a starting recommendation. This is independent educational guidance, not a reseller or checkout service. Verify exact pricing, country availability, tax and limits with the provider before buying.</p><div class="lab"><div class="card"><p class="eyebrow">Your main reason</p><div class="choices" role="group" aria-label="What do you want to do?"><button class="choice" type="button" aria-pressed="true" data-goal="general"><strong>Everyday AI</strong><span>Writing, planning, research</span></button><button class="choice" type="button" aria-pressed="false" data-goal="coding"><strong>Build software</strong><span>Code and development tasks</span></button><button class="choice" type="button" aria-pressed="false" data-goal="google"><strong>Google apps</strong><span>Gmail, Drive and Gemini</span></button><button class="choice" type="button" aria-pressed="false" data-goal="long"><strong>Long documents</strong><span>Analysis and drafting</span></button></div><div class="field"><label for="usage">How often?</label><select id="usage"><option value="light">Occasionally</option><option value="regular">Most days</option></select></div></div><div class="answer" aria-live="polite"><span class="pill">A PLACE TO START</span><h3 id="plan-title">Start free with ChatGPT</h3><p id="plan-description">Use the free option for real tasks before committing to a subscription.</p><a id="plan-link" class="btn primary" href="https://chatgpt.com/pricing/" target="_blank" rel="noopener noreferrer">See official plans ↗</a><p class="source">Plan features and prices can change. AI app subscriptions generally do not include separately billed API usage. Never share passwords or billing information through unofficial links.</p></div></div>
 <div style="margin-top:26px" class="bento"><article class="card half"><span class="pill">HOW TO SUBSCRIBE</span><h3>Four steps</h3><ol class="steps"><li>Open the provider's official pricing page above.</li><li>Create or sign into your own account.</li><li>Compare Free, individual and team plans, including limits and renewal terms.</li><li>Choose a plan and complete payment only on the provider's own checkout.</li></ol></article><article class="card half"><span class="pill">BEFORE YOU PAY</span><h3>Know what you're getting</h3><ul><li>Higher limits don't guarantee perfect answers.</li><li>Prices may differ by region, tax and billing channel.</li><li>Subscriptions and developer APIs can be billed separately.</li><li>Try your actual tasks first; upgrade only if usage or features justify it.</li></ul></article></div></section>
-<section class="section shell" id="questions"><div class="eyebrow">05 / Common questions</div><h2>Answers that save time.</h2>
+<section class="section shell ig-section" id="instagram-journal" aria-labelledby="instagram-journal-title">
+<div class="eyebrow">05 / Beyond the feed</div><h2 id="instagram-journal-title">From post to practice.</h2>
+<p class="section-sub">Explore original Instagram posts, then open a dedicated walkthrough based on each post's published caption. New posts appear automatically once the creator's authorized Instagram feed is connected.</p>
+<div class="ig-grid" id="instagram-post-grid" aria-live="polite"></div>
+<p id="instagram-status" class="ig-feed-label" role="status" aria-live="polite">Loading Instagram posts…</p>
+<section class="ig-guide" id="instagram-guide" aria-labelledby="instagram-guide-title" hidden>
+<div class="ig-guide-head"><div><span class="eyebrow">POST-SPECIFIC GUIDE</span><h3 id="instagram-guide-title">Explore this idea</h3></div>
+<button type="button" class="ig-close" id="instagram-guide-close" aria-label="Close Instagram guide">×</button></div>
+<div id="instagram-guide-content"></div>
+</section>
+</section>
+<section class="section shell" id="questions"><div class="eyebrow">06 / Common questions</div><h2>Answers that save time.</h2>
 <details><summary>Do I need to pay to start learning AI?</summary><p>No. ChatGPT, Claude, Gemini and GitHub Copilot offer entry-level access in supported locations. Availability and limits vary.</p></details>
 <details><summary>What is the difference between an AI chatbot and an API?</summary><p>A chatbot is an application for people. An API lets developers integrate an AI model into software. The chatbot subscription generally does not include API usage charges.</p></details>
 <details><summary>Can AI agents operate my accounts?</summary><p>Some products can connect to tools and perform authorized actions. Review permissions and require approval for sending messages, modifying records, payments, and other consequential changes.</p></details>
@@ -125,6 +137,7 @@ details p{color:var(--muted);max-width:800px}
 </section>
 </main>
 <footer class="footer shell"><span>AI Field Guide · Independent education · Reviewed November 2026</span><div><a href="/">Back to Portfolio</a> · <a href="/claude-youtube-integration-guide.html">Claude × YouTube</a> · <a href="#main">Back to top</a></div></footer>
+<script src="instagram-guides.js?v=1" defer></script>
 <script>
 (function(){
 'use strict';
