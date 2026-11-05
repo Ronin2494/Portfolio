@@ -15,11 +15,12 @@ test('neural paths render in bounded batches and preserve the idle starting fram
  const gradient={addColorStop(){}};
  const ctx={
   setTransform(){},fillRect(){},createRadialGradient:()=>gradient,
+  save(){},restore(){},
   stroke(){metrics.strokes++;},
   fill(){metrics.fills++;}
  };
  const canvas={clientWidth:390,clientHeight:840,getContext:()=>ctx,isConnected:true};
- const stage={dataset:{neuralProgress:'0',neuralPaused:'false'}};
+ const stage={dataset:{neuralProgress:'0',neuralPaused:'false'},addEventListener(){}};
  const callbacks=[];
  let idle;
  const window={
@@ -39,7 +40,7 @@ test('neural paths render in bounded batches and preserve the idle starting fram
  assert.ok(metrics.arcs>100,'neuronal bodies remain present');
  assert.ok(metrics.strokes<=5,'batched axon strokes rather than one draw per neuron');
  assert.ok(metrics.fills<=9,'batched neuron fills rather than one fill per neuron');
- assert.equal(metrics.paths,15,'five paths per each of three layers');
+ assert.equal(metrics.paths,18,'six paths per each of three layers, including a bounded pointer highlight');
 });
 test('a reduced-motion user still receives a static neural image on idle',()=>{
  assert.match(script,/if\(frozen&&Math\.abs\(p-lastProgress\)<\.001\)return/);
