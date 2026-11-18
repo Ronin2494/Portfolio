@@ -42,6 +42,7 @@
 <link rel="stylesheet" href="mobile-navigation.css?v=20261029-1" />
 <link rel="stylesheet" href="button-interactions.css?v=20261029-1" />
 <link rel="stylesheet" href="linkedin-float.css?v=20261028-2" />
+<link rel="stylesheet" href="contact-flip.css?v=20261118-1" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -108,7 +109,8 @@
         <span class="scene-eyebrow"><span class="scene-live-dot"></span> CREATIVE IDENTITY / THE NEURAL STUDIO</span>
         <h2>One creator.<br /><em>Many universes.</em></h2>
         <p>I'm Deepak Sharma — a product builder in Toronto. I turn real customer problems into shipped products, and spend the rest of my time making music and making sense of life.</p>
-        <div class="scene-actions"><a href="#projects" class="scene-cta">SEE THE WORK <span class="ui-arrow-wrap" aria-hidden="true"><svg class="ui-arrow" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18 18 6M8 6h10v10"/></svg></span></a><a class="scene-instagram" href="https://www.instagram.com/puru.ushah/" target="_blank" rel="noopener noreferrer" aria-label="Watch Deepak's creative reels on Instagram">INSTAGRAM <span class="ui-arrow-wrap" aria-hidden="true"><svg class="ui-arrow" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18 18 6M8 6h10v10"/></svg></span></a><a href="#connect" class="scene-connect">LET'S TALK</a></div>
+        <p class="scene-tagline">A paper is not needed to define but to ground ourselves.</p>
+        <div class="scene-actions"><a href="#projects" class="scene-cta">SEE THE WORK <span class="ui-arrow-wrap" aria-hidden="true"><svg class="ui-arrow" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18 18 6M8 6h10v10"/></svg></span></a><a class="scene-instagram" href="https://www.instagram.com/puru.ushah/" target="_blank" rel="noopener noreferrer" aria-label="Watch Deepak's creative reels on Instagram">INSTAGRAM <span class="ui-arrow-wrap" aria-hidden="true"><svg class="ui-arrow" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18 18 6M8 6h10v10"/></svg></span></a><a href="#connect" class="scene-connect" data-contact-open aria-haspopup="dialog" aria-controls="contact-modal">LET'S TALK</a></div>
       </div>
       <div class="scene-corner-note" aria-hidden="true">THE CREATIVE UNIVERSE<br/>EST. CURIOSITY</div>
       <div class="scene-bottom-note" aria-hidden="true"><span>NEURAL STUDIO // STORY IN MOTION</span><span>SCROLL TO EXPLORE ↓</span></div>
@@ -323,6 +325,24 @@
     <a href="#connect"><span>04</span> CONNECT</a>
   </nav>
 </div>
+<div class="contact-modal" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title" aria-describedby="contact-modal-description" hidden>
+  <div class="contact-modal__scrim" aria-hidden="true"></div>
+  <div class="contact-modal__card" role="document">
+    <div class="contact-modal__top"><span class="contact-modal__eyebrow">RUDRANSH6619 / CONNECT</span><button type="button" class="contact-modal__close" aria-label="Close contact card">&times;</button></div>
+    <div class="contact-modal__identity">
+      <div class="contact-modal__portrait"><span class="contact-modal__initials" aria-hidden="true">DS</span><img src="https://avatars.githubusercontent.com/u/66753368?v=4" alt="Portfolio owner's GitHub profile image" loading="lazy" onerror="this.hidden=true" /></div>
+      <div><h2 class="contact-modal__title" id="contact-modal-title">Deepak Sharma</h2><p class="contact-modal__role">Product Analyst · Developer · Creator</p><p class="contact-modal__location">Ontario, Canada</p></div>
+    </div>
+    <div class="contact-modal__divider" aria-hidden="true"></div>
+    <p class="contact-modal__description" id="contact-modal-description">Building digital products through design, data, and technology.</p>
+    <div class="contact-modal__actions">
+      <a class="contact-modal__action contact-modal__action--primary" href="https://www.linkedin.com/in/deepak-s-b099186b" target="_blank" rel="noopener noreferrer" aria-label="Open Deepak Sharma's LinkedIn profile">LinkedIn ↗</a>
+      <a class="contact-modal__action contact-modal__action--secondary" href="resume.pdf" download="Deepak-Sharma-Resume.pdf" data-resume-download aria-disabled="true" title="Resume PDF has not been uploaded">↓ Resume PDF</a>
+    </div>
+    <p class="contact-modal__note">Resume download will activate when the approved PDF is added to the site.</p>
+  </div>
+</div>
+<script src="contact-flip.js?v=20261118-1" defer></script>
 <script src="mobile-navigation.js?v=20261029-1" defer></script>
 <script src="linkedin-float.js?v=20261028-2" defer></script>
 <script src="scene.js" defer></script>
