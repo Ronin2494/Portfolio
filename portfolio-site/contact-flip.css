@@ -14,8 +14,8 @@
 .contact-modal__close:hover{background:rgba(255,255,255,.18)}
 .contact-modal__close:focus-visible,.contact-modal__action:focus-visible{outline:3px solid #b8efe3;outline-offset:3px}
 .contact-modal__identity{display:flex;align-items:center;gap:20px;margin:25px 0 20px}
-.contact-modal__portrait{flex:0 0 112px;height:126px;overflow:hidden;border:1px solid rgba(180,202,240,.38);border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,#30365c,#172537);box-shadow:0 16px 32px #05071866}
-.contact-modal__portrait img{width:100%;height:100%;object-fit:cover;object-position:center}
+.contact-modal__portrait{position:relative;flex:0 0 112px;height:126px;overflow:hidden;border:1px solid rgba(180,202,240,.38);border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,#30365c,#172537);box-shadow:0 16px 32px #05071866}
+.contact-modal__portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}.contact-modal__portrait img[hidden]{display:none}
 .contact-modal__initials{font:600 2.2rem "Space Grotesk",sans-serif;letter-spacing:-.12em;color:#c3d5ec}
 .contact-modal__title{font:600 clamp(1.35rem,5vw,1.9rem)/1.12 "Space Grotesk",sans-serif;letter-spacing:-.04em;margin:0 0 10px;color:#fff}
 .contact-modal__role{font:500 .9rem/1.45 "DM Sans",sans-serif;color:#c1cde1;margin:0}
