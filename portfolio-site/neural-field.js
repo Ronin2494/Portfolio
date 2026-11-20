@@ -15,6 +15,27 @@ const rand=(x,y,s=0)=>{
   return ((h^(h>>>16))>>>0)/4294967296;
 };
 let width=0,height=0,dpr=1,phase=0,last=0,lastDraw=0,lastProgress=-1;
+// Pointer interaction is optional: no new canvas, timers, or continuous work when idle.
+const finePointer=window.matchMedia('(hover: hover) and (pointer: fine)');
+const pointer={x:0,y:0,active:false,energy:0};
+let pointerFrame=0;
+function updatePointer(event){
+  pointerFrame=0;
+  if(reduced.matches||!finePointer.matches)return;
+  const bounds=stage.getBoundingClientRect();
+  pointer.x=clamp(event.clientX-bounds.left,0,bounds.width);
+  pointer.y=clamp(event.clientY-bounds.top,0,bounds.height);
+  pointer.active=true;
+}
+function onPointerMove(event){
+  if(reduced.matches||!finePointer.matches||document.hidden)return;
+  const x=event.clientX,y=event.clientY;
+  if(pointerFrame)return;
+  pointerFrame=requestAnimationFrame(()=>updatePointer({clientX:x,clientY:y}));
+}
+stage.addEventListener('pointermove',onPointerMove,{passive:true});
+stage.addEventListener('pointerleave',()=>{pointer.active=false;},{passive:true});
+window.addEventListener('blur',()=>{pointer.active=false;});
 const compact=window.matchMedia('(max-width: 700px)');
 const frameInterval=()=>compact.matches?50:33; // mobile: 20fps, preserving smooth neural zoom
 function resize(){
@@ -38,7 +59,7 @@ function layer(level,p,t){
  const budget=window.innerWidth<700?1450:3100;
  // Batch geometrically identical strokes and fills into a small number of
  // draw calls per depth layer instead of one stroke+fill per neuron.
- const axons=new Path2D(),mint=new Path2D(),violet=new Path2D();
+ const axons=new Path2D(),mint=new Path2D(),violet=new Path2D(),activated=new Path2D();
  const pulses=new Path2D(),rings=new Path2D();
  let count=0;
  neuronRows:for(let y=top;y<=bottom;y++)for(let x=left;x<=right;x++){
@@ -53,6 +74,15 @@ function layer(level,p,t){
      const controlY=(a.y+b.y)*.5+(a.tone-.5)*space*.15;
      axons.moveTo(a.x,a.y);
      axons.quadraticCurveTo(controlX,controlY,b.x,b.y);
+     // Selectively illuminate nearby connections; preserve the original graph geometry.
+     if(pointer.energy>.015&&level>0){
+       const mx=(a.x+b.x)*.5,my=(a.y+b.y)*.5;
+       const distance=Math.hypot(mx-pointer.x,my-pointer.y);
+       if(distance<145*pointer.energy){
+         activated.moveTo(a.x,a.y);
+         activated.quadraticCurveTo(controlX,controlY,b.x,b.y);
+       }
+     }
      if(level>0&&a.energy>.91&&!reduced.matches){
        const pos=(t*.082+rand(x,y,c+82))%1,inv=1-pos;
        const bx=inv*inv*a.x+2*inv*pos*controlX+pos*pos*b.x;
@@ -73,6 +103,13 @@ function layer(level,p,t){
  ctx.strokeStyle='rgba(151,181,224,'+(opacity*.56)+')';
  ctx.lineWidth=level===2?.9:.55;
  ctx.stroke(axons);
+ if(pointer.energy>.015&&level>0){
+   ctx.save();
+   ctx.strokeStyle='rgba(158,242,218,'+(.28*pointer.energy)+')';
+   ctx.lineWidth=level===2?1.8:1.25;
+   ctx.shadowColor='#9de3d7';ctx.shadowBlur=10;
+   ctx.stroke(activated);ctx.restore();
+ }
  ctx.fillStyle='rgba(170,240,220,'+(opacity+.2)+')';ctx.fill(mint);
  ctx.fillStyle='rgba(207,202,255,'+(opacity+.2)+')';ctx.fill(violet);
  if(level>0&&!reduced.matches){
@@ -89,6 +126,13 @@ function draw(p){
  fog.addColorStop(0,'rgba(27,32,70,.20)');fog.addColorStop(.5,'rgba(12,18,43,.29)');
  fog.addColorStop(1,'rgba(1,3,11,.87)');ctx.fillStyle=fog;ctx.fillRect(0,0,width,height);
  for(let i=0;i<3;i++)layer(i,p,phase);
+ if(pointer.energy>.015){
+   const radius=145*pointer.energy;
+   const glow=ctx.createRadialGradient(pointer.x,pointer.y,0,pointer.x,pointer.y,radius);
+   glow.addColorStop(0,'rgba(157,227,215,'+(.13*pointer.energy)+')');
+   glow.addColorStop(1,'rgba(157,227,215,0)');
+   ctx.fillStyle=glow;ctx.fillRect(pointer.x-radius,pointer.y-radius,radius*2,radius*2);
+ }
  const vignette=ctx.createRadialGradient(width*.5,height*.45,Math.min(width,height)*.12,width*.5,height*.45,Math.max(width,height)*.75);
  vignette.addColorStop(0,'rgba(3,5,12,.02)');vignette.addColorStop(1,'rgba(0,2,9,.88)');
  ctx.fillStyle=vignette;ctx.fillRect(0,0,width,height);
@@ -99,7 +143,12 @@ function frame(time){
  if(document.hidden)return;
  const p=clamp(Number(stage.dataset.neuralProgress)||0,0,1);
  const frozen=reduced.matches||stage.dataset.neuralPaused==='true';
- if(!frozen)phase+=last?Math.min(40,time-last)/1000:0;
+ if(!frozen){
+   phase+=last?Math.min(40,time-last)/1000:0;
+   const goal=pointer.active&&finePointer.matches?1:0;
+   pointer.energy+= (goal-pointer.energy)*.11;
+   if(Math.abs(goal-pointer.energy)<.003)pointer.energy=goal;
+ }else{pointer.energy=0;}
  last=time;
  if(frozen&&Math.abs(p-lastProgress)<.001)return;
  if(!frozen&&time-lastDraw<frameInterval())return;
@@ -117,5 +166,5 @@ if('requestIdleCallback' in window){
 }else{
  window.addEventListener('load',()=>requestAnimationFrame(start),{once:true});
 }
-window.PortfolioNeural={resize};
+window.PortfolioNeural={resize,interactionState:()=>({active:pointer.active,energy:pointer.energy})};
 })();
